@@ -8,7 +8,6 @@
 
 #include "monster.h"
 
-int random_between_included(int min, int max);
 Monster random_monster();
 char* stringify_monster(Monster m);
 

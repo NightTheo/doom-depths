@@ -7,11 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-int random_between_included(int min, int max) {
-    if(max <= min) return min;
-    return rand() % (max+1 - min) + min;
-}
+#include "../random/random.h"
 
 Monster random_monster() {
     Monster m = {
@@ -20,13 +16,12 @@ Monster random_monster() {
             random_between_included(10, 20),
             random_between_included(10, 20)
     };
-
     return m;
 }
 
 char* stringify_monster(Monster m) {
     char* s = malloc(70);
-    sprintf(s, "{hp: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
-            m.hp, m.min_attack_power, m.max_attack_power, m.defense);
+    sprintf(s, "{health: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
+            m.health, m.min_attack_power, m.max_attack_power, m.defense);
     return s;
 }

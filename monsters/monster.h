@@ -9,7 +9,7 @@
 #include "stdint.h"
 
 typedef struct Monster {
-    int8_t hp;
+    int8_t health;
     int8_t min_attack_power;
     int8_t max_attack_power;
     int8_t defense;
