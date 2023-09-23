@@ -10,6 +10,7 @@
 #include "stdbool.h"
 
 #include "../fight/weapon/weapon.h"
+#include "inventory/inventory.h"
 
 typedef struct Player {
     u_int8_t current_health;
@@ -17,6 +18,7 @@ typedef struct Player {
     u_int8_t remaining_number_of_attacks;
     u_int8_t max_number_of_attacks_per_tour;
     Weapon weapon;
+    Inventory inventory;
 } Player;
 
 Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour);

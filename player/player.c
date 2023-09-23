@@ -8,17 +8,14 @@
 #include "stdio.h"
 
 Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour) {
-    Weapon sword = {
-            SWORD,
-            20,
-    };
-
+    Weapon sword = {SWORD,20};
     Player p = {
             max_health,
             max_health,
             number_of_attacks_per_tour,
             number_of_attacks_per_tour,
             sword,
+            empty_inventory(),
     };
 
     return p;

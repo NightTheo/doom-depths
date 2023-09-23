@@ -12,6 +12,7 @@ Loot empty_loot() {
     Loot l = {
             0,
             EMPTY,
+            // TODO ARMOR
     };
     return l;
 }
@@ -20,7 +21,7 @@ Loot random_loot() {
     Loot l = empty_loot();
     l.gold = (u_int16_t) random_between_included(0, 20);
     l.weapon = random_weapon();
-
+    // TODO ARMOR
     return l;
 }
 

@@ -16,5 +16,6 @@ int main() {
     start_fight(f);
 
     free(f.monsters_list.monsters);
+    free_inventory(f.player.inventory);
     return EXIT_SUCCESS;
 }
