@@ -15,4 +15,9 @@ typedef struct Monster {
     int8_t defense;
 } Monster;
 
+typedef struct MonstersList {
+    int8_t size;
+    Monster* monsters;
+} MonstersList;
+
 #endif //DOOMDEPTHS_MONSTER_H

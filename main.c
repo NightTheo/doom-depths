@@ -1,21 +1,20 @@
-#include <stdio.h>
-
 #include <stdlib.h>
 #include <time.h>
 
 #include "monsters/monsters.h"
-#include "player/player.h"
+#include "fight/fight.h"
+#include "utils/random/random.h"
 
 int main() {
     srand(time(NULL));
+    Fight f = {
+            1,
+            player(100, 4),
+            random_list_of_monsters(random_between_included(2, 5))
+    };
 
-    Player p = player(100, 4);
+    start_fight(f);
 
-    Monster m = random_monster();
-    char* m_s = stringify_monster(m);
-
-    printf("%s\n", m_s);
-
-    free(m_s);
+    free(f.monsters_list.monsters);
     return EXIT_SUCCESS;
 }

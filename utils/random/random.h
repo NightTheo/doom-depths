@@ -6,6 +6,9 @@
 #ifndef DOOMDEPTHS_RANDOM_H
 #define DOOMDEPTHS_RANDOM_H
 
-int random_between_included(int min, int max);
+#include "stdint.h"
+#include "stdbool.h"
+
+int8_t random_between_included(int8_t a, int8_t b);
 
 #endif //DOOMDEPTHS_RANDOM_H
