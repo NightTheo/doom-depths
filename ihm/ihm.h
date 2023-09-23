@@ -9,8 +9,11 @@
 #include "../player/player_action/player_actions.h"
 #include "../player/player.h"
 #include "../monsters/monsters.h"
+#include "../fight/loot/loot.h"
 
 PlayerAction ask_player_action(Player p);
 int8_t ask_monster_index_to_attack(MonstersList monsters);
 void display_game_over();
+void display_loot(Loot loot);
+
 #endif //DOOMDEPTHS_IHM_H

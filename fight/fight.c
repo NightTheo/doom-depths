@@ -25,10 +25,7 @@ Fight start_fight(Fight f) {
         f.turn += 1;
     }
 
-    if(player_is_dead(f.player)) {
-        display_game_over();
-    }
-
+    display_game_over();
     return f;
 }
 
@@ -58,6 +55,7 @@ Fight player_makes_action(PlayerAction action, Fight f) {
             );
             f.player = attackResult.player;
             f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
+            display_loot(attackResult.loot);
             break;
         }
     }
@@ -73,10 +71,15 @@ Monster monster_takes_damages(Monster m, int8_t damages) {
 
 AttackResult player_attacks_monster(Player p, Monster m) {
     log_info("player attacks monsters");
-    AttackResult res = {p,m};
+    AttackResult res = {p,m, empty_loot()};
     if(p.remaining_number_of_attacks <= 0) return res;
     res.player = decrement_player_remaining_attacks(p);
     res.monster = monster_takes_damages(m, p.weapon.damages);
+
+    if(monster_is_dead(res.monster)) {
+        res.loot = random_loot();
+
+    }
     return res;
 }
 

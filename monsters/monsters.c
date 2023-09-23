@@ -65,3 +65,7 @@ MonstersList list_of_monster_without_dead_ones(MonstersList old_list) {
     old_list.monsters = NULL;
     return new_list;
 }
+
+bool monster_is_dead(Monster m) {
+    return m.health <= 0;
+}

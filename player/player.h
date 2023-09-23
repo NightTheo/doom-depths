@@ -12,14 +12,14 @@
 #include "../fight/weapon/weapon.h"
 
 typedef struct Player {
-    int8_t current_health;
-    int8_t max_health;
-    int8_t remaining_number_of_attacks;
-    int8_t max_number_of_attacks_per_tour;
+    u_int8_t current_health;
+    u_int8_t max_health;
+    u_int8_t remaining_number_of_attacks;
+    u_int8_t max_number_of_attacks_per_tour;
     Weapon weapon;
 } Player;
 
-Player player(int8_t max_health, int8_t number_of_attacks_per_tour);
+Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour);
 char* player_to_string(Player p);
 Player restore_player_number_of_remaining_attacks(Player);
 bool player_is_dead(Player p);

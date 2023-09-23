@@ -8,6 +8,7 @@
 
 #include "../monsters/monster.h"
 #include "../player/player.h"
+#include "loot/loot.h"
 
 typedef struct Fight {
     int8_t turn;
@@ -18,6 +19,7 @@ typedef struct Fight {
 typedef struct AttackResult {
     Player player;
     Monster monster;
+    Loot loot;
 } AttackResult;
 
 Fight start_fight(Fight fight);

@@ -3,6 +3,7 @@
 // Created by Theo OMNES on 13/09/2023.
 //
 
+#include <stdlib.h>
 #include "../ihm.h"
 #include "stdio.h"
 #include "cli_ihm.h"
@@ -50,4 +51,10 @@ void display_monsters(MonstersList monsters) {
 
 void display_game_over() {
     fputs("\n GAME OVER\n", stdout);
+}
+
+void display_loot(Loot loot) {
+    char* s = loot_to_string(loot);
+    fprintf(stdout, "\nVous avez obtenu :\n%s\n", s);
+    free(s);
 }
