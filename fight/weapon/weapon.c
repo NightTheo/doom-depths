@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "weapon.h"
 #include "../../utils/random/random.h"
+#include "../../utils/utils.h"
 
 Weapon random_weapon() {
     Weapon w = {
@@ -14,6 +15,21 @@ Weapon random_weapon() {
             random_between_included(5, 20)
     };
     return w;
+}
+
+Weapon weapon(WeaponKind kind, u_int8_t damages) {
+    Weapon w = {
+            kind,
+            damages
+    };
+    return w;
+}
+
+Weapon* weapon_alloc(Weapon w) {
+    Weapon* allocated = malloc(sizeof(Weapon));
+    allocated->kind = w.kind;
+    allocated->damages = w.damages;
+    return allocated;
 }
 
 const char* weapon_kind_to_string(WeaponKind kind) {
@@ -25,8 +41,8 @@ const char* weapon_kind_to_string(WeaponKind kind) {
 }
 
 char* weapon_to_string(Weapon w) {
-    char* str = malloc(32);
-    snprintf(str, 32, "Weapon {kind: %s, damages: %d}",
+    char* str = malloc(64);
+    snprintf(str, 64, "Weapon {kind: %s, damages: %d}",
              weapon_kind_to_string(w.kind),
              w.damages
              );

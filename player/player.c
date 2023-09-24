@@ -17,20 +17,28 @@ Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour) {
             sword,
             empty_inventory(),
     };
-
     return p;
 }
 
 char* player_to_string(Player p) {
-    char* s = malloc(100);
+    char* s = malloc(1024);
     char* weapon_str = weapon_to_string(p.weapon);
+    char* inventory_str = inventory_to_string(p.inventory);
     sprintf(s, "{current_health: %d, "
                "max_health: %d, "
                "remaining_number_of_attacks: %d, "
-               "max_number_of_attacks_per_tour: %d, %s}",
-           p.current_health, p.max_health, p.remaining_number_of_attacks, p.max_number_of_attacks_per_tour, weapon_str);
+               "max_number_of_attacks_per_tour: %d, "
+               "%s, "
+               "%s}",
+           p.current_health,
+           p.max_health,
+           p.remaining_number_of_attacks,
+           p.max_number_of_attacks_per_tour,
+           weapon_str,
+           inventory_str
+           );
 
-    free(weapon_str);
+    free(weapon_str);free(inventory_str);
     return s;
 }
 

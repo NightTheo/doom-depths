@@ -10,31 +10,29 @@
 #include "../../fight/weapon/weapon.h"
 #include "stdlib.h"
 
-typedef struct Inventory {
-    u_int8_t size;
-    u_int8_t capacity;
-
-    u_int16_t golds;
-    void* items;
-} Inventory;
-
 typedef enum InventoryItemType {
+    EMPTY_ITEM,
     WEAPON_ITEM,
 } InventoryItemType;
 
 typedef struct InventoryItem {
     InventoryItemType type;
-    void* next;
+    void* item;
 } InventoryItem;
 
-typedef struct WeaponInventoryItem {
-    InventoryItemType type;
-    void* next;
-    Weapon weapon;
-} WeaponInventoryItem;
+typedef struct Inventory {
+    u_int8_t size;
+    u_int8_t capacity;
+
+    u_int16_t golds;
+    InventoryItem* items;
+} Inventory;
 
 Inventory empty_inventory();
-Inventory free_inventory(Inventory i);
+void free_inventory(Inventory inventory);
+Inventory add_golds_in_inventory(Inventory inventory, u_int16_t golds);
+Inventory push_item_in_inventory(Inventory inventory, InventoryItem item);
+char* inventory_to_string(Inventory inventory);
 
 
 #endif //DOOMDEPTHS_INVENTORY_H

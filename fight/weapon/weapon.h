@@ -18,10 +18,12 @@ typedef enum WeaponKind {
 
 typedef struct Weapon {
     enum WeaponKind kind;
-    int8_t damages;
+    u_int8_t damages;
 } Weapon;
 
 Weapon random_weapon();
 char* weapon_to_string(Weapon w);
+Weapon weapon(WeaponKind kind, u_int8_t damages);
+Weapon* weapon_alloc(Weapon w);
 
 #endif //DOOMDEPTHS_WEAPON_H
