@@ -14,7 +14,7 @@ Player player(uint8_t max_health) {
     Player p = {
             max_health,
             max_health,
-            equipment.weapon.max_number_of_attacks_per_tour,
+            equipment.weapon.max_number_of_attacks_per_turn,
             equipment,
             empty_inventory(),
     };
@@ -28,13 +28,13 @@ char* player_to_string(Player p) {
     sprintf(s, "{current_health: %d, "
                "max_health: %d, "
                "remaining_number_of_attacks: %d, "
-               "max_number_of_attacks_per_tour: %d, "
+               "max_number_of_attacks_per_turn: %d, "
                "%s, " // equipment
                "%s}", // inventory
            p.current_health,
            p.max_health,
            p.remaining_number_of_attacks,
-           p.equipment.weapon.max_number_of_attacks_per_tour,
+           p.equipment.weapon.max_number_of_attacks_per_turn,
            equipment_str,
            inventory_str
            );
@@ -44,7 +44,7 @@ char* player_to_string(Player p) {
 }
 
 Player restore_player_number_of_remaining_attacks(Player p) {
-    p.remaining_number_of_attacks = p.equipment.weapon.max_number_of_attacks_per_tour;
+    p.remaining_number_of_attacks = p.equipment.weapon.max_number_of_attacks_per_turn;
     return p;
 }
 
@@ -69,7 +69,7 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
     p.inventory.items[weapon_index] = weapon_inventory_item(weapond_equiped_before);
     p.remaining_number_of_attacks = min(
             p.remaining_number_of_attacks,
-            p.equipment.weapon.max_number_of_attacks_per_tour
+            p.equipment.weapon.max_number_of_attacks_per_turn
             );
 
     free(w.item);
@@ -77,6 +77,26 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
 
     //log
     char* w_str= weapon_to_string(p.equipment.weapon);snprintf(log, 128, "Player equiped %s", w_str);log_info(log);free(w_str);
+    return p;
+}
+
+Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
+    char log[128];
+    if(armor_index < 0 || armor_index >= p.inventory.capacity) {
+        snprintf(log, 128, "Index [%d] is not in inventory", armor_index);log_error(log);
+        return p;
+    }
+
+    InventoryItem a = p.inventory.items[armor_index];
+    Armor armor_equiped_before = p.equipment.armor;
+    p.equipment.armor = *((Armor*) a.item);
+    p.inventory.items[armor_index] = armor_inventory_item(armor_equiped_before);
+
+    free(a.item);
+    a.item = NULL;
+
+    // log
+    char* a_str= armor_to_string(p.equipment.armor);snprintf(log, 128, "Player equiped %s", a_str);log_info(log);free(a_str);
     return p;
 }
 
@@ -93,6 +113,12 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
             break;
         case WEAPON_ITEM:
             p = player_equip_weapon_from_inventory(p, index_item);
+            break;
+        case ARMOR_ITEM:
+            p = player_equip_armor_from_inventory(p, index_item);
+            break;
+        default:
+            log_info("Item not equipable");
             break;
     }
 

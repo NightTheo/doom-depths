@@ -23,10 +23,6 @@ Inventory empty_inventory() {
         inventory.items[i] = empty_inventory_item();
     }
 
-    inventory.items[0] = weapon_inventory_item(weapon(SWORD, 1, 10, 3));
-    inventory.items[1] = weapon_inventory_item(weapon(SWORD, 1, 10, 4));
-    inventory.items[2] = weapon_inventory_item(weapon(SWORD, 1, 10, 1));
-
     return inventory;
 }
 
@@ -42,12 +38,27 @@ InventoryItem weapon_inventory_item(Weapon w) {
     };
 }
 
+InventoryItem armor_inventory_item(Armor a) {
+    if(a.kind == EMPTY_ARMOR) return empty_inventory_item();
+    return (InventoryItem ) {
+        ARMOR_ITEM,
+        armor_alloc(a),
+    };
+}
+
 Inventory push_loot_in_inventory(Inventory inventory, Loot loot) {
     inventory = add_golds_in_inventory(inventory, loot.gold);
-    if(loot.weapon.kind != EMPTY_WEAPON) {
-        inventory = push_item_in_inventory(inventory, weapon_inventory_item(loot.weapon));
-    }
+    inventory = push_item_in_inventory(inventory, weapon_inventory_item(loot.weapon));
+    inventory = push_item_in_inventory(inventory, armor_inventory_item(loot.armor));
     return inventory;
+}
+
+int8_t get_index_of_first_empty_inventory_item(Inventory inventory) {
+    int8_t index = -1;
+    for(int i = 0; i < inventory.capacity; i++) {
+        if(inventory.items[i].type == EMPTY_ITEM) return i;
+    }
+    return index;
 }
 
 Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
@@ -56,9 +67,23 @@ Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
         return inventory;
     }
 
-    inventory.items[inventory.items_count] = item;
-    inventory.items_count++;
+    if(item.type == EMPTY_ITEM) {
+        log_info("Empty item no pushed into inventory.");
+        return inventory;
+    }
 
+    int8_t index_to_add = get_index_of_first_empty_inventory_item(inventory);
+    if(index_to_add == -1) {
+        log_error("No empty item in inventory");
+        return inventory;
+    }
+    inventory.items[index_to_add] = item;
+    inventory.items_count += 1;
+
+    char* item_str = item_to_string(item);
+    char log[64];snprintf(log, 64, "Item %s pushed at %d.", item_str, index_to_add+1);
+    log_info(log);
+    free(item_str);
     return inventory;
 }
 
@@ -93,6 +118,7 @@ char* item_to_string(InventoryItem item) {
     switch (item.type) {
         case EMPTY_ITEM: return empty_item_to_string();
         case WEAPON_ITEM: return weapon_to_string(*((Weapon*)item.item));
+        case ARMOR_ITEM: return armor_to_string(*((Armor *)item.item));
     }
 }
 

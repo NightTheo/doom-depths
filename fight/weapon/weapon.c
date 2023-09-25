@@ -20,12 +20,12 @@ Weapon random_weapon() {
     return w;
 }
 
-Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_tour) {
+Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_turn) {
     Weapon w = {
             kind,
             min_damages,
             max_damages,
-            max_number_of_attack_per_tour,
+            max_number_of_attack_per_turn,
     };
     return w;
 }
@@ -43,7 +43,7 @@ Weapon* weapon_alloc(Weapon w) {
     allocated->kind = w.kind;
     allocated->min_damages = w.min_damages;
     allocated->max_damages = w.max_damages;
-    allocated->max_number_of_attacks_per_tour = w.max_number_of_attacks_per_tour;
+    allocated->max_number_of_attacks_per_turn = w.max_number_of_attacks_per_turn;
     return allocated;
 }
 
@@ -57,11 +57,11 @@ const char* weapon_kind_to_string(WeaponKind kind) {
 
 char* weapon_to_string(Weapon w) {
     char* str = malloc(128);
-    snprintf(str, 127, "Weapon {kind: %s, min_damages: %d, max_damages: %d, max_number_of_attacks_per_tour: %d}",
+    snprintf(str, 127, "Weapon {kind: %s, min_damages: %d, max_damages: %d, max_number_of_attacks_per_turn: %d}",
              weapon_kind_to_string(w.kind),
              w.min_damages,
              w.max_damages,
-             w.max_number_of_attacks_per_tour
+             w.max_number_of_attacks_per_turn
              );
     return str;
 }

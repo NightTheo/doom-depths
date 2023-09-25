@@ -8,10 +8,12 @@
 
 #include "stdint.h"
 #include "../weapon/weapon.h"
+#include "../armor/armor.h"
 
 typedef struct Loot {
     u_int16_t gold;
     Weapon weapon;
+    Armor armor;
 } Loot;
 
 Loot empty_loot();

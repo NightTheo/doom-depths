@@ -20,12 +20,12 @@ typedef struct Weapon {
     enum WeaponKind kind;
     uint8_t min_damages;
     uint8_t max_damages;
-    uint8_t max_number_of_attacks_per_tour;
+    uint8_t max_number_of_attacks_per_turn;
 } Weapon;
 
 Weapon random_weapon();
 char* weapon_to_string(Weapon w);
-Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_tour);
+Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_turn);
 Weapon empty_weapon();
 Weapon* weapon_alloc(Weapon w);
 

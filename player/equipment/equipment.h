@@ -7,9 +7,11 @@
 #define DOOMDEPTHS_EQUIPMENT_H
 
 #include "../../fight/weapon/weapon.h"
+#include "../../fight/armor/armor.h"
 
 typedef struct Equipment {
     Weapon weapon;
+    Armor armor;
 } Equipment;
 
 Equipment default_equipment();

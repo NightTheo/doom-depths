@@ -15,6 +15,7 @@ Player decrement_player_remaining_attacks(Player p);
 Fight player_makes_action(PlayerFightAction action, Fight f);
 
 Fight start_fight(Fight f) {
+    f.player.remaining_number_of_attacks = f.player.equipment.weapon.max_number_of_attacks_per_turn;
     while(player_is_alive(f.player)) {
         if(f.monsters_list.size <= 0) {
             f.monsters_list = random_list_of_monsters(random_between_included(2, 5));
@@ -108,8 +109,9 @@ Player monsters_attack_player(MonstersList monsters, Player p) {
 }
 
 AttackResult monster_attacks_player(Monster m, Player p) {
-    log_info("monsters attack player");log_player(p);log_monster(m);
     int8_t damages = random_between_included(m.min_attack_power, m.max_attack_power);
+    char log[64]; snprintf(log, 64, "monsters attack player with %d damages.", damages);
+    log_info(log);
     AttackResult res = {
             player_takes_damages(p, damages),
             m,
@@ -118,9 +120,11 @@ AttackResult monster_attacks_player(Monster m, Player p) {
 }
 
 Player player_takes_damages(Player p, int8_t damages) {
-    // TODO armor
-
-    uint8_t damages_taken = damages > p.current_health ? p.current_health : damages;
+    uint8_t defense = p.equipment.armor.defense;
+    uint8_t damages_after_armor_defense = defense > damages ? 0 : damages - defense;
+    uint8_t damages_taken = damages_after_armor_defense > p.current_health
+            ? p.current_health
+            : damages_after_armor_defense;
     p.current_health = p.current_health - damages_taken;
 
     char log[32];sprintf(log, "Player tooks %d damages", damages_taken);log_info(log);

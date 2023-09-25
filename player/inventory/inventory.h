@@ -16,6 +16,7 @@
 typedef enum InventoryItemType {
     EMPTY_ITEM = 0,
     WEAPON_ITEM,
+    ARMOR_ITEM,
 } InventoryItemType;
 
 typedef struct InventoryItem {
@@ -39,5 +40,6 @@ Inventory push_loot_in_inventory(Inventory inventory, Loot loot);
 char* inventory_to_string(Inventory inventory);
 char* item_to_string(InventoryItem item);
 InventoryItem weapon_inventory_item(Weapon w);
+InventoryItem armor_inventory_item(Armor a);
 
 #endif //DOOMDEPTHS_INVENTORY_H

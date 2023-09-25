@@ -22,4 +22,6 @@ add_executable(DoomDepths main.c
         player/inventory/player_inventory_action/player_inventory_actions.c
         player/inventory/player_inventory_action/player_inventory_actions.h
         player/equipment/equipment.c
-        player/equipment/equipment.h)
+        player/equipment/equipment.h
+        fight/armor/armor.c
+        fight/armor/armor.h)
