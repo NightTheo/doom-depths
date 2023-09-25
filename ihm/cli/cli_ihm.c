@@ -8,30 +8,29 @@
 #include "stdio.h"
 #include "cli_ihm.h"
 #include "../../utils/log/log.h"
+#include "inventory_cli/inventory_cli.h"
 
-PlayerAction ask_player_action(Player p) {
-    display_menu(p);
+PlayerFightAction ask_player_fight_action(Player p) {
+    display_fight_actions(p);
     int input = -1;
     // TODO better check input
     do {
         fflush(stdin);
         scanf("%d", &input);
-    } while (input-1 < (p.remaining_number_of_attacks > 0 ? ATTACK : END_TURN) || input-1 > END_TURN);
+    } while (input-1 < (p.remaining_number_of_attacks > 0 ? ATTACK : END_TURN) || input-1 > __player_fight_action_count - 1);
     log_info("player choose");
-    log_info(player_action_to_string(input-1));
+    log_info(player_fight_action_to_string(input - 1));
     return input-1;
 }
 
-void display_menu(Player p) {
-    int8_t curent_index = 1;
-    for(PlayerAction action=ATTACK; action <= END_TURN; action++) {
-        if(action == ATTACK && p.remaining_number_of_attacks <= 0) break;
-        printf("%d. %s\n", curent_index, player_action_to_string(action));
-        curent_index += 1;
+void display_fight_actions(Player p) {
+    for(PlayerFightAction action=ATTACK; action <= __player_fight_action_count - 1; action++) {
+        if(action == ATTACK && p.remaining_number_of_attacks <= 0) continue;
+        printf("%d. %s\n", action+1, player_fight_action_to_string(action));
     }
 }
 
-int8_t ask_monster_index_to_attack(MonstersList monsters) {
+int8_t get_monster_index_to_attack(MonstersList monsters) {
     // TODO mask dead monsters
     display_monsters(monsters);
     int8_t input = 0;

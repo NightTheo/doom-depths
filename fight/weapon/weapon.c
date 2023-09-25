@@ -7,12 +7,12 @@
 #include <stdio.h>
 #include "weapon.h"
 #include "../../utils/random/random.h"
-#include "../../utils/utils.h"
 
 Weapon random_weapon() {
+    WeaponKind kind = (WeaponKind) random_between_included(EMPTY_WEAPON, __weapons_count - 1);
     Weapon w = {
-            random_between_included(EMPTY, __weapons_count - 1),
-            random_between_included(5, 20)
+            kind,
+            kind == EMPTY_WEAPON ? 0 : random_between_included(5, 20),
     };
     return w;
 }
@@ -21,6 +21,14 @@ Weapon weapon(WeaponKind kind, u_int8_t damages) {
     Weapon w = {
             kind,
             damages
+    };
+    return w;
+}
+
+Weapon empty_weapon() {
+    Weapon w = {
+            EMPTY_WEAPON,
+            0
     };
     return w;
 }
@@ -34,7 +42,7 @@ Weapon* weapon_alloc(Weapon w) {
 
 const char* weapon_kind_to_string(WeaponKind kind) {
     switch (kind) {
-        case EMPTY: return "empty";
+        case EMPTY_WEAPON: return "empty";
         case SWORD: return "sword";
         default: return "?";
     }

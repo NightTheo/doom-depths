@@ -11,7 +11,7 @@
 Loot empty_loot() {
     Loot l = {
             0,
-            EMPTY,
+            EMPTY_WEAPON,
             // TODO ARMOR
     };
     return l;

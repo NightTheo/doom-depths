@@ -9,7 +9,7 @@
 #include "stdint.h"
 
 typedef enum WeaponKind {
-    EMPTY = 0,
+    EMPTY_WEAPON = 0,
     SWORD,
 
 
@@ -24,6 +24,7 @@ typedef struct Weapon {
 Weapon random_weapon();
 char* weapon_to_string(Weapon w);
 Weapon weapon(WeaponKind kind, u_int8_t damages);
+Weapon empty_weapon();
 Weapon* weapon_alloc(Weapon w);
 
 #endif //DOOMDEPTHS_WEAPON_H

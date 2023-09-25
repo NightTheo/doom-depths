@@ -8,7 +8,7 @@
 
 #include "../../player/player.h"
 
-void display_menu(Player p);
+void display_fight_actions(Player p);
 void display_monsters(MonstersList monsters);
 
 

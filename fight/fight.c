@@ -12,7 +12,7 @@
 
 Fight turn(Fight f);
 Player decrement_player_remaining_attacks(Player p);
-Fight player_makes_action(PlayerAction action, Fight f);
+Fight player_makes_action(PlayerFightAction action, Fight f);
 
 Fight start_fight(Fight f) {
     while(player_is_alive(f.player)) {
@@ -32,10 +32,10 @@ Fight start_fight(Fight f) {
 Fight turn(Fight f) {
         char turn_log[16];sprintf(turn_log, "turn %d", f.turn);log_info(turn_log);
 
-    while(f.player.remaining_number_of_attacks > 0 && f.monsters_list.size > 0) {
+    while(f.monsters_list.size > 0) {
             log_player(f.player);
             log_monsters(f.monsters_list);
-        PlayerAction action = ask_player_action(f.player);
+        PlayerFightAction action = ask_player_fight_action(f.player);
         if(action == END_TURN) break;
         f = player_makes_action(action, f);
         f.monsters_list = list_of_monster_without_dead_ones(f.monsters_list);
@@ -44,11 +44,11 @@ Fight turn(Fight f) {
     return f;
 }
 
-Fight player_makes_action(PlayerAction action, Fight f) {
+Fight player_makes_action(PlayerFightAction action, Fight f) {
     switch (action) {
         case END_TURN: return f;
         case ATTACK: {
-            int8_t attacked_monster_index = ask_monster_index_to_attack(f.monsters_list);
+            int8_t attacked_monster_index = get_monster_index_to_attack(f.monsters_list);
             AttackResult attackResult = player_attacks_monster(
                     f.player,
                     f.monsters_list.monsters[attacked_monster_index]
@@ -56,8 +56,14 @@ Fight player_makes_action(PlayerAction action, Fight f) {
             f.player = attackResult.player;
             f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
             display_loot(attackResult.loot);
+            f.player.inventory = push_loot_in_inventory(f.player.inventory, attackResult.loot);
             break;
         }
+        case SHOW_INVENTORY:
+            enter_player_s_inventory(f.player);
+            break;
+        case __player_fight_action_count:
+            break;
     }
     return f;
 }
@@ -74,7 +80,7 @@ AttackResult player_attacks_monster(Player p, Monster m) {
     AttackResult res = {p,m, empty_loot()};
     if(p.remaining_number_of_attacks <= 0) return res;
     res.player = decrement_player_remaining_attacks(p);
-    res.monster = monster_takes_damages(m, p.weapon.damages);
+    res.monster = monster_takes_damages(m, p.equipement.weapon.damages);
 
     if(monster_is_dead(res.monster)) {
         res.loot = random_loot();

@@ -11,9 +11,15 @@ add_executable(DoomDepths main.c
         player/player.c
         fight/fight.c
         ihm/cli/cli_ihm.c
-        player/player_action/player_action.c
+        fight/player_fight_action/player_fight_action.c
         fight/loot/loot.c
         fight/loot/loot.h
         fight/weapon/weapon.c
         player/inventory/inventory.c
-        player/inventory/inventory.h)
+        player/inventory/inventory.h
+        ihm/cli/inventory_cli/inventory_cli.c
+        ihm/cli/inventory_cli/inventory_cli.h
+        player/inventory/player_inventory_action/player_inventory_actions.c
+        player/inventory/player_inventory_action/player_inventory_actions.h
+        player/equipment/equipment.c
+        player/equipment/equipment.h)

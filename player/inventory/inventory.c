@@ -11,7 +11,7 @@ void free_inventory_item(InventoryItem item);
 InventoryItem empty_inventory_item();
 
 Inventory empty_inventory() {
-    u_int8_t capacity = 10;
+    u_int8_t capacity = INVENTORY_CAPACITY;
     Inventory inventory = {
             0,
             capacity,
@@ -28,11 +28,27 @@ InventoryItem empty_inventory_item() {
     return (InventoryItem){EMPTY_ITEM,NULL};
 }
 
-Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
-    if(inventory.size >= inventory.capacity) return inventory;
+InventoryItem weapon_inventory_item(Weapon w) {
+    if(w.kind == EMPTY_WEAPON) return empty_inventory_item();
+    return (InventoryItem) {
+            WEAPON_ITEM,
+            weapon_alloc(w),
+    };
+}
 
-    inventory.items[inventory.size] = item;
-    inventory.size++;
+Inventory push_loot_in_inventory(Inventory inventory, Loot loot) {
+    inventory = add_golds_in_inventory(inventory, loot.gold);
+    if(loot.weapon.kind != EMPTY_WEAPON) {
+        inventory = push_item_in_inventory(inventory, weapon_inventory_item(loot.weapon));
+    }
+    return inventory;
+}
+
+Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
+    if(inventory.items_count >= inventory.capacity) return inventory;
+
+    inventory.items[inventory.items_count] = item;
+    inventory.items_count++;
 
     return inventory;
 }
@@ -45,7 +61,7 @@ Inventory add_golds_in_inventory(Inventory inventory, u_int16_t golds) {
 void free_inventory(Inventory inventory) {
     if(inventory.items == NULL) return;
 
-    for(int i = 0; i < inventory.size; i++) {
+    for(int i = 0; i < inventory.items_count; i++) {
         free_inventory_item(inventory.items[i]);
     }
     inventory.items = NULL;
@@ -84,6 +100,6 @@ char* inventory_to_string(Inventory inventory) {
         strncat(str_items, item, 64);
         free(item);
     }
-    snprintf(res, 256, "Inventory {%s}", str_items);
+    snprintf(res, 256, "Inventory {golds: %d, items: [%s]}", inventory.golds, str_items);
     return res;
 }
