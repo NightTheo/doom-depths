@@ -7,15 +7,15 @@
 
 int main() {
     srand(time(NULL));
-    Fight f = {
+    Fight fight = {
             1,
-            player(100, 4),
+            player(100),
             random_list_of_monsters(random_between_included(2, 5))
     };
 
-    start_fight(f);
+    fight = start_fight(fight);
 
-    free(f.monsters_list.monsters);
-    free_inventory(f.player.inventory);
+    free(fight.monsters_list.monsters);
+    free_inventory(fight.player.inventory);
     return EXIT_SUCCESS;
 }

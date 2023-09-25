@@ -60,7 +60,7 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
             break;
         }
         case SHOW_INVENTORY:
-            enter_player_s_inventory(f.player);
+            f.player = enter_player_s_inventory(f.player);
             break;
         case __player_fight_action_count:
             break;
@@ -68,29 +68,34 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
     return f;
 }
 
-Monster monster_takes_damages(Monster m, int8_t damages) {
+Monster monster_takes_damages(Monster m, uint8_t damages) {
     int8_t damages_after_defense =  max(0, damages - m.defense);
     m.health = max(0, m.health - damages_after_defense);
-    log_info("Monster tooks damages, is now:"); log_monster(m);
+    char log[64];
+    sprintf(log, "Monster took %d damages", damages_after_defense);
+    log_info(log);
     return m;
 }
 
 AttackResult player_attacks_monster(Player p, Monster m) {
-    log_info("player attacks monsters");
+
     AttackResult res = {p,m, empty_loot()};
-    if(p.remaining_number_of_attacks <= 0) return res;
-    res.player = decrement_player_remaining_attacks(p);
-    res.monster = monster_takes_damages(m, p.equipement.weapon.damages);
-
-    if(monster_is_dead(res.monster)) {
-        res.loot = random_loot();
-
+    if(p.remaining_number_of_attacks <= 0) {
+        log_info("player has no remaining attack count");
+        return res;
     }
+    log_info("player attacks monsters");
+    res.player = decrement_player_remaining_attacks(p);
+    uint8_t damages = random_between_included(p.equipment.weapon.min_damages, p.equipment.weapon.max_damages);
+    res.monster = monster_takes_damages(m, damages);
+    if(monster_is_dead(res.monster)) res.loot = random_loot();
     return res;
 }
 
 Player decrement_player_remaining_attacks(Player p) {
-    p.remaining_number_of_attacks = max(0, p.remaining_number_of_attacks - 1);
+    p.remaining_number_of_attacks = p.remaining_number_of_attacks > 0
+            ? p.remaining_number_of_attacks - 1
+            : 0;
     return p;
 }
 
@@ -114,7 +119,10 @@ AttackResult monster_attacks_player(Monster m, Player p) {
 
 Player player_takes_damages(Player p, int8_t damages) {
     // TODO armor
-    p.current_health = max(0, p.current_health - damages);
-    log_info("Player tooks damages");
+
+    uint8_t damages_taken = damages > p.current_health ? p.current_health : damages;
+    p.current_health = p.current_health - damages_taken;
+
+    char log[32];sprintf(log, "Player tooks %d damages", damages_taken);log_info(log);
     return p;
 }

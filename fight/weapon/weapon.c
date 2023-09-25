@@ -10,17 +10,22 @@
 
 Weapon random_weapon() {
     WeaponKind kind = (WeaponKind) random_between_included(EMPTY_WEAPON, __weapons_count - 1);
+    if(kind == EMPTY_WEAPON) return empty_weapon();
     Weapon w = {
             kind,
-            kind == EMPTY_WEAPON ? 0 : random_between_included(5, 20),
+            random_between_included(5, 10),
+            random_between_included(8, 15),
+            random_between_included(2, 5),
     };
     return w;
 }
 
-Weapon weapon(WeaponKind kind, u_int8_t damages) {
+Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_tour) {
     Weapon w = {
             kind,
-            damages
+            min_damages,
+            max_damages,
+            max_number_of_attack_per_tour,
     };
     return w;
 }
@@ -36,7 +41,9 @@ Weapon empty_weapon() {
 Weapon* weapon_alloc(Weapon w) {
     Weapon* allocated = malloc(sizeof(Weapon));
     allocated->kind = w.kind;
-    allocated->damages = w.damages;
+    allocated->min_damages = w.min_damages;
+    allocated->max_damages = w.max_damages;
+    allocated->max_number_of_attacks_per_tour = w.max_number_of_attacks_per_tour;
     return allocated;
 }
 
@@ -49,10 +56,12 @@ const char* weapon_kind_to_string(WeaponKind kind) {
 }
 
 char* weapon_to_string(Weapon w) {
-    char* str = malloc(64);
-    snprintf(str, 64, "Weapon {kind: %s, damages: %d}",
+    char* str = malloc(128);
+    snprintf(str, 127, "Weapon {kind: %s, min_damages: %d, max_damages: %d, max_number_of_attacks_per_tour: %d}",
              weapon_kind_to_string(w.kind),
-             w.damages
+             w.min_damages,
+             w.max_damages,
+             w.max_number_of_attacks_per_tour
              );
     return str;
 }

@@ -23,7 +23,7 @@ typedef struct AttackResult {
 } AttackResult;
 
 Fight start_fight(Fight fight);
-Monster monster_takes_damages(Monster m, int8_t damages);
+Monster monster_takes_damages(Monster m, uint8_t damages);
 Player player_takes_damages(Player p, int8_t damages);
 AttackResult player_attacks_monster(Player p, Monster m);
 AttackResult monster_attacks_player(Monster m, Player p);

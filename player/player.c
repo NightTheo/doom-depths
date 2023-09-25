@@ -7,14 +7,15 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "../utils/log/log.h"
+#include "../utils/utils.h"
 
-Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour) {
+Player player(uint8_t max_health) {
+    Equipment equipment = default_equipment();
     Player p = {
             max_health,
             max_health,
-            number_of_attacks_per_tour,
-            number_of_attacks_per_tour,
-            default_equipment(),
+            equipment.weapon.max_number_of_attacks_per_tour,
+            equipment,
             empty_inventory(),
     };
     return p;
@@ -22,7 +23,7 @@ Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour) {
 
 char* player_to_string(Player p) {
     char* s = malloc(1024);
-    char* equipment_str = equipment_to_string(p.equipement);
+    char* equipment_str = equipment_to_string(p.equipment);
     char* inventory_str = inventory_to_string(p.inventory);
     sprintf(s, "{current_health: %d, "
                "max_health: %d, "
@@ -33,7 +34,7 @@ char* player_to_string(Player p) {
            p.current_health,
            p.max_health,
            p.remaining_number_of_attacks,
-           p.max_number_of_attacks_per_tour,
+           p.equipment.weapon.max_number_of_attacks_per_tour,
            equipment_str,
            inventory_str
            );
@@ -43,7 +44,7 @@ char* player_to_string(Player p) {
 }
 
 Player restore_player_number_of_remaining_attacks(Player p) {
-    p.remaining_number_of_attacks = p.max_number_of_attacks_per_tour;
+    p.remaining_number_of_attacks = p.equipment.weapon.max_number_of_attacks_per_tour;
     return p;
 }
 
@@ -56,22 +57,26 @@ bool player_is_dead(Player p) {
 }
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
-    char log[64];
+    char log[128];
     if(weapon_index < 0 || weapon_index >= p.inventory.capacity) {
-        snprintf(log, 64, "Index [%d] is not in inventory", weapon_index);log_error(log);
+        snprintf(log, 128, "Index [%d] is not in inventory", weapon_index);log_error(log);
         return p;
     }
     InventoryItem w = p.inventory.items[weapon_index];
-    Weapon weapond_equiped_before = p.equipement.weapon;
-    p.equipement.weapon = *((Weapon*)w.item);
+    Weapon weapond_equiped_before = p.equipment.weapon;
+    p.equipment.weapon = *((Weapon*)w.item);
 
     p.inventory.items[weapon_index] = weapon_inventory_item(weapond_equiped_before);
+    p.remaining_number_of_attacks = min(
+            p.remaining_number_of_attacks,
+            p.equipment.weapon.max_number_of_attacks_per_tour
+            );
 
     free(w.item);
     w.item = NULL;
 
     //log
-    char* w_str= weapon_to_string(p.equipement.weapon);snprintf(log, 64, "Player equiped %s", w_str);log_info(log);free(w_str);
+    char* w_str= weapon_to_string(p.equipment.weapon);snprintf(log, 128, "Player equiped %s", w_str);log_info(log);free(w_str);
     return p;
 }
 
@@ -84,7 +89,7 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
     InventoryItem item_to_equip = p.inventory.items[index_item];
     switch (item_to_equip.type) {
         case EMPTY_ITEM:
-            snprintf(log, 64, "Empty item, nothing to do");log_info(log);
+            log_info("Empty item, nothing to do");
             break;
         case WEAPON_ITEM:
             p = player_equip_weapon_from_inventory(p, index_item);

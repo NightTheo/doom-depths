@@ -10,7 +10,7 @@
 
 Equipment default_equipment() {
     Equipment e = {
-            empty_weapon()//weapon(SWORD, 15),
+            weapon(SWORD, 15, 20, 10),
     };
     return e;
 }

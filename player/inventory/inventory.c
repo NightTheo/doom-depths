@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "inventory.h"
 #include "string.h"
+#include "../../utils/log/log.h"
 
 void free_inventory_item(InventoryItem item);
 InventoryItem empty_inventory_item();
@@ -21,6 +22,11 @@ Inventory empty_inventory() {
     for(int i = 0; i < inventory.capacity; i++) {
         inventory.items[i] = empty_inventory_item();
     }
+
+    inventory.items[0] = weapon_inventory_item(weapon(SWORD, 1, 10, 3));
+    inventory.items[1] = weapon_inventory_item(weapon(SWORD, 1, 10, 4));
+    inventory.items[2] = weapon_inventory_item(weapon(SWORD, 1, 10, 1));
+
     return inventory;
 }
 
@@ -45,7 +51,10 @@ Inventory push_loot_in_inventory(Inventory inventory, Loot loot) {
 }
 
 Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
-    if(inventory.items_count >= inventory.capacity) return inventory;
+    if(inventory.items_count >= inventory.capacity) {
+        log_info("The inventory is full, item not pushed");
+        return inventory;
+    }
 
     inventory.items[inventory.items_count] = item;
     inventory.items_count++;
@@ -88,8 +97,8 @@ char* item_to_string(InventoryItem item) {
 }
 
 char* inventory_to_string(Inventory inventory) {
-    char* res = malloc(512);
-    char str_items[512];
+    char* res = malloc(1500);
+    char str_items[1024];
     for(int i = 0; i < inventory.capacity; i++) {
         char* item = item_to_string(inventory.items[i]);
         if(i < inventory.capacity-1) {
@@ -97,9 +106,9 @@ char* inventory_to_string(Inventory inventory) {
             item = realloc(item, strlen(item) + strlen(separator) + 1);
             strcat(item, separator);
         }
-        strncat(str_items, item, 64);
+        strncat(str_items, item, 128);
         free(item);
     }
-    snprintf(res, 256, "Inventory {golds: %d, items: [%s]}", inventory.golds, str_items);
+    snprintf(res, 1500, "Inventory {golds: %d, items: [%s]}", inventory.golds, str_items);
     return res;
 }

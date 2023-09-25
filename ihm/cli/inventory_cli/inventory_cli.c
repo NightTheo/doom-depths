@@ -12,6 +12,9 @@
 
 Player enter_player_s_inventory(Player p) {
     while(true) {
+        char* equipment_str = equipment_to_string(p.equipment);
+        fprintf(stdout, "%s\n", equipment_str);
+        free(equipment_str);
         display_inventory_golds(p.inventory.golds);
         display_inventory_items(p.inventory);
         display_inventory_actions();

@@ -14,15 +14,14 @@
 #include "equipment/equipment.h"
 
 typedef struct Player {
-    u_int8_t current_health;
-    u_int8_t max_health;
-    u_int8_t remaining_number_of_attacks;
-    u_int8_t max_number_of_attacks_per_tour;
-    Equipment equipement;
+    uint8_t current_health;
+    uint8_t max_health;
+    uint8_t remaining_number_of_attacks;
+    Equipment equipment;
     Inventory inventory;
 } Player;
 
-Player player(u_int8_t max_health, u_int8_t number_of_attacks_per_tour);
+Player player(uint8_t max_health);
 char* player_to_string(Player p);
 Player restore_player_number_of_remaining_attacks(Player);
 bool player_is_dead(Player p);
