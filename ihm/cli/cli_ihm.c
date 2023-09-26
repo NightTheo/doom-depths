@@ -73,6 +73,7 @@ const char* start_menu_action_to_string(StartMenuAction action) {
 
 GameState new_game() {
     return (GameState){
+            REPOSITORY_NOT_USED,
             1,
             player(100),
             random_list_of_monsters(random_between_included(2, 5))

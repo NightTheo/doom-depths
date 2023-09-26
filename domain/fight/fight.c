@@ -65,7 +65,7 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
             f.player = enter_player_s_inventory(f.player);
             break;
         case SAVE_GAME:
-            save_game_state((GameState) {f.turn, f.player, f.monsters_list});
+            save_game_state((GameState) {REPOSITORY_NOT_USED, f.turn, f.player, f.monsters_list});
             break;
         default:
             break;

@@ -6,6 +6,8 @@
 #ifndef DOOMDEPTHS_INVENTORY_CLI_H
 #define DOOMDEPTHS_INVENTORY_CLI_H
 
+#include "../../ihm.h"
+#include "../cli_ihm.h"
 #include "../../../domain/player/inventory/inventory.h"
 #include "../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
 

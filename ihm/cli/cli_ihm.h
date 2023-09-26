@@ -6,6 +6,7 @@
 #ifndef DOOMDEPTHS_CLI_IHM_H
 #define DOOMDEPTHS_CLI_IHM_H
 
+#include "../ihm.h"
 #include "../../domain/player/player.h"
 
 void display_fight_actions(Player p);
