@@ -6,8 +6,8 @@
 #ifndef DOOMDEPTHS_INVENTORY_CLI_H
 #define DOOMDEPTHS_INVENTORY_CLI_H
 
-#include "../../../player/inventory/inventory.h"
-#include "../../../player/inventory/player_inventory_action/player_inventory_actions.h"
+#include "../../../domain/player/inventory/inventory.h"
+#include "../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
 
 void display_inventory_items(Inventory inventory);
 void display_inventory_actions();

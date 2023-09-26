@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_FIGHT_H
 #define DOOMDEPTHS_FIGHT_H
 
-#include "../monsters/monster.h"
+#include "../monsters/monsters.h"
 #include "../player/player.h"
 #include "loot/loot.h"
 

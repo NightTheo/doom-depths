@@ -10,7 +10,7 @@ typedef enum PlayerFightAction{
     ATTACK = 0,
     SHOW_INVENTORY,
     END_TURN,
-
+    SAVE_GAME,
 
     __player_fight_action_count
 } PlayerFightAction;

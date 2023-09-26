@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_CLI_IHM_H
 #define DOOMDEPTHS_CLI_IHM_H
 
-#include "../../player/player.h"
+#include "../../domain/player/player.h"
 
 void display_fight_actions(Player p);
 void display_monsters(MonstersList monsters);

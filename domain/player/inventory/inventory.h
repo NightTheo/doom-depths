@@ -33,12 +33,14 @@ typedef struct Inventory {
 } Inventory;
 
 Inventory empty_inventory();
+InventoryItem empty_inventory_item();
 void free_inventory(Inventory inventory);
 Inventory add_golds_in_inventory(Inventory inventory, u_int16_t golds);
 Inventory push_item_in_inventory(Inventory inventory, InventoryItem item);
 Inventory push_loot_in_inventory(Inventory inventory, Loot loot);
 char* inventory_to_string(Inventory inventory);
 char* item_to_string(InventoryItem item);
+InventoryItemType inventory_item_type_from_string(const char* type_str);
 InventoryItem weapon_inventory_item(Weapon w);
 InventoryItem armor_inventory_item(Armor a);
 

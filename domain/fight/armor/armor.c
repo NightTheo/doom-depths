@@ -5,9 +5,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "armor.h"
-#include "../../utils/log/log.h"
-#include "../../utils/random/random.h"
+#include "../../../infrastructure/utils/log/log.h"
+#include "../../../infrastructure/utils/random/random.h"
 
 Armor armor(ArmorKind kind, uint8_t defense) {
     Armor a = {
@@ -56,4 +57,14 @@ char* armor_to_string(Armor a) {
     snprintf(s, str_len-1, "Armor {kind: %s, defense: %d}", armor_kind_to_string(a.kind),a.defense);
 
     return s;
+}
+
+ArmorKind armor_kind_from_string(const char* str) {
+    if(strcmp(str, "EMPTY_ARMOR") == 0) return EMPTY_ARMOR;
+    if(strcmp(str, "CHEST_PLATE") == 0) return CHEST_PLATE;
+
+    char log[32];
+    snprintf(log, 32, "[%s] does not match an ArmorKind", str);
+    log_error(log);
+    return EMPTY_ARMOR; // by default
 }

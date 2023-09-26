@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "../utils/random/random.h"
-#include "../utils/log/log.h"
+#include "../../infrastructure/utils/random/random.h"
+#include "../../infrastructure/utils/log/log.h"
 
 Monster random_monster() {
     Monster m = {

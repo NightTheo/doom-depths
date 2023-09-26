@@ -10,6 +10,7 @@ const char* player_fight_action_to_string(PlayerFightAction action) {
         case ATTACK: return "Attack";
         case SHOW_INVENTORY: return "Show inventory";
         case END_TURN: return "End turn";
+        case SAVE_GAME: return "Save All";
         default: return "no action";
     }
 }

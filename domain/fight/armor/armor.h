@@ -25,5 +25,6 @@ Armor armor(ArmorKind kind, uint8_t defense);
 Armor* armor_alloc(Armor a);
 Armor random_armor();
 char* armor_to_string(Armor a);
+ArmorKind armor_kind_from_string(const char* str);
 
 #endif //DOOMDEPTHS_ARMOR_H

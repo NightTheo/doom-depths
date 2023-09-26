@@ -5,8 +5,8 @@
 
 #ifndef DOOMDEPTHS_LOG_H
 #define DOOMDEPTHS_LOG_H
-#include "../../player/player.h"
-#include "../../monsters/monster.h"
+#include "../../../domain/player/player.h"
+#include "../../../domain/monsters/monsters.h"
 
 void log_info(const char* msg_info);
 void log_error(const char* msg_error);

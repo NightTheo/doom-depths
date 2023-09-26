@@ -6,7 +6,7 @@
 #include "log.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "../../monsters/monsters.h"
+#include "../../../domain/monsters/monsters.h"
 
 void log_info(const char* msg_info) {
     printf("[info] %s\n", msg_info);

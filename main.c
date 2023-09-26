@@ -1,16 +1,20 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "monsters/monsters.h"
-#include "fight/fight.h"
-#include "utils/random/random.h"
+#include "domain/monsters/monsters.h"
+#include "domain/fight/fight.h"
+#include "infrastructure/utils/random/random.h"
+#include "domain/repository.h"
+#include "ihm/ihm.h"
 
 int main() {
     srand(time(NULL));
+
+    GameState state = open_start_menu();
     Fight fight = {
-            1,
-            player(100),
-            random_list_of_monsters(random_between_included(2, 5))
+            state.turn,
+            state.player,
+            state.monsters_list,
     };
 
     fight = start_fight(fight);

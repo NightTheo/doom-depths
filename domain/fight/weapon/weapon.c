@@ -5,8 +5,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "weapon.h"
-#include "../../utils/random/random.h"
+#include "../../../infrastructure/utils/random/random.h"
+#include "../../../infrastructure/utils/log/log.h"
 
 Weapon random_weapon() {
     WeaponKind kind = (WeaponKind) random_between_included(EMPTY_WEAPON, __weapons_count - 1);
@@ -64,4 +66,19 @@ char* weapon_to_string(Weapon w) {
              w.max_number_of_attacks_per_turn
              );
     return str;
+}
+
+WeaponKind weapon_kind_from_string(const char* str) {
+    char log[64];
+    if(str == NULL) {
+        log_error("NULL parameter in weapon_kind_from_string().");
+        return EMPTY_WEAPON;
+    }
+    if(strcmp(str, "EMPTY_WEAPON") == 0) return EMPTY_WEAPON;
+    if(strcmp(str, "SWORD") == 0) return SWORD;
+
+
+    snprintf(log, 32, "[%s] does not match a WeaponKind", str);
+    log_error(log);
+    return EMPTY_WEAPON; // by default
 }

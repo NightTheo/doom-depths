@@ -5,10 +5,11 @@
 
 #include <stdio.h>
 #include "fight.h"
-#include "../utils/random/random.h"
-#include "../utils/utils.h"
-#include "../utils/log/log.h"
-#include "../ihm/ihm.h"
+#include "../../infrastructure/utils/random/random.h"
+#include "../../infrastructure/utils/utils.h"
+#include "../../infrastructure/utils/log/log.h"
+#include "../../ihm/ihm.h"
+#include "../repository.h"
 
 Fight turn(Fight f);
 Player decrement_player_remaining_attacks(Player p);
@@ -63,7 +64,10 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
         case SHOW_INVENTORY:
             f.player = enter_player_s_inventory(f.player);
             break;
-        case __player_fight_action_count:
+        case SAVE_GAME:
+            save_game_state((GameState) {f.turn, f.player, f.monsters_list});
+            break;
+        default:
             break;
     }
     return f;

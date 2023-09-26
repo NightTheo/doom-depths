@@ -6,9 +6,21 @@
 #ifndef DOOMDEPTHS_MONSTERS_H
 #define DOOMDEPTHS_MONSTERS_H
 
+#include "stdint.h"
 #include "stdbool.h"
+#include "monsters.h"
 
-#include "monster.h"
+typedef struct Monster {
+    int8_t health;
+    int8_t min_attack_power;
+    int8_t max_attack_power;
+    int8_t defense;
+} Monster;
+
+typedef struct MonstersList {
+    int8_t size;
+    Monster* monsters;
+} MonstersList;
 
 
 Monster random_monster();

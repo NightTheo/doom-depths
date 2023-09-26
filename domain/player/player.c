@@ -6,8 +6,8 @@
 #include "player.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "../utils/log/log.h"
-#include "../utils/utils.h"
+#include "../../infrastructure/utils/log/log.h"
+#include "../../infrastructure/utils/utils.h"
 
 Player player(uint8_t max_health) {
     Equipment equipment = default_equipment();
@@ -25,7 +25,7 @@ char* player_to_string(Player p) {
     char* s = malloc(1024);
     char* equipment_str = equipment_to_string(p.equipment);
     char* inventory_str = inventory_to_string(p.inventory);
-    sprintf(s, "{current_health: %d, "
+    sprintf(s, "Player {current_health: %d, "
                "max_health: %d, "
                "remaining_number_of_attacks: %d, "
                "max_number_of_attacks_per_turn: %d, "

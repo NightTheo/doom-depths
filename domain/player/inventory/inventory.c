@@ -6,10 +6,9 @@
 #include <stdio.h>
 #include "inventory.h"
 #include "string.h"
-#include "../../utils/log/log.h"
+#include "../../../infrastructure/utils/log/log.h"
 
 void free_inventory_item(InventoryItem item);
-InventoryItem empty_inventory_item();
 
 Inventory empty_inventory() {
     u_int8_t capacity = INVENTORY_CAPACITY;
@@ -137,4 +136,15 @@ char* inventory_to_string(Inventory inventory) {
     }
     snprintf(res, 1500, "Inventory {golds: %d, items: [%s]}", inventory.golds, str_items);
     return res;
+}
+
+InventoryItemType inventory_item_type_from_string(const char* str) {
+    if(strcmp(str, "EMPTY_ITEM") == 0) return EMPTY_ITEM;
+    if(strcmp(str, "WEAPON_ITEM") == 0) return WEAPON_ITEM;
+    if(strcmp(str, "ARMOR_ITEM") == 0) return ARMOR_ITEM;
+
+    char log[32];
+    snprintf(log, 32, "[%s] does not match a InventoryItemType", str);
+    log_error(log);
+    return EMPTY_ITEM; // by default
 }
