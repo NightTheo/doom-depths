@@ -24,7 +24,10 @@ Player enter_player_s_inventory(Player p) {
         switch (action) {
             case EXIT_INVENTORY: return p;
             case EQUIP_ITEM:
-                p = player_equip_item_from_inventory(p, get_item_index_to_equip(p.inventory));
+                p = player_equip_item_from_inventory(p, get_item_index(p.inventory));
+                break;
+            case USE_ITEM:
+                p = player_use_item_from_inventory(p, get_item_index(p.inventory));
                 break;
             default:
                 snprintf(log, 64, "unknown action [%d]", action);
@@ -66,10 +69,10 @@ PlayerInventoryAction get_player_inventory_action() {
     return  (PlayerInventoryAction) input-1;
 }
 
-uint8_t get_item_index_to_equip(Inventory inventory) {
+uint8_t get_item_index(Inventory inventory) {
     int8_t input = -1;
 
-    fprintf(stdout, "Select item to equip (enter its number) [1-10]\n");
+    fprintf(stdout, "Select item an item (enter its number) [1-10]\n");
     do {
         fflush(stdin);
         scanf("%hhd", &input);

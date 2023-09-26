@@ -3,13 +3,16 @@
 // Created by Theo OMNES on 12/09/2023.
 //
 
+#include <string.h>
 #include "player.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "../../infrastructure/utils/log/log.h"
 #include "../../infrastructure/utils/utils.h"
 
-Player player(uint8_t max_health) {
+Player player_use_potion_from_inventory(Player player, uint8_t index_item);
+
+Player player(uint8_t max_health, uint8_t mana) {
     Equipment equipment = default_equipment();
     Player p = {
             max_health,
@@ -17,6 +20,8 @@ Player player(uint8_t max_health) {
             equipment.weapon.max_number_of_attacks_per_turn,
             equipment,
             empty_inventory(),
+            mana,
+            mana,
     };
     return p;
 }
@@ -29,12 +34,16 @@ char* player_to_string(Player p) {
                "max_health: %d, "
                "remaining_number_of_attacks: %d, "
                "max_number_of_attacks_per_turn: %d, "
+               "current_mana: %d, "
+               "max_mana: %d, "
                "%s, " // equipment
                "%s}", // inventory
            p.current_health,
            p.max_health,
            p.remaining_number_of_attacks,
            p.equipment.weapon.max_number_of_attacks_per_turn,
+           p.current_mana,
+           p.max_mana,
            equipment_str,
            inventory_str
            );
@@ -45,6 +54,11 @@ char* player_to_string(Player p) {
 
 Player restore_player_number_of_remaining_attacks(Player p) {
     p.remaining_number_of_attacks = p.equipment.weapon.max_number_of_attacks_per_turn;
+    return p;
+}
+
+Player player_recover_mana(Player p, uint8_t mana) {
+    p.current_mana = min(p.current_mana + mana, p.max_mana);
     return p;
 }
 
@@ -109,7 +123,7 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
     InventoryItem item_to_equip = p.inventory.items[index_item];
     switch (item_to_equip.type) {
         case EMPTY_ITEM:
-            log_info("Empty item, nothing to do");
+            log_info("Empty item, nothing to do.");
             break;
         case WEAPON_ITEM:
             p = player_equip_weapon_from_inventory(p, index_item);
@@ -123,4 +137,48 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
     }
 
     return p;
+}
+
+Player player_use_item_from_inventory(Player p, uint8_t index_item) {
+    char log[64];
+    if(index_item < 0 || index_item >= p.inventory.capacity) {
+        snprintf(log, 64, "Index [%d] is not in inventory", index_item);log_error(log);
+        return p;
+    }
+
+    InventoryItem item_to_use = p.inventory.items[index_item];
+    switch (item_to_use.type) {
+        case EMPTY_ITEM:
+            log_info("Empty item, nothing to do.");
+            break;
+        case POTION_ITEM:
+            p = player_use_potion_from_inventory(p, index_item);
+            break;
+        default:
+            log_info("Item not usable");
+            break;
+    }
+
+    return p;
+}
+
+Player player_use_potion_from_inventory(Player player, uint8_t potion_index) {
+    char log[128];
+    if(potion_index < 0 || potion_index >= player.inventory.capacity) {
+        snprintf(log, 128, "Index [%d] is not in inventory", potion_index);log_error(log);
+        return player;
+    }
+
+    InventoryItem potion_item = player.inventory.items[potion_index];
+    ManaPotion mana_potion = *((ManaPotion*)potion_item.item);
+    if(mana_potion.is_full) {
+        player_recover_mana(player, player.max_mana);
+    } else {
+        strcpy(log,"Potion is empty");log_info(log);
+    }
+
+    player.inventory.items[potion_index] = empty_inventory_item();
+    free(potion_item.item);
+    potion_item.item = NULL;
+    return player;
 }

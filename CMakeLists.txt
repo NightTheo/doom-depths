@@ -19,4 +19,8 @@ add_executable(DoomDepths main.c
         domain/player/inventory/player_inventory_action/player_inventory_actions.c
         domain/player/equipment/equipment.c
         domain/fight/armor/armor.c
-        infrastructure/repository/custom_file_repository.c)
+        infrastructure/repository/custom_file_repository.c
+        domain/magic/spell/spell.c
+        domain/magic/mana_potion/mana_potion.c
+        domain/magic/mana_potion/mana_potion.h
+)

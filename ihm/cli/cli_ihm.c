@@ -75,7 +75,7 @@ GameState new_game() {
     return (GameState){
             REPOSITORY_NOT_USED,
             1,
-            player(100),
+            player(100, 100),
             random_list_of_monsters(random_between_included(2, 5))
     };
 }

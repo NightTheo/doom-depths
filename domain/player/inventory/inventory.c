@@ -45,10 +45,19 @@ InventoryItem armor_inventory_item(Armor a) {
     };
 }
 
+InventoryItem potion_inventory_item(ManaPotion p) {
+    if(p.is_full == false) return empty_inventory_item();
+    return (InventoryItem) {
+            POTION_ITEM,
+            mana_potion_alloc(p),
+    };
+}
+
 Inventory push_loot_in_inventory(Inventory inventory, Loot loot) {
     inventory = add_golds_in_inventory(inventory, loot.gold);
     inventory = push_item_in_inventory(inventory, weapon_inventory_item(loot.weapon));
     inventory = push_item_in_inventory(inventory, armor_inventory_item(loot.armor));
+    inventory = push_item_in_inventory(inventory, potion_inventory_item(loot.potion));
     return inventory;
 }
 
@@ -114,10 +123,19 @@ char* empty_item_to_string() {
 }
 
 char* item_to_string(InventoryItem item) {
+    char log[32];
+    char* default_str;
     switch (item.type) {
         case EMPTY_ITEM: return empty_item_to_string();
         case WEAPON_ITEM: return weapon_to_string(*((Weapon*)item.item));
         case ARMOR_ITEM: return armor_to_string(*((Armor *)item.item));
+        case POTION_ITEM: return potion_to_string(*((ManaPotion*)item.item));
+        default:
+            default_str = malloc(32);
+            strcpy(default_str, "Unknown InventoryItemType");
+            snprintf(log, 32, "Unknown InventoryItemType [%d]", item.type);
+            log_error(log);
+            return  default_str;
     }
 }
 

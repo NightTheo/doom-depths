@@ -17,6 +17,7 @@ typedef enum InventoryItemType {
     EMPTY_ITEM = 0,
     WEAPON_ITEM,
     ARMOR_ITEM,
+    POTION_ITEM
 } InventoryItemType;
 
 typedef struct InventoryItem {

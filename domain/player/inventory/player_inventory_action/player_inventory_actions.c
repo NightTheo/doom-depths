@@ -9,6 +9,7 @@ const char* inventory_action_to_string(PlayerInventoryAction action) {
     switch (action) {
         case EXIT_INVENTORY: return "Exit inventory";
         case EQUIP_ITEM: return "Equip an item";
+        case USE_ITEM: return "Use item";
         default: return "?";
     }
 }

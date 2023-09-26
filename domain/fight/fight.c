@@ -23,6 +23,7 @@ Fight start_fight(Fight f) {
         }
         f = turn(f);
         f.player = monsters_attack_player(f.monsters_list, f.player);
+        f.player = player_recover_mana(f.player, 10);
         f.player = restore_player_number_of_remaining_attacks(f.player);
         f.turn += 1;
     }
@@ -57,7 +58,6 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
             );
             f.player = attackResult.player;
             f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
-            display_loot(attackResult.loot);
             f.player.inventory = push_loot_in_inventory(f.player.inventory, attackResult.loot);
             break;
         }
@@ -93,7 +93,10 @@ AttackResult player_attacks_monster(Player p, Monster m) {
     res.player = decrement_player_remaining_attacks(p);
     uint8_t damages = random_between_included(p.equipment.weapon.min_damages, p.equipment.weapon.max_damages);
     res.monster = monster_takes_damages(m, damages);
-    if(monster_is_dead(res.monster)) res.loot = random_loot();
+    if(monster_is_dead(res.monster)) {
+        res.loot = random_loot();
+        display_loot(res.loot);
+    }
     return res;
 }
 

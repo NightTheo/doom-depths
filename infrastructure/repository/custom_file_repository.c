@@ -32,6 +32,8 @@ Weapon* restore_inventory_weapon_by_index(uint8_t index);
 Weapon restore_weapon_by_prefix_key(const char* prefix_key);
 Armor* restore_inventory_armor_by_index(uint8_t index);
 bool file_exists(const char* path);
+ManaPotion* restore_inventory_potion_by_index(uint8_t index);
+ManaPotion restore_potion_by_prefix_key(const char* prefix);
 
 // WRITE ---------
 char* player_to_save_string(Player player);
@@ -57,7 +59,7 @@ GameState restore_last_game() {
         log_error("Save file [" SAVE_FILE_PATH "] not found.");
         return (GameState){RESTORE_LAST_GAME_FAILED};
     }
-    // TODO mana
+    // TODO max_mana
     GameState gs;
     gs.turn = restore_int_by_key("fight.turn");
     gs.player = restore_player();
@@ -223,11 +225,16 @@ InventoryItem restore_inventory_item(uint8_t index) {
 }
 
 void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
+    char log[MAX_LINE_SIZE];
     switch (type) {
-
         case EMPTY_ITEM: return NULL;
         case WEAPON_ITEM: return restore_inventory_weapon_by_index(index);
         case ARMOR_ITEM: return restore_inventory_armor_by_index(index);
+        case POTION_ITEM: return restore_inventory_potion_by_index(index);
+        default:
+            snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", type);
+            log_error(log);
+            return NULL;
     }
     return NULL;
 }
@@ -242,6 +249,18 @@ Armor* restore_inventory_armor_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
     return armor_alloc(restore_armor_by_prefix_key(prefix));
+}
+
+ManaPotion* restore_inventory_potion_by_index(uint8_t index) {
+    char prefix[MAX_LINE_SIZE];
+    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    return mana_potion_alloc(restore_potion_by_prefix_key(prefix));
+}
+
+ManaPotion restore_potion_by_prefix_key(const char* prefix) {
+    ManaPotion p;
+    p.is_full = restore_int_by_prefix(prefix, "is_full");
+    return p;
 }
 
 MonstersList restore_monsters_list() {
@@ -275,7 +294,7 @@ RepositoryStatus save_game_state(GameState gameState) {
     char* player_str = player_to_save_string(gameState.player);
     char* monsters_str = monsters_list_to_save_string(gameState.monsters_list);
 
-    FILE* f = fopen(SAVE_FILE_PATH, "w"); // TODO change path
+    FILE* f = fopen(SAVE_FILE_PATH, "w");
     if(f == NULL) {
         log_error("Couldn't open file '" SAVE_FILE_PATH "'.");
         return SAVE_LAST_GAME_FAILED;

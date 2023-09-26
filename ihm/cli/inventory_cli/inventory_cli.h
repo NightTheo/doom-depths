@@ -15,6 +15,6 @@ void display_inventory_items(Inventory inventory);
 void display_inventory_actions();
 void display_inventory_golds(uint16_t golds);
 PlayerInventoryAction get_player_inventory_action();
-uint8_t get_item_index_to_equip(Inventory inventory);
+uint8_t get_item_index(Inventory inventory);
 
 #endif //DOOMDEPTHS_INVENTORY_CLI_H

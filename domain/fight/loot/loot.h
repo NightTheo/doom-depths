@@ -9,11 +9,13 @@
 #include "stdint.h"
 #include "../weapon/weapon.h"
 #include "../armor/armor.h"
+#include "../../magic/mana_potion/mana_potion.h"
 
 typedef struct Loot {
     u_int16_t gold;
     Weapon weapon;
     Armor armor;
+    ManaPotion potion;
 } Loot;
 
 Loot empty_loot();

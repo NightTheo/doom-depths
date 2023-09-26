@@ -9,6 +9,7 @@
 typedef enum PlayerInventoryAction {
     EQUIP_ITEM,
     // TODO unequip item
+    USE_ITEM,
 
     EXIT_INVENTORY,
     _player_inventory_action_count
