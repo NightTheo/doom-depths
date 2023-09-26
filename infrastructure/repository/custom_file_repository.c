@@ -14,6 +14,7 @@
 
 Player restore_player();
 MonstersList restore_monsters_list();
+Monster restore_monster_by_index(uint8_t index);
 char* restore_string_by_key(const char* key);
 char* restore_string_by_prefix(const char* prefix, const char* key);
 int restore_int_by_key(const char* key);
@@ -22,12 +23,15 @@ Equipment restore_equipment();
 Inventory restore_inventory();
 Weapon restore_equipment_weapon();
 Armor restore_equipment_armor();
+Armor restore_armor_by_prefix_key(const char* prefix);
 InventoryItem restore_inventory_item(uint8_t index);
 void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index);
 Weapon* restore_inventory_weapon_by_index(uint8_t index);
 Weapon restore_weapon_by_prefix_key(const char* prefix_key);
+Armor* restore_inventory_armor_by_index(uint8_t index);
 
 GameState restore_last_game() {
+    // TODO mana
     GameState gs;
     gs.turn = restore_int_by_key("fight.turn");
     gs.player = restore_player();
@@ -48,7 +52,7 @@ char* restore_string_by_key(const char* key) {
     char string[MAX_LINE_SIZE];
     while(fgets(line, MAX_LINE_SIZE, f) != NULL) {
         size_t key_len = strlen(key);
-        bool line_has_key = strlen(line) > key_len+2 && strncmp(line, key, key_len) == 0 && line[key_len] == '=';
+        bool line_has_key = strlen(line) > key_len+1 && strncmp(line, key, key_len) == 0 && line[key_len] == '=';
         if(line_has_key) {
             sprintf(log, "found key '%s'", key);log_info(log);
             strncpy(string, line+key_len+1, MAX_LINE_SIZE);
@@ -139,10 +143,14 @@ Weapon restore_weapon_by_prefix_key(const char* prefix) {
 }
 
 Armor restore_equipment_armor() {
+    return restore_armor_by_prefix_key("player.equipment.armor");
+}
+
+Armor restore_armor_by_prefix_key(const char* prefix) {
     Armor a;
-    char* kind_str = restore_string_by_key("player.equipment.armor.kind");
+    char* kind_str = restore_string_by_prefix(prefix, "kind");
     a.kind = armor_kind_from_string(kind_str);
-    a.defense = restore_int_by_key("player.equipment.armor.defense");
+    a.defense = restore_int_by_prefix(prefix, "defense");
 
     free(kind_str);
     return a;
@@ -184,7 +192,7 @@ void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
 
         case EMPTY_ITEM: return NULL;
         case WEAPON_ITEM: return restore_inventory_weapon_by_index(index);
-        case ARMOR_ITEM:
+        case ARMOR_ITEM: return restore_inventory_armor_by_index(index);
             break;
     }
     return NULL;
@@ -193,17 +201,34 @@ void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
 Weapon* restore_inventory_weapon_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
-    Weapon w = restore_weapon_by_prefix_key(prefix);
-    return weapon_alloc(w);
+    return weapon_alloc(restore_weapon_by_prefix_key(prefix));
+}
+
+Armor* restore_inventory_armor_by_index(uint8_t index) {
+    char prefix[MAX_LINE_SIZE];
+    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    return armor_alloc(restore_armor_by_prefix_key(prefix));
 }
 
 MonstersList restore_monsters_list() {
-    // TODO
-    MonstersList list = {
-            0,
-            NULL,
-    };
+    MonstersList list;
+    list.size = (int8_t) restore_int_by_key("monsters_list.size");
+    list.monsters = malloc(sizeof(Monster) * list.size);
+    for(int i = 0; i < list.size; i++) {
+        list.monsters[i] = restore_monster_by_index(i);
+    }
     return list;
+}
+
+Monster restore_monster_by_index(uint8_t index) {
+    char prefix[MAX_LINE_SIZE];
+    snprintf(prefix, MAX_LINE_SIZE, "monsters_list.monsters.%d", index);
+    Monster m;
+    m.health = (int8_t) restore_int_by_prefix(prefix, "health");
+    m.min_attack_power = (int8_t) restore_int_by_prefix(prefix, "min_attack_power");
+    m.max_attack_power = (int8_t) restore_int_by_prefix(prefix, "max_attack_power");
+    m.defense = (int8_t) restore_int_by_prefix(prefix, "defense");
+    return m;
 }
 
 bool save_game_state(GameState gameState) {
