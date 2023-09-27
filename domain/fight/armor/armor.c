@@ -54,7 +54,8 @@ const char* armor_kind_to_string(ArmorKind armorKind) {
 char* armor_to_string(Armor a) {
     uint8_t str_len = 64;
     char* s = malloc(str_len);
-    snprintf(s, str_len-1, "Armor {kind: %s, defense: %d}", armor_kind_to_string(a.kind),a.defense);
+    const char* kind = armor_kind_to_string(a.kind);
+    snprintf(s, str_len-1, "Armor {kind: %s, defense: %d}", kind,a.defense);
 
     return s;
 }

@@ -26,5 +26,7 @@ typedef struct GameState {
 
 GameState restore_last_game();
 RepositoryStatus save_game_state(GameState gameState);
+const char* repository_status_to_string(RepositoryStatus status);
+void log_repository_status(RepositoryStatus status);
 
 #endif //DOOMDEPTHS_REPOSITORY_H

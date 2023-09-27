@@ -18,6 +18,10 @@ int main() {
 
     fight = start_fight(fight);
 
+    if(!player_is_alive(fight.player)) {
+        display_game_over();
+    }
+
     free(fight.monsters_list.monsters);
     free_inventory(fight.player.inventory);
     return EXIT_SUCCESS;

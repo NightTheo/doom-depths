@@ -49,8 +49,7 @@ const char* weapon_kind_to_save_string(WeaponKind k);
 char* armor_to_save_string_with_prefix(Armor a, const char* prefix);
 const char* armor_kind_to_save_string(ArmorKind k);
 char* monster_to_save_string_at_index(Monster m, uint8_t index);
-
-
+char* potion_to_save_string_with_prefix(ManaPotion p, const char* prefix);
 
 
 GameState restore_last_game() {
@@ -59,7 +58,7 @@ GameState restore_last_game() {
         log_error("Save file [" SAVE_FILE_PATH "] not found.");
         return (GameState){RESTORE_LAST_GAME_FAILED};
     }
-    // TODO max_mana
+
     GameState gs;
     gs.turn = restore_int_by_key("fight.turn");
     gs.player = restore_player();
@@ -147,6 +146,9 @@ Player restore_player() {
     p.remaining_number_of_attacks = restore_int_by_key("player.remaining_number_of_attacks");
     p.equipment = restore_equipment();
     p.inventory = restore_inventory();
+    p.max_mana = restore_int_by_key("player.max_mana");
+    p.current_mana = restore_int_by_key("player.current_mana");
+    p.grimoire = start_grimoire();
 
     return p;
 }
@@ -236,7 +238,6 @@ void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
             log_error(log);
             return NULL;
     }
-    return NULL;
 }
 
 Weapon* restore_inventory_weapon_by_index(uint8_t index) {
@@ -315,6 +316,12 @@ RepositoryStatus save_game_state(GameState gameState) {
     return SAVE_LAST_GAME_SUCCEEDED;
 }
 
+void log_repository_status(RepositoryStatus status) {
+    char log[64];
+    const char* status_str = repository_status_to_string(status);
+    snprintf(log, 64, "Repository status: [%s]", status_str);
+}
+
 char* player_to_save_string(Player p) {
     char* s = malloc(WRITE_BUFFER_SIZE);
     char* equipment_str = equipment_to_save_string(p.equipment);
@@ -326,13 +333,17 @@ char* player_to_save_string(Player p) {
              "player.max_health=%d\n"
              "player.remaining_number_of_attacks=%d\n"
              "%s\n"
-             "%s"
+             "%s\n"
+             "player.max_mana=%d\n"
+             "player.current_mana=%d"
              ,
              p.current_health,
              p.max_health,
              p.remaining_number_of_attacks,
              equipment_str,
-             inventory_str
+             inventory_str,
+             p.max_mana,
+             p.current_mana
              );
 
     free(equipment_str);
@@ -373,9 +384,6 @@ char* inventory_to_save_string(Inventory inventory) {
         strcat(s, item_str);
         free(item_str);
     }
-    log_info("---");
-    log_info(s);
-    log_info("---");
     return s;
 }
 
@@ -400,6 +408,7 @@ const char* item_type_to_string(InventoryItemType type) {
         case EMPTY_ITEM: return "EMPTY_ITEM";
         case WEAPON_ITEM: return "WEAPON_ITEM";
         case ARMOR_ITEM: return "ARMOR_ITEM";
+        case POTION_ITEM: return "POTION_ITEM";
         default:
             snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", type);
             log_error(log);
@@ -415,6 +424,7 @@ char* item_to_save_string_by_type(InventoryItem item, uint8_t index) {
         case EMPTY_ITEM: return NULL;
         case WEAPON_ITEM: return weapon_to_save_string_with_prefix(*((Weapon *) item.item), prefix);
         case ARMOR_ITEM: return armor_to_save_string_with_prefix(*((Armor *) item.item), prefix);
+        case POTION_ITEM: return potion_to_save_string_with_prefix(*((ManaPotion *) item.item), prefix);
         default:
             snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", item.type);
             log_error(log);
@@ -514,4 +524,29 @@ char* monster_to_save_string_at_index(Monster m, uint8_t index) {
              prefix, m.defense
              );
     return s;
+}
+
+
+char* potion_to_save_string_with_prefix(ManaPotion p, const char* prefix) {
+    char* s = malloc(MAX_LINE_SIZE);
+    snprintf(s, WRITE_BUFFER_SIZE,
+             "%s.is_full=%d",
+             prefix, p.is_full
+    );
+    return s;
+}
+
+const char* repository_status_to_string(RepositoryStatus status) {
+    char log[64];
+    switch (status) {
+        case REPOSITORY_NOT_USED: return "REPOSITORY_NOT_USED";
+        case RESTORE_LAST_GAME_SUCCEEDED: return "RESTORE_LAST_GAME_SUCCEEDED";
+        case RESTORE_LAST_GAME_FAILED: return "RESTORE_LAST_GAME_FAILED";
+        case SAVE_LAST_GAME_SUCCEEDED: return "SAVE_LAST_GAME_SUCCEEDED";
+        case SAVE_LAST_GAME_FAILED: return "SAVE_LAST_GAME_FAILED";
+        default:
+            snprintf(log, 64, "Unknown RepositoryStatus [%d]", status);
+            log_error(log);
+            return "?";
+    }
 }

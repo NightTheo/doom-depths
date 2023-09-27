@@ -22,7 +22,7 @@ void log_allocation_error() {
 
 void log_monster(Monster m) {
     char* s = monster_to_string(m);
-    printf("Monster %s\n", s);
+    printf("%s\n", s);
     free(s);
 }
 
@@ -34,6 +34,12 @@ void log_monsters(MonstersList m) {
 
 void log_player(Player p) {
     char* s = player_to_string(p);
-    printf("Player %s\n", s);
+    printf("%s\n", s);
+    free(s);
+}
+
+void log_grimoire(Grimoire g) {
+    char* s = grimoire_to_string(g);
+    printf("%s\n", s);
     free(s);
 }

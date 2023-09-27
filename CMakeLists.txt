@@ -22,5 +22,6 @@ add_executable(DoomDepths main.c
         infrastructure/repository/custom_file_repository.c
         domain/magic/spell/spell.c
         domain/magic/mana_potion/mana_potion.c
-        domain/magic/mana_potion/mana_potion.h
+        domain/magic/grimoire/grimoire.c
+        ihm/cli/grimoire_cli/grimoire_cli.c
 )

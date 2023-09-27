@@ -59,7 +59,7 @@ const char* weapon_kind_to_string(WeaponKind kind) {
 
 char* weapon_to_string(Weapon w) {
     char* str = malloc(128);
-    snprintf(str, 127, "Weapon {kind: %s, min_damages: %d, max_damages: %d, max_number_of_attacks_per_turn: %d}",
+    snprintf(str, 128, "Weapon {kind: %s, min_damages: %d, max_damages: %d, max_number_of_attacks_per_turn: %d}",
              weapon_kind_to_string(w.kind),
              w.min_damages,
              w.max_damages,

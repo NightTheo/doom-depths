@@ -117,7 +117,7 @@ void free_inventory_item(InventoryItem i) {
 
 char* empty_item_to_string() {
     const char* empty_str = "_";
-    char* s = malloc(strlen(empty_str) + 1);
+    char* s = malloc(8);
     stpcpy(s, empty_str);
     return s;
 }
@@ -160,6 +160,7 @@ InventoryItemType inventory_item_type_from_string(const char* str) {
     if(strcmp(str, "EMPTY_ITEM") == 0) return EMPTY_ITEM;
     if(strcmp(str, "WEAPON_ITEM") == 0) return WEAPON_ITEM;
     if(strcmp(str, "ARMOR_ITEM") == 0) return ARMOR_ITEM;
+    if(strcmp(str, "POTION_ITEM") == 0) return POTION_ITEM;
 
     char log[32];
     snprintf(log, 32, "[%s] does not match a InventoryItemType", str);

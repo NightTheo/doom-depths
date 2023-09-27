@@ -31,7 +31,6 @@ void display_fight_actions(Player p) {
 }
 
 int8_t get_monster_index_to_attack(MonstersList monsters) {
-    // TODO mask dead monsters
     display_monsters(monsters);
     int8_t input = 0;
     // TODO better check input
@@ -45,6 +44,7 @@ int8_t get_monster_index_to_attack(MonstersList monsters) {
 }
 
 void display_monsters(MonstersList monsters) {
+    // TODO
     printf("monsters 1, 2, 3 with their health\n");
 }
 
@@ -75,7 +75,7 @@ GameState new_game() {
     return (GameState){
             REPOSITORY_NOT_USED,
             1,
-            player(100, 100),
+            player(100, 19),
             random_list_of_monsters(random_between_included(2, 5))
     };
 }

@@ -34,8 +34,8 @@ MonstersList random_list_of_monsters(int8_t number_of_monsters) {
 }
 
 char* monster_to_string(Monster m) {
-    char* s = malloc(70);
-    sprintf(s, "{health: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
+    char* s = malloc(128);
+    sprintf(s, "Monster {health: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
             m.health, m.min_attack_power, m.max_attack_power, m.defense);
     return s;
 }

@@ -8,6 +8,7 @@
 
 typedef enum PlayerFightAction{
     ATTACK = 0,
+    OPEN_GRIMOIRE,
     SHOW_INVENTORY,
     END_TURN,
     SAVE_GAME,

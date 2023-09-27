@@ -14,6 +14,11 @@
 Fight turn(Fight f);
 Player decrement_player_remaining_attacks(Player p);
 Fight player_makes_action(PlayerFightAction action, Fight f);
+Fight cast_spell_on_player_in_fight(Fight f, Spell s);
+Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
+Fight player_attacks_monster_in_fight(Fight f);
+Fight enter_player_s_inventory_in_fight(Fight f);
+Fight save_game_state_in_fight(Fight f);
 
 Fight start_fight(Fight f) {
     f.player.remaining_number_of_attacks = f.player.equipment.weapon.max_number_of_attacks_per_turn;
@@ -27,16 +32,15 @@ Fight start_fight(Fight f) {
         f.player = restore_player_number_of_remaining_attacks(f.player);
         f.turn += 1;
     }
-
-    display_game_over();
     return f;
 }
 
 Fight turn(Fight f) {
-        char turn_log[16];sprintf(turn_log, "turn %d", f.turn);log_info(turn_log);
+    char turn_log[16];sprintf(turn_log, "turn %d", f.turn);log_info(turn_log);
 
     while(f.monsters_list.size > 0) {
             log_player(f.player);
+            log_grimoire(f.player.grimoire);
             log_monsters(f.monsters_list);
         PlayerFightAction action = ask_player_fight_action(f.player);
         if(action == END_TURN) break;
@@ -50,26 +54,36 @@ Fight turn(Fight f) {
 Fight player_makes_action(PlayerFightAction action, Fight f) {
     switch (action) {
         case END_TURN: return f;
-        case ATTACK: {
-            int8_t attacked_monster_index = get_monster_index_to_attack(f.monsters_list);
-            AttackResult attackResult = player_attacks_monster(
-                    f.player,
-                    f.monsters_list.monsters[attacked_monster_index]
-            );
-            f.player = attackResult.player;
-            f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
-            f.player.inventory = push_loot_in_inventory(f.player.inventory, attackResult.loot);
-            break;
-        }
-        case SHOW_INVENTORY:
-            f.player = enter_player_s_inventory(f.player);
-            break;
-        case SAVE_GAME:
-            save_game_state((GameState) {REPOSITORY_NOT_USED, f.turn, f.player, f.monsters_list});
-            break;
+        case ATTACK: return player_attacks_monster_in_fight(f);
+        case OPEN_GRIMOIRE: return open_grimoire_in_fight(f);
+        case SHOW_INVENTORY: return enter_player_s_inventory_in_fight(f);
+        case SAVE_GAME: return save_game_state_in_fight(f);
         default:
             break;
     }
+    return f;
+}
+
+Fight player_attacks_monster_in_fight(Fight f) {
+    int8_t attacked_monster_index = get_monster_index_to_attack(f.monsters_list);
+    AttackResult attackResult = player_attacks_monster(
+            f.player,
+            f.monsters_list.monsters[attacked_monster_index]
+    );
+    f.player = attackResult.player;
+    f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
+    f.player.inventory = push_loot_in_inventory(f.player.inventory, attackResult.loot);
+    return f;
+}
+
+Fight enter_player_s_inventory_in_fight(Fight f) {
+    f.player = enter_player_s_inventory(f.player);
+    return f;
+}
+
+Fight save_game_state_in_fight(Fight f) {
+    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, f.turn, f.player, f.monsters_list});
+    log_repository_status(status);
     return f;
 }
 
@@ -136,4 +150,40 @@ Player player_takes_damages(Player p, int8_t damages) {
 
     char log[32];sprintf(log, "Player tooks %d damages", damages_taken);log_info(log);
     return p;
+}
+
+Fight cast_spell_in_fight(Fight f, Spell s) {
+    if(s.mana_consumption > f.player.current_mana) {
+        log_info("Player current mana is too low to cast spell.");
+        return f;
+    }
+    f.player.current_mana = f.player.current_mana - s.mana_consumption;
+
+    char log[64];
+    switch (s.target) {
+        case PLAYER_SPELL_TARGET: return cast_spell_on_player_in_fight(f, s);
+        case MONSTER_SPELL_TARGET: return cast_spell_on_monster_in_fight(f, s);
+        default:
+            snprintf(log, 64, "Unknown target [%d]", s.target);
+            log_error(log);
+            return f;
+    }
+}
+
+Fight cast_spell_on_player_in_fight(Fight f, Spell s) {
+    f.player = s.cast_on_player(f.player);
+    return f;
+}
+
+Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
+    uint8_t monster_index = get_monster_index_to_attack(f.monsters_list);
+    Monster monster_attacked = f.monsters_list.monsters[monster_index];
+    monster_attacked = s.cast_on_monster(monster_attacked);
+    if(monster_is_dead(monster_attacked)) {
+        Loot loot = random_loot();
+        f.player.inventory = push_loot_in_inventory(f.player.inventory, loot);
+    }
+
+    f.monsters_list.monsters[monster_index] = monster_attacked;
+    return f;
 }

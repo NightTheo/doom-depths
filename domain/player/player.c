@@ -19,6 +19,7 @@ Player player(uint8_t max_health, uint8_t mana) {
             max_health,
             equipment.weapon.max_number_of_attacks_per_turn,
             equipment,
+            start_grimoire(),
             empty_inventory(),
             mana,
             mana,
@@ -27,7 +28,7 @@ Player player(uint8_t max_health, uint8_t mana) {
 }
 
 char* player_to_string(Player p) {
-    char* s = malloc(1024);
+    char* s = malloc(2048);
     char* equipment_str = equipment_to_string(p.equipment);
     char* inventory_str = inventory_to_string(p.inventory);
     sprintf(s, "Player {current_health: %d, "
@@ -132,7 +133,7 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
             p = player_equip_armor_from_inventory(p, index_item);
             break;
         default:
-            log_info("Item not equipable");
+            log_info("Item not equipable.");
             break;
     }
 
@@ -155,7 +156,7 @@ Player player_use_item_from_inventory(Player p, uint8_t index_item) {
             p = player_use_potion_from_inventory(p, index_item);
             break;
         default:
-            log_info("Item not usable");
+            log_info("Item not usable.");
             break;
     }
 
@@ -174,7 +175,7 @@ Player player_use_potion_from_inventory(Player player, uint8_t potion_index) {
     if(mana_potion.is_full) {
         player_recover_mana(player, player.max_mana);
     } else {
-        strcpy(log,"Potion is empty");log_info(log);
+        strcpy(log,"Potion is empty.");log_info(log);
     }
 
     player.inventory.items[potion_index] = empty_inventory_item();

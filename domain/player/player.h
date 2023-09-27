@@ -9,6 +9,7 @@
 #include "stdint.h"
 #include "stdbool.h"
 
+#include "../magic/grimoire/grimoire.h"
 #include "../fight/weapon/weapon.h"
 #include "inventory/inventory.h"
 #include "equipment/equipment.h"
@@ -18,6 +19,7 @@ typedef struct Player {
     uint8_t max_health;
     uint8_t remaining_number_of_attacks;
     Equipment equipment;
+    Grimoire grimoire;
     Inventory inventory;
     uint8_t current_mana;
     uint8_t max_mana;
