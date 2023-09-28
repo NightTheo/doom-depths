@@ -10,6 +10,26 @@
 int main() {
     srand(time(NULL));
 
+    /* TODO
+     * [ ] global struct with Map and player
+     * [ ] change GameState to contain this struct
+     * [ ] save this struct
+     * [ ] restore this struct
+     * [ ] display map and select a zone
+     * [ ] specials traits in each zone
+     * start fight
+     * until player change zone
+     * [ ] automatic save when change zone
+     *
+     * THEN
+     * [ ] Port & Adapters architecture
+     *
+     * THEN
+     * [ ] Boost CLI
+     *
+     * THEN
+     * [ ] SDL
+     */
     Map map = basic_map(); // TODO put in game state (save and restore)
     display_map(map);
     GameState state = open_start_menu();
