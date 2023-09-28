@@ -22,6 +22,7 @@ typedef struct AttackResult {
     Loot loot;
 } AttackResult;
 
+Fight empty_fight();
 Fight start_fight(Fight fight);
 Monster monster_takes_damages(Monster m, uint8_t damages);
 Player player_takes_damages(Player p, int8_t damages);
@@ -29,5 +30,6 @@ AttackResult player_attacks_monster(Player p, Monster m);
 AttackResult monster_attacks_player(Monster m, Player p);
 Player monsters_attack_player(MonstersList monsters, Player p);
 Fight cast_spell_in_fight(Fight f, Spell s);
+void free_fight(Fight fight);
 
 #endif //DOOMDEPTHS_FIGHT_H

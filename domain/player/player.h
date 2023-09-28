@@ -26,6 +26,7 @@ typedef struct Player {
 } Player;
 
 Player player(uint8_t max_health, uint8_t mana);
+Player empty_player();
 char* player_to_string(Player p);
 Player restore_player_number_of_remaining_attacks(Player);
 Player player_recover_mana(Player p, uint8_t mana);

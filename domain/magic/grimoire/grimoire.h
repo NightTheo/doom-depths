@@ -14,6 +14,7 @@ typedef struct Grimoire {
     Spell spells[2];
 } Grimoire;
 
+Grimoire empty_grimoire();
 Grimoire start_grimoire();
 char* grimoire_to_string(Grimoire g);
 Spell get_spell_by_index(Grimoire g, uint8_t index);

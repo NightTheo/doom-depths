@@ -8,6 +8,14 @@
 #include <stdio.h>
 #include "equipment.h"
 
+Equipment empty_equipment() {
+    Equipment e = {
+            weapon(EMPTY_WEAPON, 0, 0, 0),
+            armor(EMPTY_ARMOR, 0),
+    };
+    return e;
+}
+
 Equipment default_equipment() {
     Equipment e = {
             weapon(SWORD, 15, 20, 10),

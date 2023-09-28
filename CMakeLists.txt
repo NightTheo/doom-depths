@@ -4,7 +4,7 @@ project(DoomDepths C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(DoomDepths main.c
-        infrastructure/utils/log/log.c
+        infrastructure/utils/log/cli_log.c
         infrastructure/utils/utils.c
         domain/monsters/monsters.c
         infrastructure/utils/random/random.c
@@ -24,4 +24,11 @@ add_executable(DoomDepths main.c
         domain/magic/mana_potion/mana_potion.c
         domain/magic/grimoire/grimoire.c
         ihm/cli/grimoire_cli/grimoire_cli.c
+        domain/map/map.c
+        domain/map/map.h
+        domain/map/zone/zone.c
+        domain/map/zone/zone.h
+        domain/map/position/position.c
+        domain/map/position/position.h
+        ihm/cli/map_cli/map_cli.c
 )

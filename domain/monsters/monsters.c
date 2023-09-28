@@ -20,6 +20,18 @@ Monster random_monster() {
     return m;
 }
 
+MonstersList empty_monster_list() {
+    MonstersList monstersList;
+    monstersList.size = 0;
+    monstersList.monsters = NULL;
+    return monstersList;
+}
+
+bool monster_list_is_empty(MonstersList monstersList) {
+    return monstersList.size <= 0 || monstersList.monsters == NULL;
+}
+
+
 MonstersList random_list_of_monsters(int8_t number_of_monsters) {
     Monster* m = malloc(sizeof(Monster) * number_of_monsters);
     if(NULL == m) {

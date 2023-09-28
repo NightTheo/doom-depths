@@ -27,6 +27,19 @@ Player player(uint8_t max_health, uint8_t mana) {
     return p;
 }
 
+Player empty_player() {
+    Player p;
+    p.current_mana = 0;
+    p.max_mana = 0;
+    p.current_health = 0;
+    p.max_health = 0;
+    p.inventory = empty_inventory();
+    p.equipment = empty_equipment();
+    p.grimoire = empty_grimoire();
+    p.remaining_number_of_attacks = 0;
+    return p;
+}
+
 char* player_to_string(Player p) {
     char* s = malloc(2048);
     char* equipment_str = equipment_to_string(p.equipment);

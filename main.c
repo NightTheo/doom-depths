@@ -5,10 +5,13 @@
 #include "domain/fight/fight.h"
 #include "domain/repository.h"
 #include "ihm/ihm.h"
+#include "domain/map/map.h"
 
 int main() {
     srand(time(NULL));
 
+    Map map = basic_map(); // TODO put in game state (save and restore)
+    display_map(map);
     GameState state = open_start_menu();
     Fight fight = {
             state.turn,
@@ -22,7 +25,8 @@ int main() {
         display_game_over();
     }
 
-    free(fight.monsters_list.monsters);
+    free_fight(fight);
     free_inventory(fight.player.inventory);
+    free_map(map);
     return EXIT_SUCCESS;
 }

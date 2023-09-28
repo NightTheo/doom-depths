@@ -11,6 +11,7 @@
 #include "../domain/monsters/monsters.h"
 #include "../domain/fight/loot/loot.h"
 #include "../domain/repository.h"
+#include "../domain/map/map.h"
 
 typedef enum StartMenuAction {
     NEW_GAME,
@@ -26,5 +27,6 @@ void display_loot(Loot loot);
 Player enter_player_s_inventory(Player p);
 GameState open_start_menu();
 Fight open_grimoire_in_fight(Fight f);
+void display_map(Map m);
 
 #endif //DOOMDEPTHS_IHM_H

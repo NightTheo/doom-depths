@@ -20,7 +20,16 @@ Fight player_attacks_monster_in_fight(Fight f);
 Fight enter_player_s_inventory_in_fight(Fight f);
 Fight save_game_state_in_fight(Fight f);
 
+Fight empty_fight() {
+    Fight f;
+    f.turn = 0;
+    f.monsters_list = empty_monster_list();
+    f.player = empty_player();
+    return f;
+}
+
 Fight start_fight(Fight f) {
+    f.turn = 1;
     f.player.remaining_number_of_attacks = f.player.equipment.weapon.max_number_of_attacks_per_turn;
     while(player_is_alive(f.player)) {
         if(f.monsters_list.size <= 0) {
@@ -57,6 +66,9 @@ Fight player_makes_action(PlayerFightAction action, Fight f) {
         case ATTACK: return player_attacks_monster_in_fight(f);
         case OPEN_GRIMOIRE: return open_grimoire_in_fight(f);
         case SHOW_INVENTORY: return enter_player_s_inventory_in_fight(f);
+        case CHANGE_ZONE:
+            log_info("CHANGE ZONE");
+            break;
         case SAVE_GAME: return save_game_state_in_fight(f);
         default:
             break;
@@ -186,4 +198,8 @@ Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
 
     f.monsters_list.monsters[monster_index] = monster_attacked;
     return f;
+}
+
+void free_fight(Fight fight) {
+    free(fight.monsters_list.monsters);
 }

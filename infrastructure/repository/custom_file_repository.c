@@ -64,7 +64,7 @@ GameState restore_last_game() {
     gs.player = restore_player();
     gs.monsters_list = restore_monsters_list();
 
-    gs.repository_status = RESTORE_LAST_GAME_SUCCEEDED; // TODO check data
+    gs.repository_status = RESTORE_LAST_GAME_SUCCEEDED; // TODO check last game is valid
     return gs;
 }
 

@@ -140,6 +140,7 @@ char* item_to_string(InventoryItem item) {
 }
 
 char* inventory_to_string(Inventory inventory) {
+    // TODO fix error bad chars at start of items
     char* res = malloc(1500);
     char str_items[1024];
     for(int i = 0; i < inventory.capacity; i++) {

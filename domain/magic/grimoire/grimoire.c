@@ -15,6 +15,11 @@ Monster _fire(Monster m);
 Player _heal(Player);
 // --
 
+Grimoire empty_grimoire() {
+    Grimoire g = {0,{}};
+    return g;
+}
+
 Grimoire start_grimoire() {
     Spell fire = spell("fire", 10, MONSTER_SPELL_TARGET, NULL, _fire);
     Spell heal = spell("heal", 9, PLAYER_SPELL_TARGET,_heal, NULL);

@@ -14,6 +14,7 @@ typedef struct Equipment {
     Armor armor;
 } Equipment;
 
+Equipment empty_equipment();
 Equipment default_equipment();
 char* equipment_to_string(Equipment e);
 

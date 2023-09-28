@@ -13,6 +13,7 @@ const char* player_fight_action_to_string(PlayerFightAction action) {
         case ATTACK: return "Attack";
         case OPEN_GRIMOIRE: return "Open grimoire";
         case SHOW_INVENTORY: return "Show inventory";
+        case CHANGE_ZONE: return "Change zone";
         case END_TURN: return "End turn";
         case SAVE_GAME: return "Save All";
         default:
