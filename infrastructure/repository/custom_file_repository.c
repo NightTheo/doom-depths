@@ -14,6 +14,7 @@
 #define WRITE_BUFFER_SIZE 4096
 
 // READ ---------
+DoomDepths restore_doom_depths();
 Player restore_player();
 MonstersList restore_monsters_list();
 Monster restore_monster_by_index(uint8_t index);
@@ -35,6 +36,12 @@ bool file_exists(const char* path);
 ManaPotion* restore_inventory_potion_by_index(uint8_t index);
 ManaPotion restore_potion_by_prefix_key(const char* prefix);
 Position restore_player_position();
+ZoneStatus zone_status_from_save_string(const char* str);
+Map restore_map();
+Zone** restore_map_zones(uint16_t height, uint16_t width);
+Zone restore_zone_by_position(Position position);
+Zone restore_zone_by_prefix(const char* prefix);
+
 
 // WRITE ---------
 char* player_to_save_string(Player player);
@@ -52,7 +59,9 @@ const char* armor_kind_to_save_string(ArmorKind k);
 char* monster_to_save_string_at_index(Monster m, uint8_t index);
 char* potion_to_save_string_with_prefix(ManaPotion p, const char* prefix);
 char* map_to_save_string(Map);
-
+char* map_zones_to_save_string(Map map);
+char* zone_to_save_string(Zone z, uint8_t x, uint8_t y);
+const char* zone_status_to_save_string(ZoneStatus status);
 
 GameState restore_last_game() {
     log_info("Restore last game");
@@ -141,13 +150,13 @@ int restore_int_by_prefix(const char* prefix, const char* key) {
 DoomDepths restore_doom_depths() {
     DoomDepths game;
     game.player = restore_player();
-    game.map = basic_map(); // TODO restore and save map
-    Position position = restore_player_position();
-    game.map.playerPosition = position;
+    game.map = restore_map();
     Fight fight;
     fight.turn = (int8_t)restore_int_by_key("fight.turn");
     fight.player = game.player;
     fight.monsters_list = restore_monsters_list();
+
+    Position position = game.map.player_position;
     game.map.zones[position.zone_y][position.zone_x].fight = fight;
 
     return game;
@@ -155,8 +164,8 @@ DoomDepths restore_doom_depths() {
 
 Position restore_player_position() {
     Position p;
-    p.zone_x = restore_int_by_key("map.playerPosition.zone_x");
-    p.zone_y = restore_int_by_key("map.playerPosition.zone_y");
+    p.zone_x = restore_int_by_key("map.player_position.zone_x");
+    p.zone_y = restore_int_by_key("map.player_position.zone_y");
 
     if (p.zone_x < 0 || p.zone_y < 0) return no_position();
 
@@ -288,6 +297,63 @@ ManaPotion restore_potion_by_prefix_key(const char* prefix) {
     return p;
 }
 
+Map restore_map() {
+    Map map;
+    map.width = restore_int_by_key("map.width");
+    map.height = restore_int_by_key("map.height");
+    map.player_position = restore_player_position();
+    map.zones = restore_map_zones(map.height, map.width);
+
+    return map;
+}
+
+Zone** restore_map_zones(uint16_t height, uint16_t width) {
+    Zone** zones = malloc(sizeof(Zone*) * height);
+    if(zones == NULL) {
+        log_allocation_error();
+        return NULL;
+    }
+
+    for(int row = 0; row < height; row++) {
+        zones[row] = NULL;
+    }
+
+    for(int y = 0; y < height; y++) {
+        zones[y] = malloc(sizeof(Zone) * width);
+        if(zones[y] == NULL) {
+            log_allocation_error();
+            free_zones(zones, height, width);
+            return NULL;
+        }
+        for(int x = 0; x < width; x++) {
+            zones[y][x] = restore_zone_by_position((Position) {x, y});
+        }
+    }
+    return zones;
+}
+
+Zone restore_zone_by_position(Position position) {
+    char prefix[MAX_LINE_SIZE];
+    snprintf(prefix, MAX_LINE_SIZE, "map.zones.x[%d].y[%d]", position.zone_x, position.zone_y);
+    return restore_zone_by_prefix(prefix);
+
+}
+
+Zone restore_zone_by_prefix(const char* prefix) {
+    char* status_str = restore_string_by_prefix(prefix, "status");
+    if(status_str == NULL) {
+        log_error("Could not restore zone");
+        return empty_zone();
+    }
+    Zone z;
+    z.fight = empty_fight();
+    z.status = zone_status_from_save_string(status_str);
+
+    free(status_str);
+    return z;
+}
+
+
 MonstersList restore_monsters_list() {
     MonstersList list;
     list.size = (int8_t) restore_int_by_key("monsters_list.size");
@@ -315,8 +381,7 @@ Monster restore_monster_by_index(uint8_t index) {
 RepositoryStatus save_game_state(GameState gameState) {
     log_info("Save game state");
 
-    Map map = gameState.game.map;
-    Zone current_zone = get_zone_of_player_current_zone_in_map(map);
+    Zone current_zone = get_zone_of_player_current_zone_in_map(gameState.game.map);
     char* player_str = player_to_save_string(current_zone.fight.player);
     char* turn_str = turn_to_save_string(current_zone.fight.turn);
     char* monsters_str = monsters_list_to_save_string(current_zone.fight.monsters_list);
@@ -409,6 +474,7 @@ char* inventory_to_save_string(Inventory inventory) {
              inventory.capacity,
              inventory.golds
              );
+    if(inventory.items_count == 0) strcat(s, "// empty inventory");
     for(int i = 0; i < inventory.capacity; i++) {
         if(inventory.items[i].type == EMPTY_ITEM) continue;
         char* item_str = item_to_save_string(inventory.items[i], i);
@@ -584,8 +650,76 @@ const char* repository_status_to_string(RepositoryStatus status) {
 
 char* map_to_save_string(Map map) {
     char* s = malloc(WRITE_BUFFER_SIZE);
+    if(s == NULL) {
+        log_allocation_error();
+        return NULL;
+    }
+    char* zones_str = map_zones_to_save_string(map);
 
-    snprintf(s, WRITE_BUFFER_SIZE, "MAP // TODO");
+    snprintf(s, WRITE_BUFFER_SIZE,
+             "\n@MAP@\n"
+             "map.width=%d\n"
+             "map.height=%d\n"
+             "map.player_position.zone_x=%d\n"
+             "map.player_position.zone_y=%d\n"
+             "%s"
+             ,
+             map.width,
+             map.height,
+             map.player_position.zone_x,
+             map.player_position.zone_y,
+             zones_str
+             );
 
+    free(zones_str);
     return s;
+}
+
+char* map_zones_to_save_string(Map map) {
+    char* s = malloc(WRITE_BUFFER_SIZE);
+    if(s == NULL) {
+        log_allocation_error();
+        return NULL;
+    }
+
+    for(int x = 0; x < map.width; x++) {
+        for(int y = 0; y < map.height; y++) {
+            char* zone_str = zone_to_save_string(map.zones[y][x], x, y);
+            strcat(s, zone_str);
+            free(zone_str);
+        }
+    }
+    return s;
+}
+
+char* zone_to_save_string(Zone z, uint8_t x, uint8_t y) {
+    char* s = malloc(MAX_LINE_SIZE);
+    strcpy(s, "");
+    const char* status_str = zone_status_to_save_string(z.status);
+    snprintf(s, MAX_LINE_SIZE, "map.zones.x[%d].y[%d].status=%s\n", x, y, status_str);
+    return s;
+}
+
+const char* zone_status_to_save_string(ZoneStatus status) {
+    switch (status) {
+        case ZONE_EMPTY: return "ZONE_EMPTY";
+        case ZONE_NOT_DISCOVERED: return "ZONE_NOT_DISCOVERED";
+        case ZONE_FINISHED: return "ZONE_FINISHED";
+        default: {
+            char log[32];
+            snprintf(log, 32, "Unknown ZoneStatus [%d]", status);
+            log_error(log);
+            return "?";
+        }
+    }
+}
+
+ZoneStatus zone_status_from_save_string(const char* str) {
+    if(strcmp(str, "ZONE_EMPTY") == 0) return ZONE_EMPTY;
+    if(strcmp(str, "ZONE_NOT_DISCOVERED") == 0) return ZONE_NOT_DISCOVERED;
+    if(strcmp(str, "ZONE_FINISHED") == 0) return ZONE_FINISHED;
+    char log[32];
+    snprintf(log, 32, "Unknown ZoneStatus [%s]", str);
+    log_error(log);
+    return ZONE_EMPTY;
 }

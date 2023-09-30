@@ -30,13 +30,13 @@ Map _map(uint16_t height, uint16_t width, Position playerPosition, Zone **zones)
 
     Zone *row = zones[playerPosition.zone_y];
     if (row == NULL || zone_is_empty(row[playerPosition.zone_x])) {
-        snprintf(log, 64, "Zone [x:%d,y:%d] NULL our empty", playerPosition.zone_x, playerPosition.zone_y);
+        snprintf(log, 64, "Zone [x:%d,y:%d] NULL or empty", playerPosition.zone_x, playerPosition.zone_y);
         log_error(log);
         return empty_map();
     }
 
     Map m;
-    m.playerPosition = playerPosition;
+    m.player_position = playerPosition;
     m.height = height;
     m.width = width;
     m.zones = zones;
@@ -47,7 +47,7 @@ Map empty_map() {
     Map m;
     m.height = 0;
     m.width = 0;
-    m.playerPosition = no_position();
+    m.player_position = no_position();
     m.zones = NULL;
     return m;
 }
@@ -131,7 +131,7 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
         return m;
     }
 
-    m.playerPosition = position;
+    m.player_position = position;
     Zone z = m.zones[position.zone_y][position.zone_x];
     z.fight.player = player;
     // TODO init fight (monsters by zone);
@@ -148,5 +148,5 @@ Zone get_zone_in_map_by_position(Map map, Position position) {
 
 
 Zone get_zone_of_player_current_zone_in_map(Map m) {
-    return get_zone_in_map_by_position(m, m.playerPosition);
+    return get_zone_in_map_by_position(m, m.player_position);
 }

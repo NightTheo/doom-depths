@@ -101,7 +101,7 @@ Fight enter_player_s_inventory_in_fight(Fight f) {
 }
 
 Fight save_game_in_fight(DoomDepths game) {
-    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, });
+    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, game});
     log_repository_status(status);
     return get_current_fight_in_game(game);
 }

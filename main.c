@@ -13,13 +13,13 @@ int main() {
     /* TODO
      * [x] global struct with Map and player
      * [x] change GameState to contain this struct
-     * [ ] save this struct
-     * [ ] restore this struct
+     * [x] save this struct
+     * [x] restore this struct
      * [x] display map and select a zone
-     * [ ] specials traits in each zone
-     * start fight
-     * until player change zone
+     * [ ] fix display "items: [�T"
      * [ ] automatic save when change zone
+     * [ ] specials traits in each zone
+     * [ ] NO LEAKS
      *
      * THEN
      * [ ] Port & Adapters architecture
@@ -39,7 +39,7 @@ int main() {
             display_game_over();
             break;
         }
-        state.game.map.playerPosition = enter_map(state.game.map);
+        state.game.map.player_position = enter_map(state.game.map);
     }
 
 

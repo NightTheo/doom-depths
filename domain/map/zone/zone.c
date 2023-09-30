@@ -20,7 +20,7 @@ Zone empty_zone() {
 }
 
 Zone not_discovered_zone() {
-    return _zone(NOT_DISCOVERED, empty_fight());
+    return _zone(ZONE_NOT_DISCOVERED, empty_fight());
 }
 
 bool zone_is_empty(Zone zone) {

@@ -12,11 +12,11 @@ void display_map(Map m);
 
 
 Position enter_map(Map m) {
-    Position p = no_position();
-    while (position_is_in_map_and_not_empty(p, m) == false) {
+    Position p;
+    do {
         display_map(m);
         p = ask_player_zone_position_to_go(m);
-    }
+    } while (position_is_in_map_and_not_empty(p, m) == false);
     return p;
 }
 
@@ -42,7 +42,7 @@ void display_map(Map m) {
                 case ZONE_EMPTY:
                     fputs("\t", stdout);
                     break;
-                case NOT_DISCOVERED:
+                case ZONE_NOT_DISCOVERED:
                     fputs("[o]\t", stdout);
                     break;
                 case ZONE_FINISHED:

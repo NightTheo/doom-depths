@@ -13,7 +13,7 @@
 
 typedef struct Map Map;
 struct Map {
-    Position playerPosition;
+    Position player_position;
     uint16_t height;
     uint16_t width;
     Zone** zones;

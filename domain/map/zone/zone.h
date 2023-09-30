@@ -13,7 +13,7 @@
 typedef enum ZoneStatus ZoneStatus;
 enum ZoneStatus {
     ZONE_EMPTY,
-    NOT_DISCOVERED,
+    ZONE_NOT_DISCOVERED,
     ZONE_FINISHED,
 };
 

@@ -18,6 +18,9 @@ typedef enum RepositoryStatus {
     SAVE_LAST_GAME_FAILED,
 } RepositoryStatus;
 
+const char* repository_status_to_string(RepositoryStatus status);
+void log_repository_status(RepositoryStatus status);
+
 typedef struct GameState {
     RepositoryStatus repository_status;
     DoomDepths game;
@@ -25,8 +28,5 @@ typedef struct GameState {
 
 GameState restore_last_game();
 RepositoryStatus save_game_state(GameState gameState);
-const char* repository_status_to_string(RepositoryStatus status);
-void log_repository_status(RepositoryStatus status);
-DoomDepths restore_doom_depths();
 
 #endif //DOOMDEPTHS_REPOSITORY_H
