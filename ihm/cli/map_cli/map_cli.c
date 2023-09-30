@@ -20,6 +20,17 @@ Position enter_map(Map m) {
     return p;
 }
 
+bool can_display_position_in_map(Position p, Map m) {
+    if(position_is_in_map_and_not_empty(p, m) == false) return false;
+    if(positions_a_equals_b(m.spawn, p)) return true;
+    if(position_is_finished(p, m)) return true;
+
+    return position_is_finished(up_from(p), m)
+                           || position_is_finished(down_from(p), m)
+                           || position_is_finished(right_from(p), m)
+                           || position_is_finished(left_from(p), m);
+}
+
 /*
      a   b   c
 0           [x]
@@ -36,11 +47,11 @@ void display_map(Map m) {
         fprintf(stdout, "%d\t", row+1);
         for(int col = 0; col < m.width; col++) {
             Position p = position(col, row);
-            if(player_can_move_to_position_in_map(p, m) == false) {
+            Zone z = get_zone_in_map_by_position(m, p);
+            if(can_display_position_in_map(p, m) == false) {
                 fputc('\t', stdout);
                 continue;
             }
-            Zone z = get_zone_in_map_by_position(m, p);
             switch (z.status) {
                 case ZONE_EMPTY:
                     fputc('\t', stdout);
