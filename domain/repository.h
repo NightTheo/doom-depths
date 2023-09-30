@@ -8,6 +8,7 @@
 
 #include "player/player.h"
 #include "fight/fight.h"
+#include "doom_detpths/doom_depths.h"
 
 typedef enum RepositoryStatus {
     REPOSITORY_NOT_USED,
@@ -19,14 +20,13 @@ typedef enum RepositoryStatus {
 
 typedef struct GameState {
     RepositoryStatus repository_status;
-    uint8_t turn;
-    Player player;
-    MonstersList monsters_list;
+    DoomDepths game;
 } GameState;
 
 GameState restore_last_game();
 RepositoryStatus save_game_state(GameState gameState);
 const char* repository_status_to_string(RepositoryStatus status);
 void log_repository_status(RepositoryStatus status);
+DoomDepths restore_doom_depths();
 
 #endif //DOOMDEPTHS_REPOSITORY_H

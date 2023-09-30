@@ -8,6 +8,10 @@
 #include "../../../domain/player/player.h"
 #include "../../../domain/monsters/monsters.h"
 #include "../../../domain/magic/grimoire/grimoire.h"
+#include "../time/time_util.h"
+
+#define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
+#define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 
 void log_info(const char* msg_info);
 void log_error(const char* msg_error);

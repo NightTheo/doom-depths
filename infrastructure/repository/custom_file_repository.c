@@ -34,6 +34,7 @@ Armor* restore_inventory_armor_by_index(uint8_t index);
 bool file_exists(const char* path);
 ManaPotion* restore_inventory_potion_by_index(uint8_t index);
 ManaPotion restore_potion_by_prefix_key(const char* prefix);
+Position restore_player_position();
 
 // WRITE ---------
 char* player_to_save_string(Player player);
@@ -50,6 +51,7 @@ char* armor_to_save_string_with_prefix(Armor a, const char* prefix);
 const char* armor_kind_to_save_string(ArmorKind k);
 char* monster_to_save_string_at_index(Monster m, uint8_t index);
 char* potion_to_save_string_with_prefix(ManaPotion p, const char* prefix);
+char* map_to_save_string(Map);
 
 
 GameState restore_last_game() {
@@ -60,10 +62,7 @@ GameState restore_last_game() {
     }
 
     GameState gs;
-    gs.turn = restore_int_by_key("fight.turn");
-    gs.player = restore_player();
-    gs.monsters_list = restore_monsters_list();
-
+    gs.game = restore_doom_depths();
     gs.repository_status = RESTORE_LAST_GAME_SUCCEEDED; // TODO check last game is valid
     return gs;
 }
@@ -137,6 +136,31 @@ int restore_int_by_prefix(const char* prefix, const char* key) {
     char full_key[MAX_LINE_SIZE];
     snprintf(full_key, MAX_LINE_SIZE, "%s.%s", prefix, key);
     return restore_int_by_key(full_key);
+}
+
+DoomDepths restore_doom_depths() {
+    DoomDepths game;
+    game.player = restore_player();
+    game.map = basic_map(); // TODO restore and save map
+    Position position = restore_player_position();
+    game.map.playerPosition = position;
+    Fight fight;
+    fight.turn = (int8_t)restore_int_by_key("fight.turn");
+    fight.player = game.player;
+    fight.monsters_list = restore_monsters_list();
+    game.map.zones[position.zone_y][position.zone_x].fight = fight;
+
+    return game;
+}
+
+Position restore_player_position() {
+    Position p;
+    p.zone_x = restore_int_by_key("map.playerPosition.zone_x");
+    p.zone_y = restore_int_by_key("map.playerPosition.zone_y");
+
+    if (p.zone_x < 0 || p.zone_y < 0) return no_position();
+
+    return p;
 }
 
 Player restore_player() {
@@ -291,9 +315,12 @@ Monster restore_monster_by_index(uint8_t index) {
 RepositoryStatus save_game_state(GameState gameState) {
     log_info("Save game state");
 
-    char* turn_str = turn_to_save_string(gameState.turn);
-    char* player_str = player_to_save_string(gameState.player);
-    char* monsters_str = monsters_list_to_save_string(gameState.monsters_list);
+    Map map = gameState.game.map;
+    Zone current_zone = get_zone_of_player_current_zone_in_map(map);
+    char* player_str = player_to_save_string(current_zone.fight.player);
+    char* turn_str = turn_to_save_string(current_zone.fight.turn);
+    char* monsters_str = monsters_list_to_save_string(current_zone.fight.monsters_list);
+    char* map_str = map_to_save_string(gameState.game.map);
 
     FILE* f = fopen(SAVE_FILE_PATH, "w");
     if(f == NULL) {
@@ -303,15 +330,19 @@ RepositoryStatus save_game_state(GameState gameState) {
 
     fprintf(f, "%s\n"
                "%s\n"
+               "%s\n"
                "%s"
                ,
                turn_str,
                player_str,
-               monsters_str);
+               monsters_str,
+               map_str
+               );
 
     free(turn_str);
     free(player_str);
     free(monsters_str);
+    free(map_str);
     fclose(f);
     return SAVE_LAST_GAME_SUCCEEDED;
 }
@@ -549,4 +580,12 @@ const char* repository_status_to_string(RepositoryStatus status) {
             log_error(log);
             return "?";
     }
+}
+
+char* map_to_save_string(Map map) {
+    char* s = malloc(WRITE_BUFFER_SIZE);
+
+    snprintf(s, WRITE_BUFFER_SIZE, "MAP // TODO");
+
+    return s;
 }

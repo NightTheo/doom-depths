@@ -31,7 +31,17 @@ void free_zones(Zone** zones, uint16_t height, uint16_t width) {
     if(zones == NULL) return;
     for(int row = 0; row < height; row++) {
         if(zones[row] == NULL) continue;
+        for(int col = 0; col < width; col++) {
+            Zone z = zones[row][col];
+            free_fight(z.fight);
+        }
         free(zones[row]);
+        zones[row] = NULL;
     }
     free(zones);
+}
+
+Zone set_zone_status(Zone zone, ZoneStatus status) {
+    zone.status = status;
+    return zone;
 }

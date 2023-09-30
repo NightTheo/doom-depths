@@ -6,22 +6,27 @@
 #include "log.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "../../../domain/monsters/monsters.h"
 
 #define LOG_FILE_PATH "log.txt"
 
 void log_info(const char* msg_info) {
     FILE* f = fopen(LOG_FILE_PATH, "at");
     if(f == NULL) return;
-    fprintf(f, "[info] %s\n", msg_info);
+    char * now = now_to_str();
+    if(now == NULL) return;
+    fprintf(f, LOG_INFO_FORMAT, now, msg_info);
     fclose(f);
+    free(now);
 }
 
 void log_error(const char* msg_error) {
     FILE* f = fopen(LOG_FILE_PATH, "at");
     if(f == NULL) return;
-    fprintf(stderr,"[error] %s\n", msg_error);
+    char * now = now_to_str();
+    if(now == NULL) return;
+    fprintf(stderr, LOG_ERROR_FORMAT, now, msg_error);
     fclose(f);
+    free(now);
 }
 
 void log_allocation_error() {

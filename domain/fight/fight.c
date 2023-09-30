@@ -11,14 +11,14 @@
 #include "../../ihm/ihm.h"
 #include "../repository.h"
 
-Fight turn(Fight f);
+Fight turn(DoomDepths game);
 Player decrement_player_remaining_attacks(Player p);
-Fight player_makes_action(PlayerFightAction action, Fight f);
+Fight player_makes_action(PlayerFightAction action, DoomDepths game);
 Fight cast_spell_on_player_in_fight(Fight f, Spell s);
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
 Fight player_attacks_monster_in_fight(Fight f);
 Fight enter_player_s_inventory_in_fight(Fight f);
-Fight save_game_state_in_fight(Fight f);
+Fight save_game_in_fight(DoomDepths game);
 
 Fight empty_fight() {
     Fight f;
@@ -28,48 +28,55 @@ Fight empty_fight() {
     return f;
 }
 
-Fight start_fight(Fight f) {
-    f.turn = 1;
+DoomDepths start_fight(DoomDepths game) {
+    if(doom_depths_is_empty(game)) {
+        log_error("Game is empty");
+        return game;
+    };
+    Fight f = get_current_fight_in_game(game);
     f.player.remaining_number_of_attacks = f.player.equipment.weapon.max_number_of_attacks_per_turn;
-    while(player_is_alive(f.player)) {
-        if(f.monsters_list.size <= 0) {
-            f.monsters_list = random_list_of_monsters(random_between_included(2, 5));
-        }
-        f = turn(f);
+    while(player_is_alive(f.player) && f.monsters_list.size > 0) {
+        f = turn(set_current_fight_in_game(game, f));
         f.player = monsters_attack_player(f.monsters_list, f.player);
         f.player = player_recover_mana(f.player, 10);
         f.player = restore_player_number_of_remaining_attacks(f.player);
         f.turn += 1;
     }
-    return f;
+
+    game = set_current_fight_in_game(game, f);
+    Zone zone_finished = set_zone_status(
+            get_zone_of_player_current_zone_in_map(game.map),
+            ZONE_FINISHED
+            );
+    return set_current_zone_in_game(game, zone_finished);
 }
 
-Fight turn(Fight f) {
+Fight turn(DoomDepths game) {
+    Fight f = get_current_fight_in_game(game);
     char turn_log[16];sprintf(turn_log, "turn %d", f.turn);log_info(turn_log);
 
     while(f.monsters_list.size > 0) {
-            log_player(f.player);
-            log_grimoire(f.player.grimoire);
-            log_monsters(f.monsters_list);
+        log_player(f.player);
+        log_grimoire(f.player.grimoire);
+        log_monsters(f.monsters_list);
+        game = set_current_fight_in_game(game, f);
         PlayerFightAction action = ask_player_fight_action(f.player);
         if(action == END_TURN) break;
-        f = player_makes_action(action, f);
+        f = player_makes_action(action, game);
         f.monsters_list = list_of_monster_without_dead_ones(f.monsters_list);
     }
 
     return f;
 }
 
-Fight player_makes_action(PlayerFightAction action, Fight f) {
+Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
+    Fight f = get_current_fight_in_game(game);
     switch (action) {
         case END_TURN: return f;
         case ATTACK: return player_attacks_monster_in_fight(f);
         case OPEN_GRIMOIRE: return open_grimoire_in_fight(f);
         case SHOW_INVENTORY: return enter_player_s_inventory_in_fight(f);
-        case CHANGE_ZONE:
-            log_info("CHANGE ZONE");
-            break;
-        case SAVE_GAME: return save_game_state_in_fight(f);
+        case SAVE_GAME: return save_game_in_fight(game);
         default:
             break;
     }
@@ -93,10 +100,10 @@ Fight enter_player_s_inventory_in_fight(Fight f) {
     return f;
 }
 
-Fight save_game_state_in_fight(Fight f) {
-    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, f.turn, f.player, f.monsters_list});
+Fight save_game_in_fight(DoomDepths game) {
+    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, });
     log_repository_status(status);
-    return f;
+    return get_current_fight_in_game(game);
 }
 
 Monster monster_takes_damages(Monster m, uint8_t damages) {
@@ -187,6 +194,7 @@ Fight cast_spell_on_player_in_fight(Fight f, Spell s) {
     return f;
 }
 
+// TODO struct CastSpellResult ? equivalent to AttackResult
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
     uint8_t monster_index = get_monster_index_to_attack(f.monsters_list);
     Monster monster_attacked = f.monsters_list.monsters[monster_index];
@@ -201,5 +209,14 @@ Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
 }
 
 void free_fight(Fight fight) {
-    free(fight.monsters_list.monsters);
+    free_player(fight.player);
+    free_monsters_list(fight.monsters_list);
+}
+
+Fight init_new_fight(Player p, MonstersList m) {
+    Fight f;
+    f.player = p;
+    f.turn = 1;
+    f.monsters_list = m;
+    return f;
 }

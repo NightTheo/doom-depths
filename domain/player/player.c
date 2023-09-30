@@ -23,12 +23,14 @@ Player player(uint8_t max_health, uint8_t mana) {
             empty_inventory(),
             mana,
             mana,
+            false,
     };
     return p;
 }
 
 Player empty_player() {
     Player p;
+    p.is_empty = true;
     p.current_mana = 0;
     p.max_mana = 0;
     p.current_health = 0;
@@ -38,6 +40,10 @@ Player empty_player() {
     p.grimoire = empty_grimoire();
     p.remaining_number_of_attacks = 0;
     return p;
+}
+
+bool player_is_empty(Player p) {
+    return p.is_empty;
 }
 
 char* player_to_string(Player p) {
@@ -195,4 +201,8 @@ Player player_use_potion_from_inventory(Player player, uint8_t potion_index) {
     free(potion_item.item);
     potion_item.item = NULL;
     return player;
+}
+
+void free_player(Player p) {
+    free_inventory(p.inventory);
 }

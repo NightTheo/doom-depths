@@ -73,11 +73,17 @@ MonstersList list_of_monster_without_dead_ones(MonstersList old_list) {
         new_list_index += 1;
     }
 
-    free(old_list.monsters);
-    old_list.monsters = NULL;
+    free_monsters_list(old_list);
     return new_list;
 }
 
 bool monster_is_dead(Monster m) {
     return m.health <= 0;
+}
+
+void free_monsters_list(MonstersList monsters_list) {
+    if(monsters_list.monsters == NULL) return;
+
+    free(monsters_list.monsters);
+    monsters_list.monsters = NULL;
 }

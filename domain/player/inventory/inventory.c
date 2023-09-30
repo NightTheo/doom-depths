@@ -82,14 +82,14 @@ Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
 
     int8_t index_to_add = get_index_of_first_empty_inventory_item(inventory);
     if(index_to_add == -1) {
-        log_error("No empty item in inventory");
+        log_info("No empty item in inventory");
         return inventory;
     }
     inventory.items[index_to_add] = item;
     inventory.items_count += 1;
 
     char* item_str = item_to_string(item);
-    char log[64];snprintf(log, 64, "Item %s pushed at %d.", item_str, index_to_add+1);
+    char log[128];snprintf(log, 128, "Item %s pushed at %d.", item_str, index_to_add+1);
     log_info(log);
     free(item_str);
     return inventory;

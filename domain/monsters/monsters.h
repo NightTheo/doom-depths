@@ -30,4 +30,6 @@ bool monster_list_is_empty(MonstersList);
 MonstersList random_list_of_monsters(int8_t number_of_monsters);
 MonstersList list_of_monster_without_dead_ones(MonstersList old_list);
 bool monster_is_dead(Monster m);
+void free_monsters_list(MonstersList monsters_list);
+
 #endif //DOOMDEPTHS_MONSTERS_H

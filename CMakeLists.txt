@@ -31,4 +31,8 @@ add_executable(DoomDepths main.c
         domain/map/position/position.c
         domain/map/position/position.h
         ihm/cli/map_cli/map_cli.c
+        domain/doom_detpths/doom_depths.c
+        domain/doom_detpths/doom_depths.h
+        infrastructure/utils/time/time_util.c
+        infrastructure/utils/time/time_util.h
 )

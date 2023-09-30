@@ -8,8 +8,6 @@
 #include "map.h"
 #include "../../infrastructure/utils/log/log.h"
 
-Map empty_map();
-
 Map _map(uint16_t height, uint16_t width, Position playerPosition, Zone **zones) {
     char log[64];
     if (zones == NULL) {
@@ -54,7 +52,7 @@ Map empty_map() {
     return m;
 }
 
-bool is_map_empty(Map m) {
+bool map_is_empty(Map m) {
     return m.width == 0 || m.height == 0 || m.zones == NULL;
 }
 
@@ -93,11 +91,12 @@ Zone **basic_map_zones(uint8_t height, uint8_t width) {
 
 void free_map(Map map) {
     free_zones(map.zones, map.height, map.width);
+    map.zones = NULL;
 }
 
 bool position_is_in_map_and_not_empty(Position p, Map m){
     bool is_not_in_map_or_is_empty = position_is_in_map(p, m) == false
-                                    || zone_is_empty(m.zones[p.zone_y][p.zone_y]);
+                                    || zone_is_empty(m.zones[p.zone_y][p.zone_x]);
     if(is_not_in_map_or_is_empty) {
         char log[64];
         snprintf(log, 64, "Zone [x:%d,y:%d] is empty", p.zone_x, p.zone_y);
@@ -119,8 +118,8 @@ bool position_is_in_map(Position p, Map m){
 
     char log[64];
     if(m.zones[p.zone_y] == NULL) {
-        snprintf(log, 64, "Zone [x:%d,y:%d] NULL", p.zone_x, p.zone_y);
-        log_info(log);
+        snprintf(log, 64, "Map row [%d] is NULL", p.zone_y);
+        log_error(log);
         return false;
     }
     return true;
@@ -134,9 +133,9 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
 
     m.playerPosition = position;
     Zone z = m.zones[position.zone_y][position.zone_x];
-    z.status = DISCOVERED;
     z.fight.player = player;
     // TODO init fight (monsters by zone);
+    m.zones[position.zone_y][position.zone_x] = z;
     return m;
 }
 
@@ -145,4 +144,9 @@ Zone get_zone_in_map_by_position(Map map, Position position) {
         return empty_zone();
     }
     return map.zones[position.zone_y][position.zone_x];
+}
+
+
+Zone get_zone_of_player_current_zone_in_map(Map m) {
+    return get_zone_in_map_by_position(m, m.playerPosition);
 }

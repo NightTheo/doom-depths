@@ -3,17 +3,24 @@
 // Created by Theo OMNES on 12/09/2023.
 //
 
+#include <time.h>
 #include "log.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "../../../domain/monsters/monsters.h"
 
 void log_info(const char* msg_info) {
-    printf("[info] %s\n", msg_info);
+    char * now = now_to_str();
+    if(now == NULL) return;
+    fprintf(stdout, LOG_INFO_FORMAT, now, msg_info);
+    free(now);
 }
 
 void log_error(const char* msg_error) {
-    fprintf(stderr,"[error] %s\n", msg_error);
+    char * now = now_to_str();
+    if(now == NULL) return;
+    fprintf(stderr,LOG_ERROR_FORMAT, now, msg_error);
+    free(now);
 }
 
 void log_allocation_error() {

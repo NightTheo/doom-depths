@@ -32,6 +32,7 @@ void display_fight_actions(Player p) {
 
 int8_t get_monster_index_to_attack(MonstersList monsters) {
     display_monsters(monsters);
+    fprintf(stdout, "Select a monster to attack [1-%d]\n",monsters.size);
     int8_t input = 0;
     // TODO better check input
     do {
@@ -44,8 +45,11 @@ int8_t get_monster_index_to_attack(MonstersList monsters) {
 }
 
 void display_monsters(MonstersList monsters) {
-    // TODO
-    printf("monsters 1, 2, 3 with their health\n");
+    for(int i = 0; i < monsters.size; i++) {
+        char* s = monster_to_string(monsters.monsters[i]);
+        printf("%d. %s\n", i+1, s);
+        free(s);
+    }
 }
 
 void display_game_over() {
@@ -72,12 +76,11 @@ const char* start_menu_action_to_string(StartMenuAction action) {
 }
 
 GameState new_game() {
-    return (GameState){
-            REPOSITORY_NOT_USED,
-            1,
-            player(100, 19),
-            random_list_of_monsters(random_between_included(2, 5))
-    };
+    Map m = basic_map();
+    GameState gameState;
+    gameState.repository_status = REPOSITORY_NOT_USED;
+    gameState.game = new_doom_depths(enter_map(m), m, player(100, 20));
+    return gameState;
 }
 
 GameState open_start_menu() {

@@ -18,6 +18,7 @@ struct Position {
 
 Position no_position();
 Position position(uint16_t x, uint16_t y);
+char* position_to_string(Position);
 
 
 #endif //DOOMDEPTHS_POSITION_H

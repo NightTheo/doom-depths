@@ -7,7 +7,8 @@
 #define DOOMDEPTHS_CLI_IHM_H
 
 #include "../ihm.h"
-#include "../../domain/player/player.h"
+
+typedef struct Player Player;
 
 void display_fight_actions(Player p);
 void display_monsters(MonstersList monsters);
