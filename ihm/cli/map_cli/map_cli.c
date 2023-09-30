@@ -35,7 +35,7 @@ bool can_display_position_in_map(Position p, Map m) {
      a   b   c
 0           [x]
 1   [ ] [ ] [ ]
-2   [x]
+2   [ ]
 */
 void display_map(Map m) {
     for(int i = 0; i < m.width+1; i++) {
@@ -62,6 +62,10 @@ void display_map(Map m) {
                 case ZONE_FINISHED:
                     fputs("[x]\t", stdout);
                     break;
+                default: {
+                    log_error("Unknown ZoneStatus");
+                    fputs("???\t", stdout);
+                }
             }
         }
         fputc('\n', stdout);
