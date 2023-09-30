@@ -32,7 +32,7 @@ AttackResult player_attacks_monster(Player p, Monster m);
 AttackResult monster_attacks_player(Monster m, Player p);
 Player monsters_attack_player(MonstersList monsters, Player p);
 Fight cast_spell_in_fight(Fight f, Spell s);
-void free_fight(Fight fight);
+Fight free_fight(Fight fight);
 Fight init_new_fight(Player p, MonstersList m);
 
 #endif //DOOMDEPTHS_FIGHT_H

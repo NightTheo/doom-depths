@@ -35,7 +35,7 @@ bool player_is_dead(Player p);
 bool player_is_alive(Player p);
 Player player_equip_item_from_inventory(Player p, uint8_t index_item);
 Player player_use_item_from_inventory(Player p, uint8_t index_item);
-void free_player(Player p);
+Player free_player(Player p);
 bool player_is_empty(Player p);
 
 #endif //DOOMDEPTHS_PLAYER_H

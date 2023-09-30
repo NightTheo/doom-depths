@@ -8,7 +8,7 @@
 #include "string.h"
 #include "../../../infrastructure/utils/log/log.h"
 
-void free_inventory_item(InventoryItem item);
+InventoryItem free_inventory_item(InventoryItem i);
 
 Inventory empty_inventory() {
     u_int8_t capacity = INVENTORY_CAPACITY;
@@ -21,6 +21,17 @@ Inventory empty_inventory() {
     for(int i = 0; i < inventory.capacity; i++) {
         inventory.items[i] = empty_inventory_item();
     }
+
+    return inventory;
+}
+
+Inventory no_inventory() {
+    Inventory inventory = {
+            0,
+            0,
+            0,
+            NULL,
+    };
 
     return inventory;
 }
@@ -100,42 +111,45 @@ Inventory add_golds_in_inventory(Inventory inventory, u_int16_t golds) {
     return inventory;
 }
 
-void free_inventory(Inventory inventory) {
-    if(inventory.items == NULL) return;
+Inventory free_inventory(Inventory inventory) {
+    if(inventory.items == NULL) return inventory;
 
-    for(int i = 0; i < inventory.items_count; i++) {
-        free_inventory_item(inventory.items[i]);
+    for(int i = 0; i < inventory.capacity; i++) {
+        inventory.items[i] = free_inventory_item(inventory.items[i]);
     }
+    free(inventory.items);
     inventory.items = NULL;
+    return inventory;
 }
 
-void free_inventory_item(InventoryItem i) {
-    if(i.item == NULL) return;
+InventoryItem free_inventory_item(InventoryItem i) {
+    if(i.item == NULL) return i;
     free(i.item);
     i.item = NULL;
+    return i;
 }
 
 char* empty_item_to_string() {
-    const char* empty_str = "_";
     char* s = malloc(8);
-    stpcpy(s, empty_str);
+    strncpy(s, "_", 8);
     return s;
 }
 
 char* item_to_string(InventoryItem item) {
-    char log[32];
-    char* default_str;
     switch (item.type) {
         case EMPTY_ITEM: return empty_item_to_string();
         case WEAPON_ITEM: return weapon_to_string(*((Weapon*)item.item));
         case ARMOR_ITEM: return armor_to_string(*((Armor *)item.item));
         case POTION_ITEM: return potion_to_string(*((ManaPotion*)item.item));
-        default:
+        default: {
+            char log[32];
+            char* default_str;
             default_str = malloc(32);
             strcpy(default_str, "Unknown InventoryItemType");
             snprintf(log, 32, "Unknown InventoryItemType [%d]", item.type);
             log_error(log);
             return  default_str;
+        }
     }
 }
 

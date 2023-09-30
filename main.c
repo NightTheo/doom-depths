@@ -5,7 +5,6 @@
 #include "domain/fight/fight.h"
 #include "domain/repository.h"
 #include "ihm/ihm.h"
-#include "domain/map/map.h"
 
 int main() {
     srand(time(NULL));
@@ -19,6 +18,8 @@ int main() {
      * [x] fix display "items: [�T"
      * [ ] specials traits in each zone
      * [ ] NO LEAKS
+     * [ ] grimoire -> no mana, quit
+     * [ ] player dies -> finish zone ???
      *
      * THEN
      * [ ] Port & Adapters architecture
@@ -39,8 +40,8 @@ int main() {
             break;
         }
         state.game.map.spawn = enter_map(state.game.map);
+        state.game.map = spawn_player_on_map_at_position(state.game.player, state.game.map, state.game.map.spawn);
     }
-
 
     free_doom_depths(state.game);
     return EXIT_SUCCESS;

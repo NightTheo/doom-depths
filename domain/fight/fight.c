@@ -43,6 +43,7 @@ DoomDepths start_fight(DoomDepths game) {
         f.turn += 1;
     }
 
+    game.player = f.player;
     game = set_current_fight_in_game(game, f);
     Zone zone_finished = set_zone_status(
             get_zone_of_player_current_zone_in_map(game.map),
@@ -208,9 +209,10 @@ Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
     return f;
 }
 
-void free_fight(Fight fight) {
-    free_player(fight.player);
-    free_monsters_list(fight.monsters_list);
+Fight free_fight(Fight fight) {
+    fight.player = free_player(fight.player);
+    fight.monsters_list = free_monsters_list(fight.monsters_list);
+    return fight;
 }
 
 Fight init_new_fight(Player p, MonstersList m) {

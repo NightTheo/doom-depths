@@ -42,6 +42,7 @@ void display_inventory_items(Inventory inventory) {
         char* item_str = item_to_string(inventory.items[i]);
         fprintf(stdout, "%d.\t%s\n", i+1, item_str);
         free(item_str);
+        item_str = NULL;
     }
 }
 

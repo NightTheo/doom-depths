@@ -47,7 +47,7 @@ int8_t get_monster_index_to_attack(MonstersList monsters) {
 void display_monsters(MonstersList monsters) {
     for(int i = 0; i < monsters.size; i++) {
         char* s = monster_to_string(monsters.monsters[i]);
-        printf("%d. %s\n", i+1, s);
+        fprintf(stdout, "%d. %s\n", i+1, s);
         free(s);
     }
 }
@@ -93,13 +93,14 @@ GameState open_start_menu() {
         scanf("%hhd", &input);
     } while (input-1 < 0 || input-1 >= _start_menu_actions_count);
 
-    char log[64];
     switch ((StartMenuAction) (input-1)) {
         case NEW_GAME: return new_game();
         case RESTORE_LAST_GAME: return restore_last_game();
-        default:
+        default: {
+            char log[64];
             sprintf(log, "Unknown choice [%d]", input);
             log_error(log);
             return new_game();
+        }
     }
 }

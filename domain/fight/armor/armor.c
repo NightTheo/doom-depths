@@ -42,7 +42,6 @@ Armor random_armor() {
 const char* armor_kind_to_string(ArmorKind armorKind) {
     char log[32];
     switch (armorKind) {
-
         case EMPTY_ARMOR: return "Empty armor";
         case CHEST_PLATE: return "Chest plate";
         default:
@@ -55,7 +54,7 @@ char* armor_to_string(Armor a) {
     uint8_t str_len = 64;
     char* s = malloc(str_len);
     const char* kind = armor_kind_to_string(a.kind);
-    snprintf(s, str_len-1, "Armor {kind: %s, defense: %d}", kind,a.defense);
+    snprintf(s, str_len, "Armor {kind: %s, defense: %d}", kind, a.defense);
 
     return s;
 }

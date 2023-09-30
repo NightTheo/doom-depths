@@ -14,6 +14,8 @@ DoomDepths empty_game();
 DoomDepths new_doom_depths(Position spawn, Map map, Player p) {
     if(position_is_in_map_and_not_empty(spawn, map) == false) {
         log_error("Bad spawn.");
+        free_map(map);
+        free_player(p);
         return empty_game();
     }
     DoomDepths game;

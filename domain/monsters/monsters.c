@@ -47,7 +47,7 @@ MonstersList random_list_of_monsters(int8_t number_of_monsters) {
 
 char* monster_to_string(Monster m) {
     char* s = malloc(128);
-    sprintf(s, "Monster {health: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
+    snprintf(s, 128, "Monster {health: %d, min_attack_power: %d, max_attack_power: %d, defense: %d}",
             m.health, m.min_attack_power, m.max_attack_power, m.defense);
     return s;
 }
@@ -81,9 +81,10 @@ bool monster_is_dead(Monster m) {
     return m.health <= 0;
 }
 
-void free_monsters_list(MonstersList monsters_list) {
-    if(monsters_list.monsters == NULL) return;
+MonstersList free_monsters_list(MonstersList monsters_list) {
+    if(monsters_list.monsters == NULL) return monsters_list;
 
     free(monsters_list.monsters);
     monsters_list.monsters = NULL;
+    return monsters_list;
 }

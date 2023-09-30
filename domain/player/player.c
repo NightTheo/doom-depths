@@ -10,7 +10,7 @@
 #include "../../infrastructure/utils/log/log.h"
 #include "../../infrastructure/utils/utils.h"
 
-Player player_use_potion_from_inventory(Player player, uint8_t index_item);
+Player player_use_potion_from_inventory(Player player, uint8_t potion_index);
 
 Player player(uint8_t max_health, uint8_t mana) {
     Equipment equipment = default_equipment();
@@ -35,7 +35,7 @@ Player empty_player() {
     p.max_mana = 0;
     p.current_health = 0;
     p.max_health = 0;
-    p.inventory = empty_inventory();
+    p.inventory = no_inventory();
     p.equipment = empty_equipment();
     p.grimoire = empty_grimoire();
     p.remaining_number_of_attacks = 0;
@@ -203,6 +203,7 @@ Player player_use_potion_from_inventory(Player player, uint8_t potion_index) {
     return player;
 }
 
-void free_player(Player p) {
-    free_inventory(p.inventory);
+Player free_player(Player p) {
+    p.inventory = free_inventory(p.inventory);
+    return p;
 }

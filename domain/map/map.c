@@ -74,6 +74,8 @@ Zone **basic_map_zones(uint8_t height, uint8_t width) {
     };
     for (int y = 0; y < height; y++) {
         rows[y] = NULL;
+    }
+    for (int y = 0; y < height; y++) {
         rows[y] = malloc(sizeof(Zone) * width);
         if (rows[y] == NULL) {
             log_allocation_error();
@@ -89,7 +91,6 @@ Zone **basic_map_zones(uint8_t height, uint8_t width) {
 
 void free_map(Map map) {
     free_zones(map.zones, map.height, map.width);
-    map.zones = NULL;
 }
 
 bool position_is_in_map_and_not_empty(Position p, Map m){
@@ -118,16 +119,17 @@ bool position_is_in_map(Position p, Map m){
 }
 
 
-Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
-    if(position_is_in_map_and_not_empty(position, m) == false) {
+Map spawn_player_on_map_at_position(Player player, Map m, Position spawn) {
+    if(position_is_in_map_and_not_empty(spawn, m) == false) {
         return m;
     }
 
-    m.spawn = position;
-    Zone z = m.zones[position.zone_y][position.zone_x];
+    m.spawn = spawn;
+    Zone z = m.zones[spawn.zone_y][spawn.zone_x];
+    z.fight = free_fight(z.fight);
     z.fight.player = player;
     // TODO init fight (monsters by zone);
-    m.zones[position.zone_y][position.zone_x] = z;
+    m.zones[spawn.zone_y][spawn.zone_x] = z;
     return m;
 }
 

@@ -34,8 +34,9 @@ typedef struct Inventory {
 } Inventory;
 
 Inventory empty_inventory();
+Inventory no_inventory();
 InventoryItem empty_inventory_item();
-void free_inventory(Inventory inventory);
+Inventory free_inventory(Inventory inventory);
 Inventory add_golds_in_inventory(Inventory inventory, u_int16_t golds);
 Inventory push_item_in_inventory(Inventory inventory, InventoryItem item);
 Inventory push_loot_in_inventory(Inventory inventory, Loot loot);

@@ -27,18 +27,20 @@ bool zone_is_empty(Zone zone) {
     return zone.status == ZONE_EMPTY;
 }
 
-void free_zones(Zone** zones, uint16_t height, uint16_t width) {
-    if(zones == NULL) return;
+Zone ** free_zones(Zone** zones, uint16_t height, uint16_t width) {
+    if(zones == NULL) return zones;
     for(int row = 0; row < height; row++) {
         if(zones[row] == NULL) continue;
         for(int col = 0; col < width; col++) {
             Zone z = zones[row][col];
-            free_fight(z.fight);
+            z.fight = free_fight(z.fight);
         }
         free(zones[row]);
         zones[row] = NULL;
     }
     free(zones);
+    zones = NULL;
+    return zones;
 }
 
 Zone set_zone_status(Zone zone, ZoneStatus status) {
