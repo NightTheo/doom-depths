@@ -17,9 +17,8 @@ int main() {
      * [x] display map and select a zone
      * [x] fix display "items: [�T"
      * [ ] specials traits in each zone
-     * [ ] NO LEAKS
+     * [x] NO LEAKS
      * [ ] grimoire -> no mana, quit
-     * [ ] player dies -> finish zone ???
      *
      * THEN
      * [ ] Port & Adapters architecture
