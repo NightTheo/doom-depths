@@ -4,7 +4,7 @@ project(DoomDepths C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(DoomDepths main.c
-        infrastructure/utils/log/cli_log.c
+        infrastructure/utils/log/dont_log.c
         infrastructure/utils/utils.c
         domain/monsters/monsters.c
         infrastructure/utils/random/random.c

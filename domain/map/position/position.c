@@ -31,3 +31,20 @@ char* position_to_string(Position p) {
     snprintf(s, 64, "Position {x: %d, y: %d}", p.zone_x, p.zone_y);
     return s;
 }
+
+Position up_from(Position p) {
+    return (Position) {p.zone_x, p.zone_y - 1};
+}
+Position down_from(Position p) {
+    return (Position) {p.zone_x, p.zone_y + 1};
+}
+Position left_from(Position p) {
+    return (Position) {p.zone_x - 1, p.zone_y};
+}
+Position right_from(Position p) {
+    return (Position) {p.zone_x + 1, p.zone_y};
+}
+
+bool positions_a_equals_b(Position a, Position b) {
+    return a.zone_x == b.zone_x && a.zone_y == b.zone_y;
+}

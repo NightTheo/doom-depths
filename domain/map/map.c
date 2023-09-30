@@ -8,7 +8,7 @@
 #include "map.h"
 #include "../../infrastructure/utils/log/log.h"
 
-Map _map(uint16_t height, uint16_t width, Position playerPosition, Zone **zones) {
+Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
     char log[64];
     if (zones == NULL) {
         log_error("Invalid argument : zones are NULL");
@@ -19,27 +19,25 @@ Map _map(uint16_t height, uint16_t width, Position playerPosition, Zone **zones)
         log_error("Invalid argument : height and width should be greater or equal to 1.");
         return empty_map();
     }
-    bool player_position_is_in_map = playerPosition.zone_x >= 0
-                                     && playerPosition.zone_x < width
-                                     && playerPosition.zone_y >= 0
-                                     && playerPosition.zone_y < height;
-    if (player_position_is_in_map == false) {
-        log_error("Player position is not in map");
-        return empty_map();
-    }
 
-    Zone *row = zones[playerPosition.zone_y];
-    if (row == NULL || zone_is_empty(row[playerPosition.zone_x])) {
-        snprintf(log, 64, "Zone [x:%d,y:%d] NULL or empty", playerPosition.zone_x, playerPosition.zone_y);
+    Zone *row = zones[spawn.zone_y];
+    if (row == NULL || zone_is_empty(row[spawn.zone_x])) {
+        snprintf(log, 64, "Zone [x:%d,y:%d] NULL or empty", spawn.zone_x, spawn.zone_y);
         log_error(log);
         return empty_map();
     }
 
     Map m;
-    m.player_position = playerPosition;
+    m.spawn = spawn;
     m.height = height;
     m.width = width;
     m.zones = zones;
+
+    if (position_is_in_map_and_not_empty(spawn, m) == false) {
+        log_error("Bad Spawn.");
+        return empty_map();
+    }
+
     return m;
 }
 
@@ -47,7 +45,7 @@ Map empty_map() {
     Map m;
     m.height = 0;
     m.width = 0;
-    m.player_position = no_position();
+    m.spawn = no_position();
     m.zones = NULL;
     return m;
 }
@@ -59,8 +57,8 @@ bool map_is_empty(Map m) {
 Map basic_map() {
     uint8_t height = 3;
     uint8_t width = 3;
-    Position playerPosition = position(1, 1);
-    return _map(height, width, playerPosition, basic_map_zones(height, width));
+    Position spawn = position(2, 0);
+    return _map(height, width, spawn, basic_map_zones(height, width));
 }
 
 Zone **basic_map_zones(uint8_t height, uint8_t width) {
@@ -98,9 +96,6 @@ bool position_is_in_map_and_not_empty(Position p, Map m){
     bool is_not_in_map_or_is_empty = position_is_in_map(p, m) == false
                                     || zone_is_empty(m.zones[p.zone_y][p.zone_x]);
     if(is_not_in_map_or_is_empty) {
-        char log[64];
-        snprintf(log, 64, "Zone [x:%d,y:%d] is empty", p.zone_x, p.zone_y);
-        log_info(log);
         return false;
     }
     return true;
@@ -111,11 +106,8 @@ bool position_is_in_map(Position p, Map m){
                                      && p.zone_x < m.width
                                      && p.zone_y >= 0
                                      && p.zone_y < m.height;
-    if (player_position_is_in_map == false) {
-        log_info("Player position is not in map");
-        return false;
-    }
 
+    if (player_position_is_in_map == false) return false;
     char log[64];
     if(m.zones[p.zone_y] == NULL) {
         snprintf(log, 64, "Map row [%d] is NULL", p.zone_y);
@@ -131,7 +123,7 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
         return m;
     }
 
-    m.player_position = position;
+    m.spawn = position;
     Zone z = m.zones[position.zone_y][position.zone_x];
     z.fight.player = player;
     // TODO init fight (monsters by zone);
@@ -148,5 +140,29 @@ Zone get_zone_in_map_by_position(Map map, Position position) {
 
 
 Zone get_zone_of_player_current_zone_in_map(Map m) {
-    return get_zone_in_map_by_position(m, m.player_position);
+    return get_zone_in_map_by_position(m, m.spawn);
+}
+
+bool position_is_finished(Position p, Map m) {
+    return get_zone_in_map_by_position(m, p).status == ZONE_FINISHED;
+}
+
+bool player_can_move_to_position_in_map(Position p , Map m) {
+    if(position_is_in_map_and_not_empty(p, m) == false) return false;
+    if(positions_a_equals_b(m.spawn, p)) return true;
+    if(position_is_finished(p, m)) return false;
+
+    bool player_can_move = position_is_finished(up_from(p), m)
+        || position_is_finished(down_from(p), m)
+        || position_is_finished(right_from(p), m)
+        || position_is_finished(left_from(p), m);
+
+    if(player_can_move == false) {
+        char log[64];
+        char* position_str = position_to_string(p);
+        snprintf(log, 64, "Player cannot move to %s.", position_str);
+        log_info(log);
+        free(position_str);
+    }
+    return player_can_move;
 }

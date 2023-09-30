@@ -156,7 +156,7 @@ DoomDepths restore_doom_depths() {
     fight.player = game.player;
     fight.monsters_list = restore_monsters_list();
 
-    Position position = game.map.player_position;
+    Position position = game.map.spawn;
     game.map.zones[position.zone_y][position.zone_x].fight = fight;
 
     return game;
@@ -164,8 +164,8 @@ DoomDepths restore_doom_depths() {
 
 Position restore_player_position() {
     Position p;
-    p.zone_x = restore_int_by_key("map.player_position.zone_x");
-    p.zone_y = restore_int_by_key("map.player_position.zone_y");
+    p.zone_x = restore_int_by_key("map.spawn.zone_x");
+    p.zone_y = restore_int_by_key("map.spawn.zone_y");
 
     if (p.zone_x < 0 || p.zone_y < 0) return no_position();
 
@@ -301,7 +301,7 @@ Map restore_map() {
     Map map;
     map.width = restore_int_by_key("map.width");
     map.height = restore_int_by_key("map.height");
-    map.player_position = restore_player_position();
+    map.spawn = restore_player_position();
     map.zones = restore_map_zones(map.height, map.width);
 
     return map;
@@ -660,14 +660,14 @@ char* map_to_save_string(Map map) {
              "\n@MAP@\n"
              "map.width=%d\n"
              "map.height=%d\n"
-             "map.player_position.zone_x=%d\n"
-             "map.player_position.zone_y=%d\n"
+             "map.spawn.zone_x=%d\n"
+             "map.spawn.zone_y=%d\n"
              "%s"
              ,
              map.width,
              map.height,
-             map.player_position.zone_x,
-             map.player_position.zone_y,
+             map.spawn.zone_x,
+             map.spawn.zone_y,
              zones_str
              );
 

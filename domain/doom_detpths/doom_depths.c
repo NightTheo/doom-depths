@@ -40,7 +40,7 @@ Fight get_current_fight_in_game(DoomDepths game) {
 }
 
 DoomDepths set_current_zone_in_game(DoomDepths game, Zone zone) {
-    Position p = game.map.player_position;
+    Position p = game.map.spawn;
     game.map.zones[p.zone_y][p.zone_x] = zone;
     return game;
 }

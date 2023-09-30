@@ -16,8 +16,7 @@ int main() {
      * [x] save this struct
      * [x] restore this struct
      * [x] display map and select a zone
-     * [ ] fix display "items: [�T"
-     * [ ] automatic save when change zone
+     * [x] fix display "items: [�T"
      * [ ] specials traits in each zone
      * [ ] NO LEAKS
      *
@@ -39,7 +38,7 @@ int main() {
             display_game_over();
             break;
         }
-        state.game.map.player_position = enter_map(state.game.map);
+        state.game.map.spawn = enter_map(state.game.map);
     }
 
 

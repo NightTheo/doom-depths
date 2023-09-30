@@ -16,15 +16,14 @@ Position enter_map(Map m) {
     do {
         display_map(m);
         p = ask_player_zone_position_to_go(m);
-    } while (position_is_in_map_and_not_empty(p, m) == false);
+    } while (player_can_move_to_position_in_map(p, m) == false);
     return p;
 }
-
 
 /*
      a   b   c
 0           [x]
-1   [x] [x] [x]
+1   [ ] [ ] [ ]
 2   [x]
 */
 void display_map(Map m) {
@@ -37,13 +36,17 @@ void display_map(Map m) {
         fprintf(stdout, "%d\t", row+1);
         for(int col = 0; col < m.width; col++) {
             Position p = position(col, row);
+            if(player_can_move_to_position_in_map(p, m) == false) {
+                fputc('\t', stdout);
+                continue;
+            }
             Zone z = get_zone_in_map_by_position(m, p);
             switch (z.status) {
                 case ZONE_EMPTY:
-                    fputs("\t", stdout);
+                    fputc('\t', stdout);
                     break;
                 case ZONE_NOT_DISCOVERED:
-                    fputs("[o]\t", stdout);
+                    fputs("[ ]\t", stdout);
                     break;
                 case ZONE_FINISHED:
                     fputs("[x]\t", stdout);

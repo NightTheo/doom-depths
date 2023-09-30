@@ -142,7 +142,9 @@ char* item_to_string(InventoryItem item) {
 char* inventory_to_string(Inventory inventory) {
     // TODO fix error bad chars at start of items
     char* res = malloc(1500);
+    strcpy(res, "");
     char str_items[1024];
+    strcpy(str_items, "");
     for(int i = 0; i < inventory.capacity; i++) {
         char* item = item_to_string(inventory.items[i]);
         if(i < inventory.capacity-1) {
@@ -150,7 +152,7 @@ char* inventory_to_string(Inventory inventory) {
             item = realloc(item, strlen(item) + strlen(separator) + 1);
             strcat(item, separator);
         }
-        strncat(str_items, item, 128);
+        strncat(str_items, item, 1024);
         free(item);
     }
     snprintf(res, 1500, "Inventory {golds: %d, items: [%s]}", inventory.golds, str_items);
