@@ -2,8 +2,13 @@
 #include <time.h>
 
 #include "domain/monsters/monsters.h"
-#include "ihm/ihm.h"
+
 #include "application/port/in/start_fight.h"
+
+#include "application/port/out/persistence/game_state.h"
+#include "application/port/out/ihm/leave_town.h"
+#include "application/port/out/ihm/display_game_over.h"
+#include "application/port/out/ihm/display_map.h"
 
 int main() {
     srand(time(NULL));
@@ -22,9 +27,11 @@ int main() {
      *
      * THEN
      * [ ] SDL
-     */
+     *
+     * [ ] multi language ? by factory
+    */
 
-    GameState state = open_start_menu();
+    GameState state = leave_town();
     while (true) {
         state.game = start_fight(state.game);
         if(player_is_dead(state.game.player)) {

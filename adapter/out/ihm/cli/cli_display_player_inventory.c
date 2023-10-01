@@ -1,17 +1,25 @@
 
 //
-// Created by Theo OMNES on 24/09/2023.
+// Created by Theo OMNES on 01/10/2023.
 //
 
-#include "inventory_cli.h"
-
 #include <stdio.h>
-#include "../../ihm.h"
-#include "../../../application/port/out/log/log_error.h"
-#include "../../../application/port/out/log/log_info.h"
+
+#include "../../../../domain/player/player.h"
+#include "../../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
+
+#include "../../../../application/port/out/log/log_error.h"
+#include "../../../../application/port/out/log/log_info.h"
 
 
-Player enter_player_s_inventory(Player p) {
+void display_inventory_items(Inventory inventory);
+void display_inventory_actions();
+void display_inventory_golds(uint16_t golds);
+PlayerInventoryAction get_player_inventory_action();
+uint8_t get_item_index(Inventory inventory);
+
+
+Player display_player_inventory(Player p) {
     while(true) {
         char* equipment_str = equipment_to_string(p.equipment);
         fprintf(stdout, "%s\n", equipment_str);
@@ -37,6 +45,7 @@ Player enter_player_s_inventory(Player p) {
         }
     }
 }
+
 
 void display_inventory_items(Inventory inventory) {
     for(int i = 0; i < inventory.capacity; i++) {

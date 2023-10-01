@@ -4,10 +4,13 @@
 //
 
 #include <stdio.h>
+
 #include "fight.h"
+#include "player_fight_action/player_fight_actions.h"
+
 #include "../../infrastructure/utils/random/random.h"
 #include "../../infrastructure/utils/utils.h"
-#include "../../ihm/ihm.h"
+#include "../../application/port/out/ihm/leave_town_action.h"
 #include "../../application/port/out/persistence/save_game_state.h"
 #include "../../application/port/out/log/log_info.h"
 #include "../../application/port/out/log/log_player.h"
@@ -15,6 +18,11 @@
 #include "../../application/port/out/log/log_monster.h"
 #include "../../application/port/out/log/log_repository_status.h"
 #include "../../application/port/out/log/log_error.h"
+#include "../../application/port/out/ihm/display_loot.h"
+#include "../../application/port/out/ihm/display_player_inventory.h"
+#include "../../application/port/out/ihm/display_grimoire.h"
+#include "../../application/port/out/ihm/get_monster_to_attack.h"
+#include "../../application/port/out/ihm/get_fight_action.h"
 
 Fight turn(DoomDepths game);
 Player decrement_player_remaining_attacks(Player p);
@@ -78,7 +86,7 @@ Fight player_attacks_monster_in_fight(Fight f) {
 }
 
 Fight enter_player_s_inventory_in_fight(Fight f) {
-    f.player = enter_player_s_inventory(f.player);
+    f.player = display_player_inventory(f.player);
     return f;
 }
 

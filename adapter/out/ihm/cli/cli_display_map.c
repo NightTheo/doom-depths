@@ -4,9 +4,12 @@
 //
 
 #include <stdio.h>
-#include "../cli_ihm.h"
-#include "../../../application/port/out/log/log_error.h"
-#include "../../../application/port/out/log/log_info.h"
+
+#include "../../../../domain/map/map.h"
+#include "../../../../domain/map/position/position.h"
+
+#include "../../../../application/port/out/log/log_error.h"
+#include "../../../../application/port/out/log/log_info.h"
 
 Position ask_player_zone_position_to_go(Map map);
 void display_map(Map m);
@@ -27,9 +30,9 @@ bool can_display_position_in_map(Position p, Map m) {
     if(position_is_finished(p, m)) return true;
 
     return position_is_finished(up_from(p), m)
-                           || position_is_finished(down_from(p), m)
-                           || position_is_finished(right_from(p), m)
-                           || position_is_finished(left_from(p), m);
+        || position_is_finished(down_from(p), m)
+        || position_is_finished(right_from(p), m)
+        || position_is_finished(left_from(p), m);
 }
 
 /*

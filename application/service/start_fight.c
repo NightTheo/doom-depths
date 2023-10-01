@@ -4,7 +4,7 @@
 //
 
 #include "../port/in/start_fight.h"
-#include "../../domain/doom_detpths/doom_depths.h"
+#include "../../domain/doom_depths/doom_depths.h"
 #include "../port/out/log/log_error.h"
 
 DoomDepths start_fight(DoomDepths game) {
