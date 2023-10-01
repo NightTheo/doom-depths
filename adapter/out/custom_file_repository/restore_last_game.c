@@ -163,7 +163,7 @@ DoomDepths restore_doom_depths() {
     game.player = restore_player();
     game.map = restore_map();
     Fight fight;
-    fight.turn = (int8_t) restore_int_by_key("fight.turn");
+    fight.turn = (int8_t) restore_int_by_key("fight.round");
     fight.player = game.player;
     fight.monsters_list = restore_monsters_list();
 

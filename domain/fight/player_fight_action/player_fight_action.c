@@ -16,8 +16,8 @@ const char *player_fight_action_to_string(PlayerFightAction action) {
             return "Open grimoire";
         case SHOW_INVENTORY:
             return "Show inventory";
-        case END_TURN:
-            return "End turn";
+        case END_ROUND:
+            return "End round";
         case SAVE_GAME:
             return "Save All";
         default:

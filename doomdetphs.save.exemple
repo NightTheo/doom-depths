@@ -1,4 +1,4 @@
-fight.turn=1
+fight.round=1
 
 @PLAYER@
 player.current_health=100

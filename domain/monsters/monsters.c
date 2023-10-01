@@ -88,3 +88,7 @@ MonstersList free_monsters_list(MonstersList monsters_list) {
     monsters_list.monsters = NULL;
     return monsters_list;
 }
+
+bool index_is_in_monster_list(MonstersList monsters_list, int8_t index) {
+    return index > 0 && index < monsters_list.size;
+}

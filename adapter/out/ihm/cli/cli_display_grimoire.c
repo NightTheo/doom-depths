@@ -7,6 +7,8 @@
 
 #include "../../../../domain/fight/fight.h"
 
+#include "../../../../application/port/in/cast_spell.h"
+
 #include "../../../../application/port/out/log/log_info.h"
 
 void display_grimoire(Grimoire g);
@@ -20,7 +22,7 @@ Fight open_grimoire_in_fight(Fight f) {
         log_info("Couln't get spell to cast.");
         return f;
     }
-    f = cast_spell_in_fight(f, s);
+    f = cast_spell(f, s);
     return f;
 }
 

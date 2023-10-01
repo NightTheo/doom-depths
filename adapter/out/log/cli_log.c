@@ -22,6 +22,7 @@
 
 #define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
 #define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
+#define REPOSITORY_STATUS_FORMAT "Repository status: [%s]\n"
 
 void log_info(const char *msg_info) {
     char *now = now_to_str();
@@ -68,5 +69,6 @@ void log_grimoire(Grimoire g) {
 void log_repository_status(RepositoryStatus status) {
     char log[64];
     const char *status_str = repository_status_to_string(status);
-    snprintf(log, 64, "Repository status: [%s]", status_str);
+    snprintf(log, 64, REPOSITORY_STATUS_FORMAT, status_str);
+    fprintf(stdout, log, status_str);
 }

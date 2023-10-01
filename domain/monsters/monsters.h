@@ -22,7 +22,7 @@ typedef struct MonstersList {
     Monster *monsters;
 } MonstersList;
 
-// TODO random monsters by turn/level
+// TODO random monsters by round/level
 Monster random_monster();
 
 char *monster_to_string(Monster m);

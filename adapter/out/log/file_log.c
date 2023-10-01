@@ -3,12 +3,19 @@
 // Created by Theo OMNES on 12/09/2023.
 //
 
+#include <time.h>
 #include "stdlib.h"
 #include "stdio.h"
 
+#include "../../../infrastructure/utils/time/time_util.h"
+
 #include "../../../application/port/out/log/log_info.h"
 #include "../../../application/port/out/log/log_error.h"
-#include "../../../infrastructure/utils/time/time_util.h"
+#include "../../../application/port/out/log/log_player.h"
+#include "../../../application/port/out/log/log_monster.h"
+#include "../../../application/port/out/log/log_grimoire.h"
+#include "../../../application/port/out/persistence/respository_status.h"
+#include "../../../application/port/out/log/log_repository_status.h"
 
 #include "../../../domain/player/player.h"
 #include "../../../domain/monsters/monsters.h"
@@ -16,6 +23,7 @@
 #define LOG_FILE_PATH "log.txt"
 #define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
 #define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
+#define REPOSITORY_STATUS_FORMAT "Repository status: [%s]\n"
 
 void log_info(const char *msg_info) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
@@ -74,5 +82,15 @@ void log_grimoire(Grimoire g) {
     char *s = grimoire_to_string(g);
     fprintf(f, "%s\n", s);
     free(s);
+    fclose(f);
+}
+
+void log_repository_status(RepositoryStatus status) {
+    FILE *f = fopen(LOG_FILE_PATH, "at");
+    if (f == NULL) return;
+    char log[64];
+    const char *status_str = repository_status_to_string(status);
+    snprintf(log, 64, REPOSITORY_STATUS_FORMAT, status_str);
+    fprintf(f, log, status_str);
     fclose(f);
 }

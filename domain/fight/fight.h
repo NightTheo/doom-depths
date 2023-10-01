@@ -26,7 +26,7 @@ typedef struct AttackResult {
 
 Fight empty_fight();
 
-Fight turn(DoomDepths game);
+Fight new_round(DoomDepths game);
 
 Monster monster_takes_damages(Monster m, uint8_t damages);
 
@@ -37,8 +37,6 @@ AttackResult player_attacks_monster(Player p, Monster m);
 AttackResult monster_attacks_player(Monster m, Player p);
 
 Player monsters_attack_player(MonstersList monsters, Player p);
-
-Fight cast_spell_in_fight(Fight f, Spell s);
 
 Fight free_fight(Fight fight);
 

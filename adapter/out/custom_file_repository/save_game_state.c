@@ -258,7 +258,7 @@ const char *armor_kind_to_save_string(ArmorKind k) {
 
 char *turn_to_save_string(uint8_t turn) {
     char *s = malloc(MAX_LINE_SIZE);
-    snprintf(s, MAX_LINE_SIZE, "fight.turn=%d", turn);
+    snprintf(s, MAX_LINE_SIZE, "fight.round=%d", turn);
 
     return s;
 }

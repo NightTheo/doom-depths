@@ -40,7 +40,7 @@ add_executable(DoomDepths main.c
         application/port/out/persistence/respository_status.h
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
-        application/service/new_game.c
+        application/service/new_run.c
         application/port/in/start_fight.h
         application/service/start_fight.c
         application/port/out/log/log_info.h
@@ -63,4 +63,16 @@ add_executable(DoomDepths main.c
         adapter/out/ihm/cli/cli_get_fight_action.c
         application/port/out/ihm/get_monster_to_attack.h
         adapter/out/ihm/cli/cli_get_monster_to_attack.c
+        application/port/in/continue_last_run.h
+        application/service/continue_last_run.c
+        application/port/in/attack_with_weapon.h
+        application/service/player_use_weapon.c
+        application/port/in/end_round.h
+        application/service/end_round.c
+        application/port/in/cast_spell.h
+        application/service/cast_spell.c
+        application/service/drink_potion.c
+        application/port/in/drink_potion.h
+        application/port/in/equip_item.c
+        application/port/in/equip_item.h
 )

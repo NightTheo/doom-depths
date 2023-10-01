@@ -8,8 +8,9 @@
 #include "../../../../application/port/out/ihm/leave_town_action.h"
 
 #include "../../../../application/port/in/new_run.h"
-#include "../../../../application/port/out/persistence/restore_last_game.h"
+#include "../../../../application/port/in/continue_last_run.h"
 
+#include "../../../../application/port/out/persistence/restore_last_game.h"
 #include "../../../../application/port/out/log/log_error.h"
 
 
@@ -30,7 +31,7 @@ GameState leave_town() {
         case NEW_RUN:
             return new_run();
         case RESTORE_LAST_GAME:
-            return restore_last_game();
+            return continue_last_run();
         default: {
             char log[64];
             sprintf(log, "Unknown choice [%d]", input);

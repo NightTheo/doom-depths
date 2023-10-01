@@ -22,8 +22,9 @@
 #include "../../application/port/out/ihm/display_grimoire.h"
 #include "../../application/port/out/ihm/get_monster_to_attack.h"
 #include "../../application/port/out/ihm/get_fight_action.h"
+#include "../../application/port/in/attack_with_weapon.h"
 
-Fight turn(DoomDepths game);
+Fight new_round(DoomDepths game);
 
 Player decrement_player_remaining_attacks(Player p);
 
@@ -32,8 +33,6 @@ Fight player_makes_action(PlayerFightAction action, DoomDepths game);
 Fight cast_spell_on_player_in_fight(Fight f, Spell s);
 
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
-
-Fight player_attacks_monster_in_fight(Fight f);
 
 Fight enter_player_s_inventory_in_fight(Fight f);
 
@@ -47,10 +46,10 @@ Fight empty_fight() {
     return f;
 }
 
-Fight turn(DoomDepths game) {
+Fight new_round(DoomDepths game) {
     Fight f = get_current_fight_in_game(game);
     char turn_log[16];
-    sprintf(turn_log, "turn %d", f.turn);
+    sprintf(turn_log, "round %d", f.turn);
     log_info(turn_log);
 
     while (f.monsters_list.size > 0) {
@@ -59,7 +58,7 @@ Fight turn(DoomDepths game) {
         log_monsters(f.monsters_list);
         game = set_current_fight_in_game(game, f);
         PlayerFightAction action = ask_player_fight_action(f.player);
-        if (action == END_TURN) break;
+        if (action == END_ROUND) break;
         f = player_makes_action(action, game);
         f.monsters_list = list_of_monster_without_dead_ones(f.monsters_list);
     }
@@ -70,10 +69,10 @@ Fight turn(DoomDepths game) {
 Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
     Fight f = get_current_fight_in_game(game);
     switch (action) {
-        case END_TURN:
+        case END_ROUND:
             return f;
         case ATTACK:
-            return player_attacks_monster_in_fight(f);
+            return attack_with_weapon(f);
         case OPEN_GRIMOIRE:
             return open_grimoire_in_fight(f);
         case SHOW_INVENTORY:
@@ -86,17 +85,6 @@ Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
     return f;
 }
 
-Fight player_attacks_monster_in_fight(Fight f) {
-    int8_t attacked_monster_index = get_monster_index_to_attack(f.monsters_list);
-    AttackResult attackResult = player_attacks_monster(
-            f.player,
-            f.monsters_list.monsters[attacked_monster_index]
-    );
-    f.player = attackResult.player;
-    f.monsters_list.monsters[attacked_monster_index] = attackResult.monster;
-    f.player.inventory = push_loot_in_inventory(f.player.inventory, attackResult.loot);
-    return f;
-}
 
 Fight enter_player_s_inventory_in_fight(Fight f) {
     f.player = display_player_inventory(f.player);
@@ -119,8 +107,11 @@ Monster monster_takes_damages(Monster m, uint8_t damages) {
 }
 
 AttackResult player_attacks_monster(Player p, Monster m) {
-
     AttackResult res = {p, m, empty_loot()};
+    if(monster_is_dead(m)) {
+        log_info("Monster already dead.");
+        return res;
+    }
     if (p.remaining_number_of_attacks <= 0) {
         log_info("player has no remaining attack count");
         return res;
@@ -175,45 +166,6 @@ Player player_takes_damages(Player p, int8_t damages) {
     sprintf(log, "Player tooks %d damages", damages_taken);
     log_info(log);
     return p;
-}
-
-Fight cast_spell_in_fight(Fight f, Spell s) {
-    if (s.mana_consumption > f.player.current_mana) {
-        log_info("Player current mana is too low to cast spell.");
-        return f;
-    }
-    f.player.current_mana = f.player.current_mana - s.mana_consumption;
-
-    char log[64];
-    switch (s.target) {
-        case PLAYER_SPELL_TARGET:
-            return cast_spell_on_player_in_fight(f, s);
-        case MONSTER_SPELL_TARGET:
-            return cast_spell_on_monster_in_fight(f, s);
-        default:
-            snprintf(log, 64, "Unknown target [%d]", s.target);
-            log_error(log);
-            return f;
-    }
-}
-
-Fight cast_spell_on_player_in_fight(Fight f, Spell s) {
-    f.player = s.cast_on_player(f.player);
-    return f;
-}
-
-// TODO struct CastSpellResult ? equivalent to AttackResult
-Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
-    uint8_t monster_index = get_monster_index_to_attack(f.monsters_list);
-    Monster monster_attacked = f.monsters_list.monsters[monster_index];
-    monster_attacked = s.cast_on_monster(monster_attacked);
-    if (monster_is_dead(monster_attacked)) {
-        Loot loot = random_loot();
-        f.player.inventory = push_loot_in_inventory(f.player.inventory, loot);
-    }
-
-    f.monsters_list.monsters[monster_index] = monster_attacked;
-    return f;
 }
 
 Fight free_fight(Fight fight) {
