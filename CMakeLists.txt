@@ -19,7 +19,6 @@ add_executable(DoomDepths main.c
         domain/player/inventory/player_inventory_action/player_inventory_actions.c
         domain/player/equipment/equipment.c
         domain/fight/armor/armor.c
-        infrastructure/repository/custom_file_repository.c
         domain/magic/spell/spell.c
         domain/magic/mana_potion/mana_potion.c
         domain/magic/grimoire/grimoire.c
@@ -35,10 +34,12 @@ add_executable(DoomDepths main.c
         domain/doom_detpths/doom_depths.h
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
-        adapter/in/new_game.h
+        application/port/in/new_game.h
         application/port/out/restore_last_game.h
         infrastructure/repository/game_state.h
         application/port/out/save_game_state.h
         infrastructure/repository/repository_status/respository_status.c
         infrastructure/repository/repository_status/respository_status.h
+        adapter/out/custom_file_repository/restore_last_game.c
+        adapter/out/custom_file_repository/save_game_state.c
 )

@@ -3,7 +3,6 @@
 
 #include "domain/monsters/monsters.h"
 #include "domain/fight/fight.h"
-#include "domain/repository.h"
 #include "ihm/ihm.h"
 
 int main() {

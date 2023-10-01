@@ -9,7 +9,6 @@
 #include "../../infrastructure/utils/utils.h"
 #include "../../infrastructure/utils/log/log.h"
 #include "../../ihm/ihm.h"
-#include "../repository.h"
 #include "../../application/port/out/save_game_state.h"
 
 Fight turn(DoomDepths game);
