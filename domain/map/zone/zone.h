@@ -24,10 +24,15 @@ struct Zone {
 };
 
 Zone _zone(ZoneStatus status, Fight fight);
+
 Zone empty_zone();
+
 bool zone_is_empty(Zone zone);
+
 Zone not_discovered_zone();
-Zone ** free_zones(Zone** zones, uint16_t height, uint16_t width);
+
+Zone **free_zones(Zone **zones, uint16_t height, uint16_t width);
+
 Zone set_zone_status(Zone zone, ZoneStatus status);
 
 #endif //DOOMDEPTHS_ZONE_H

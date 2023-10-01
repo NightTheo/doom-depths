@@ -6,7 +6,6 @@
 
 #include "../port/out/persistence/game_state.h"
 #include "../../application/port/in/new_run.h"
-#include "../port/out/ihm/leave_town_action.h"
 #include "../port/out/ihm/display_map.h"
 
 GameState new_run() {

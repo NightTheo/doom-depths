@@ -12,6 +12,7 @@
 #include "../../../../application/port/out/log/log_info.h"
 
 Position ask_player_zone_position_to_go(Map map);
+
 void display_map(Map m);
 
 
@@ -25,14 +26,14 @@ Position enter_map(Map m) {
 }
 
 bool can_display_position_in_map(Position p, Map m) {
-    if(position_is_in_map_and_not_empty(p, m) == false) return false;
-    if(positions_a_equals_b(m.spawn, p)) return true;
-    if(position_is_finished(p, m)) return true;
+    if (position_is_in_map_and_not_empty(p, m) == false) return false;
+    if (positions_a_equals_b(m.spawn, p)) return true;
+    if (position_is_finished(p, m)) return true;
 
     return position_is_finished(up_from(p), m)
-        || position_is_finished(down_from(p), m)
-        || position_is_finished(right_from(p), m)
-        || position_is_finished(left_from(p), m);
+           || position_is_finished(down_from(p), m)
+           || position_is_finished(right_from(p), m)
+           || position_is_finished(left_from(p), m);
 }
 
 /*
@@ -42,17 +43,17 @@ bool can_display_position_in_map(Position p, Map m) {
 2   [ ]
 */
 void display_map(Map m) {
-    for(int i = 0; i < m.width+1; i++) {
-        if(i == 0) fputs("\t", stdout);
-        else fprintf(stdout, " %c\t", 'a' + i-1);
+    for (int i = 0; i < m.width + 1; i++) {
+        if (i == 0) fputs("\t", stdout);
+        else fprintf(stdout, " %c\t", 'a' + i - 1);
     }
     fputc('\n', stdout);
-    for(int row = 0; row < m.height; row++) {
-        fprintf(stdout, "%d\t", row+1);
-        for(int col = 0; col < m.width; col++) {
+    for (int row = 0; row < m.height; row++) {
+        fprintf(stdout, "%d\t", row + 1);
+        for (int col = 0; col < m.width; col++) {
             Position p = position(col, row);
             Zone z = get_zone_in_map_by_position(m, p);
-            if(can_display_position_in_map(p, m) == false) {
+            if (can_display_position_in_map(p, m) == false) {
                 fputc('\t', stdout);
                 continue;
             }
@@ -78,22 +79,22 @@ void display_map(Map m) {
 }
 
 Position ask_player_zone_position_to_go(Map map) {
-    fprintf(stdout, "Select zone column[a-%c] and row[1-%d]", 'a'+map.width-1, map.height);
+    fprintf(stdout, "Select zone column[a-%c] and row[1-%d]", 'a' + map.width - 1, map.height);
     fputs("\ncolumn: ", stdout);
     char column = -1;
-    while(column < 'a' || column >= 'a' + map.width) {
+    while (column < 'a' || column >= 'a' + map.width) {
         fflush(stdin);
         column = fgetc(stdin);
     }
     uint16_t row = -1;
     fputs("row: ", stdout);
-    while(row < 1 || row > map.height) {
+    while (row < 1 || row > map.height) {
         fflush(stdin);
         scanf("%hd", &row);
     }
 
-    Position p = position(column-'a', row-1);
-    char* position_str = position_to_string(p);
+    Position p = position(column - 'a', row - 1);
+    char *position_str = position_to_string(p);
     log_info(position_str);
     free(position_str);
 

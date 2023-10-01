@@ -19,7 +19,9 @@ typedef struct Loot {
 } Loot;
 
 Loot empty_loot();
+
 Loot random_loot();
-char* loot_to_string(Loot l);
+
+char *loot_to_string(Loot l);
 
 #endif //DOOMDEPTHS_LOOT_H

@@ -15,8 +15,11 @@ typedef struct Grimoire {
 } Grimoire;
 
 Grimoire empty_grimoire();
+
 Grimoire start_grimoire();
-char* grimoire_to_string(Grimoire g);
+
+char *grimoire_to_string(Grimoire g);
+
 Spell get_spell_by_index(Grimoire g, int16_t index);
 
 #endif //DOOMDEPTHS_GRIMOIRE_H

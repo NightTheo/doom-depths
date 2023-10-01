@@ -24,11 +24,11 @@ Equipment default_equipment() {
     return e;
 }
 
-char* equipment_to_string(Equipment e) {
+char *equipment_to_string(Equipment e) {
     uint16_t str_len = 512;
-    char* str = malloc(str_len);
-    char* weapon_str = weapon_to_string(e.weapon);
-    char* armor_str = armor_to_string(e.armor);
+    char *str = malloc(str_len);
+    char *weapon_str = weapon_to_string(e.weapon);
+    char *armor_str = armor_to_string(e.armor);
 
     snprintf(str, str_len, "Equipment {%s, %s}", weapon_str, armor_str);
 

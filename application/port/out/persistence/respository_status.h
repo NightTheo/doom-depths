@@ -14,6 +14,6 @@ typedef enum RepositoryStatus {
     SAVE_LAST_GAME_FAILED,
 } RepositoryStatus;
 
-const char* repository_status_to_string(RepositoryStatus status);
+const char *repository_status_to_string(RepositoryStatus status);
 
 #endif //DOOMDEPTHS_RESPOSITORY_STATUS_H

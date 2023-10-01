@@ -19,17 +19,24 @@ typedef struct Monster {
 
 typedef struct MonstersList {
     int8_t size;
-    Monster* monsters;
+    Monster *monsters;
 } MonstersList;
 
 // TODO random monsters by turn/level
 Monster random_monster();
-char* monster_to_string(Monster m);
+
+char *monster_to_string(Monster m);
+
 MonstersList empty_monster_list();
+
 bool monster_list_is_empty(MonstersList);
+
 MonstersList random_list_of_monsters(int8_t number_of_monsters);
+
 MonstersList list_of_monster_without_dead_ones(MonstersList old_list);
+
 bool monster_is_dead(Monster m);
+
 MonstersList free_monsters_list(MonstersList monsters_list);
 
 #endif //DOOMDEPTHS_MONSTERS_H

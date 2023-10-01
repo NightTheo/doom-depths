@@ -14,8 +14,11 @@ typedef struct ManaPotion {
 } ManaPotion;
 
 ManaPotion mana_potion();
+
 ManaPotion random_potion();
-char* potion_to_string(ManaPotion p);
-ManaPotion* mana_potion_alloc(ManaPotion p);
+
+char *potion_to_string(ManaPotion p);
+
+ManaPotion *mana_potion_alloc(ManaPotion p);
 
 #endif //DOOMDEPTHS_MANA_POTION_H

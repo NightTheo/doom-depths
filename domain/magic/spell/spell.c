@@ -6,7 +6,7 @@
 #include <string.h>
 #include "spell.h"
 
-Spell spell(const char* name,
+Spell spell(const char *name,
             uint16_t mana_consumption,
             SpellTarget target,
             Player (*cast_on_player)(Player),
@@ -20,6 +20,7 @@ Spell spell(const char* name,
     };
     return s;
 }
+
 Spell empty_spell() {
     Spell s = {
             "",

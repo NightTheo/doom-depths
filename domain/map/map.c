@@ -94,16 +94,16 @@ void free_map(Map map) {
     free_zones(map.zones, map.height, map.width);
 }
 
-bool position_is_in_map_and_not_empty(Position p, Map m){
+bool position_is_in_map_and_not_empty(Position p, Map m) {
     bool is_not_in_map_or_is_empty = position_is_in_map(p, m) == false
-                                    || zone_is_empty(m.zones[p.zone_y][p.zone_x]);
-    if(is_not_in_map_or_is_empty) {
+                                     || zone_is_empty(m.zones[p.zone_y][p.zone_x]);
+    if (is_not_in_map_or_is_empty) {
         return false;
     }
     return true;
 }
 
-bool position_is_in_map(Position p, Map m){
+bool position_is_in_map(Position p, Map m) {
     bool player_position_is_in_map = p.zone_x >= 0
                                      && p.zone_x < m.width
                                      && p.zone_y >= 0
@@ -111,7 +111,7 @@ bool position_is_in_map(Position p, Map m){
 
     if (player_position_is_in_map == false) return false;
     char log[64];
-    if(m.zones[p.zone_y] == NULL) {
+    if (m.zones[p.zone_y] == NULL) {
         snprintf(log, 64, "Map row [%d] is NULL", p.zone_y);
         log_error(log);
         return false;
@@ -121,7 +121,7 @@ bool position_is_in_map(Position p, Map m){
 
 
 Map spawn_player_on_map_at_position(Player player, Map m, Position spawn) {
-    if(position_is_in_map_and_not_empty(spawn, m) == false) {
+    if (position_is_in_map_and_not_empty(spawn, m) == false) {
         return m;
     }
 
@@ -135,7 +135,7 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position spawn) {
 }
 
 Zone get_zone_in_map_by_position(Map map, Position position) {
-    if(position_is_in_map(position, map) == false) {
+    if (position_is_in_map(position, map) == false) {
         return empty_zone();
     }
     return map.zones[position.zone_y][position.zone_x];
@@ -150,19 +150,19 @@ bool position_is_finished(Position p, Map m) {
     return get_zone_in_map_by_position(m, p).status == ZONE_FINISHED;
 }
 
-bool player_can_move_to_position_in_map(Position p , Map m) {
-    if(position_is_in_map_and_not_empty(p, m) == false) return false;
-    if(positions_a_equals_b(m.spawn, p)) return true;
-    if(position_is_finished(p, m)) return false;
+bool player_can_move_to_position_in_map(Position p, Map m) {
+    if (position_is_in_map_and_not_empty(p, m) == false) return false;
+    if (positions_a_equals_b(m.spawn, p)) return true;
+    if (position_is_finished(p, m)) return false;
 
     bool player_can_move = position_is_finished(up_from(p), m)
-        || position_is_finished(down_from(p), m)
-        || position_is_finished(right_from(p), m)
-        || position_is_finished(left_from(p), m);
+                           || position_is_finished(down_from(p), m)
+                           || position_is_finished(right_from(p), m)
+                           || position_is_finished(left_from(p), m);
 
-    if(player_can_move == false) {
+    if (player_can_move == false) {
         char log[64];
-        char* position_str = position_to_string(p);
+        char *position_str = position_to_string(p);
         snprintf(log, 64, "Player cannot move to %s.", position_str);
         log_info(log);
         free(position_str);

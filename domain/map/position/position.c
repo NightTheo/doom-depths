@@ -22,9 +22,9 @@ Position position(uint16_t x, uint16_t y) {
     return p;
 }
 
-char* position_to_string(Position p) {
-    char* s = malloc(64);
-    if(s == NULL) {
+char *position_to_string(Position p) {
+    char *s = malloc(64);
+    if (s == NULL) {
         log_allocation_error();
         return NULL;
     }
@@ -35,12 +35,15 @@ char* position_to_string(Position p) {
 Position up_from(Position p) {
     return (Position) {p.zone_x, p.zone_y - 1};
 }
+
 Position down_from(Position p) {
     return (Position) {p.zone_x, p.zone_y + 1};
 }
+
 Position left_from(Position p) {
     return (Position) {p.zone_x - 1, p.zone_y};
 }
+
 Position right_from(Position p) {
     return (Position) {p.zone_x + 1, p.zone_y};
 }

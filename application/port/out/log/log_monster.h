@@ -10,6 +10,7 @@ typedef struct Monster Monster;
 typedef struct MonstersList MonstersList;
 
 void log_monster(Monster m);
+
 void log_monsters(MonstersList m);
 
 #endif //DOOMDEPTHS_LOG_MONSTER_H

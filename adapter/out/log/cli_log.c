@@ -23,17 +23,17 @@
 #define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
 #define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 
-void log_info(const char* msg_info) {
-    char * now = now_to_str();
-    if(now == NULL) return;
+void log_info(const char *msg_info) {
+    char *now = now_to_str();
+    if (now == NULL) return;
     fprintf(stdout, LOG_INFO_FORMAT, now, msg_info);
     free(now);
 }
 
-void log_error(const char* msg_error) {
-    char * now = now_to_str();
-    if(now == NULL) return;
-    fprintf(stderr,LOG_ERROR_FORMAT, now, msg_error);
+void log_error(const char *msg_error) {
+    char *now = now_to_str();
+    if (now == NULL) return;
+    fprintf(stderr, LOG_ERROR_FORMAT, now, msg_error);
     free(now);
 }
 
@@ -42,31 +42,31 @@ void log_allocation_error() {
 }
 
 void log_monster(Monster m) {
-    char* s = monster_to_string(m);
+    char *s = monster_to_string(m);
     printf("%s\n", s);
     free(s);
 }
 
 void log_monsters(MonstersList m) {
-    for(int8_t i = 0; i < m.size; i++) {
+    for (int8_t i = 0; i < m.size; i++) {
         log_monster(m.monsters[i]);
     }
 }
 
 void log_player(Player p) {
-    char* s = player_to_string(p);
+    char *s = player_to_string(p);
     printf("%s\n", s);
     free(s);
 }
 
 void log_grimoire(Grimoire g) {
-    char* s = grimoire_to_string(g);
+    char *s = grimoire_to_string(g);
     printf("%s\n", s);
     free(s);
 }
 
 void log_repository_status(RepositoryStatus status) {
     char log[64];
-    const char* status_str = repository_status_to_string(status);
+    const char *status_str = repository_status_to_string(status);
     snprintf(log, 64, "Repository status: [%s]", status_str);
 }

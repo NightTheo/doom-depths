@@ -15,7 +15,9 @@ typedef struct Equipment {
 } Equipment;
 
 Equipment empty_equipment();
+
 Equipment default_equipment();
-char* equipment_to_string(Equipment e);
+
+char *equipment_to_string(Equipment e);
 
 #endif //DOOMDEPTHS_EQUIPMENT_H

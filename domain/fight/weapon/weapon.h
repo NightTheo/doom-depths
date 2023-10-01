@@ -24,10 +24,15 @@ typedef struct Weapon {
 } Weapon;
 
 Weapon random_weapon();
-char* weapon_to_string(Weapon w);
-WeaponKind weapon_kind_from_string(const char* str);
+
+char *weapon_to_string(Weapon w);
+
+WeaponKind weapon_kind_from_string(const char *str);
+
 Weapon weapon(WeaponKind kind, uint8_t min_damages, uint8_t max_damages, uint8_t max_number_of_attack_per_turn);
+
 Weapon empty_weapon();
-Weapon* weapon_alloc(Weapon w);
+
+Weapon *weapon_alloc(Weapon w);
 
 #endif //DOOMDEPTHS_WEAPON_H

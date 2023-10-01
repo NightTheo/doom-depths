@@ -18,12 +18,12 @@ int main() {
      * [ ] specials traits in each zone
      *
      * THEN
-     * [~] Port & Adapters architecture
+     * [/] Port & Adapters architecture
      * [ ] Write beautiful readme
+     * [ ] parser JSON ? yeah
      *
      * THEN
      * [ ] Boost CLI
-     * [ ] parser JSON ? yeah
      *
      * THEN
      * [ ] SDL
@@ -34,7 +34,7 @@ int main() {
     GameState state = leave_town();
     while (true) {
         state.game = start_fight(state.game);
-        if(player_is_dead(state.game.player)) {
+        if (player_is_dead(state.game.player)) {
             display_game_over();
             break;
         }

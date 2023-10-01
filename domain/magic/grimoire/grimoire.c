@@ -17,17 +17,18 @@
 
 // -- Spells
 Monster _fire(Monster m);
+
 Player _heal(Player);
 // --
 
 Grimoire empty_grimoire() {
-    Grimoire g = {0,{}};
+    Grimoire g = {0, {}};
     return g;
 }
 
 Grimoire start_grimoire() {
     Spell fire = spell("fire", 10, MONSTER_SPELL_TARGET, NULL, _fire);
-    Spell heal = spell("heal", 9, PLAYER_SPELL_TARGET,_heal, NULL);
+    Spell heal = spell("heal", 9, PLAYER_SPELL_TARGET, _heal, NULL);
 
     Grimoire g = {
             2,
@@ -56,8 +57,8 @@ Player _heal(Player p) {
     return p;
 }
 
-char* grimoire_to_string(Grimoire g) {
-    char* s = malloc(GRIMOIRE_STRING_SIZE);
+char *grimoire_to_string(Grimoire g) {
+    char *s = malloc(GRIMOIRE_STRING_SIZE);
     snprintf(s, GRIMOIRE_STRING_SIZE,
              "Grimoire {number_of_spells: %d, spells: [%s, %s]}",
              g.number_of_spells,
@@ -66,7 +67,7 @@ char* grimoire_to_string(Grimoire g) {
 }
 
 Spell get_spell_by_index(Grimoire g, int16_t index) {
-    if(index < 0 || index >= g.number_of_spells) {
+    if (index < 0 || index >= g.number_of_spells) {
         char log[32];
         snprintf(log, 32, "Index [%d] is not in grimoire.", index);
         log_info(log);

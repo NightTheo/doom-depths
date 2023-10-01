@@ -16,89 +16,118 @@
 #define WRITE_BUFFER_SIZE 4096
 
 DoomDepths restore_doom_depths();
+
 Player restore_player();
+
 MonstersList restore_monsters_list();
+
 Monster restore_monster_by_index(uint8_t index);
-char* restore_string_by_key(const char* key);
-char* restore_string_by_prefix(const char* prefix, const char* key);
-int restore_int_by_key(const char* key);
-int restore_int_by_prefix(const char* prefix, const char* key);
+
+char *restore_string_by_key(const char *key);
+
+char *restore_string_by_prefix(const char *prefix, const char *key);
+
+int restore_int_by_key(const char *key);
+
+int restore_int_by_prefix(const char *prefix, const char *key);
+
 Equipment restore_equipment();
+
 Inventory restore_inventory();
+
 Weapon restore_equipment_weapon();
+
 Armor restore_equipment_armor();
-Armor restore_armor_by_prefix_key(const char* prefix);
+
+Armor restore_armor_by_prefix_key(const char *prefix);
+
 InventoryItem restore_inventory_item(uint8_t index);
+
 void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index);
-Weapon* restore_inventory_weapon_by_index(uint8_t index);
-Weapon restore_weapon_by_prefix_key(const char* prefix_key);
-Armor* restore_inventory_armor_by_index(uint8_t index);
-bool file_exists(const char* path);
-ManaPotion* restore_inventory_potion_by_index(uint8_t index);
-ManaPotion restore_potion_by_prefix_key(const char* prefix);
+
+Weapon *restore_inventory_weapon_by_index(uint8_t index);
+
+Weapon restore_weapon_by_prefix_key(const char *prefix_key);
+
+Armor *restore_inventory_armor_by_index(uint8_t index);
+
+bool file_exists(const char *path);
+
+ManaPotion *restore_inventory_potion_by_index(uint8_t index);
+
+ManaPotion restore_potion_by_prefix_key(const char *prefix);
+
 Position restore_player_position();
-ZoneStatus zone_status_from_save_string(const char* str);
+
+ZoneStatus zone_status_from_save_string(const char *str);
+
 Map restore_map();
-Zone** restore_map_zones(uint16_t height, uint16_t width);
+
+Zone **restore_map_zones(uint16_t height, uint16_t width);
+
 Zone restore_zone_by_position(Position position);
-Zone restore_zone_by_prefix(const char* prefix);
+
+Zone restore_zone_by_prefix(const char *prefix);
 
 
-bool file_exists(const char* path) {
-    FILE* f = fopen(path, "r");
-    if(f == NULL) return false;
+bool file_exists(const char *path) {
+    FILE *f = fopen(path, "r");
+    if (f == NULL) return false;
 
     fclose(f);
     return true;
 }
 
-char* restore_string_by_key(const char* key) {
+char *restore_string_by_key(const char *key) {
     char log[MAX_LINE_SIZE];
-    FILE* f = fopen(SAVE_FILE_PATH, "r");
-    if(f == NULL) {
+    FILE *f = fopen(SAVE_FILE_PATH, "r");
+    if (f == NULL) {
         log_error("Unable to open file '" SAVE_FILE_PATH "'.");
         return NULL;
     }
 
     char line[MAX_LINE_SIZE];
     char string[MAX_LINE_SIZE];
-    while(fgets(line, MAX_LINE_SIZE, f) != NULL) {
+    while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
         size_t key_len = strlen(key);
-        bool line_has_key = strlen(line) > key_len+1 && strncmp(line, key, key_len) == 0 && line[key_len] == '=';
-        if(line_has_key) {
-            sprintf(log, "found key '%s'", key);log_info(log);
-            strncpy(string, line+key_len+1, MAX_LINE_SIZE);
+        bool line_has_key = strlen(line) > key_len + 1 && strncmp(line, key, key_len) == 0 && line[key_len] == '=';
+        if (line_has_key) {
+            sprintf(log, "found key '%s'", key);
+            log_info(log);
+            strncpy(string, line + key_len + 1, MAX_LINE_SIZE);
             uint16_t value_len = strlen(string);
-            if(string[value_len-1] == '\n') string[value_len-1] = '\0';
+            if (string[value_len - 1] == '\n') string[value_len - 1] = '\0';
 
-            char* s = malloc(strlen(string));
+            char *s = malloc(strlen(string));
             strncpy(s, string, strlen(string));
-            sprintf(log, "Value is [%s]", s);log_info(log);
+            sprintf(log, "Value is [%s]", s);
+            log_info(log);
             fclose(f);
             return s;
         }
     }
 
     fclose(f);
-    sprintf(log, "Key [%s] not found", key);log_info(log);
+    sprintf(log, "Key [%s] not found", key);
+    log_info(log);
     return NULL;
 }
 
-char* restore_string_by_prefix(const char* prefix, const char* key) {
+char *restore_string_by_prefix(const char *prefix, const char *key) {
     char full_key[MAX_LINE_SIZE];
     snprintf(full_key, MAX_LINE_SIZE, "%s.%s", prefix, key);
     return restore_string_by_key(full_key);
 }
 
-int restore_int_by_key(const char* key) {
-    char* str = restore_string_by_key(key);
-    if(str == NULL) {
+int restore_int_by_key(const char *key) {
+    char *str = restore_string_by_key(key);
+    if (str == NULL) {
         log_error("Cannot restore int.");
         return RESTORE_INT_ERROR;
     }
-    char* end;
+    char *end;
     long parsed = strtol(str, &end, 10);
-    if(str == end) {
+    if (str == end) {
         char log[MAX_LINE_SIZE];
         snprintf(log, MAX_LINE_SIZE, "Parsing string to int error, tried [%s]", str);
         log_error(log);
@@ -109,7 +138,7 @@ int restore_int_by_key(const char* key) {
     return (int) parsed;
 }
 
-int restore_int_by_prefix(const char* prefix, const char* key) {
+int restore_int_by_prefix(const char *prefix, const char *key) {
     char full_key[MAX_LINE_SIZE];
     snprintf(full_key, MAX_LINE_SIZE, "%s.%s", prefix, key);
     return restore_int_by_key(full_key);
@@ -118,9 +147,9 @@ int restore_int_by_prefix(const char* prefix, const char* key) {
 
 GameState restore_last_game() {
     log_info("Restore last game");
-    if(!file_exists(SAVE_FILE_PATH)) {
+    if (!file_exists(SAVE_FILE_PATH)) {
         log_error("Save file [" SAVE_FILE_PATH "] not found.");
-        return (GameState){RESTORE_LAST_GAME_FAILED};
+        return (GameState) {RESTORE_LAST_GAME_FAILED};
     }
 
     GameState gs;
@@ -134,7 +163,7 @@ DoomDepths restore_doom_depths() {
     game.player = restore_player();
     game.map = restore_map();
     Fight fight;
-    fight.turn = (int8_t)restore_int_by_key("fight.turn");
+    fight.turn = (int8_t) restore_int_by_key("fight.turn");
     fight.player = game.player;
     fight.monsters_list = restore_monsters_list();
 
@@ -183,8 +212,8 @@ Weapon restore_equipment_weapon() {
 /**
  * @param prefix without the end dot
  */
-Weapon restore_weapon_by_prefix_key(const char* prefix) {
-    char* kind = restore_string_by_prefix(prefix, "kind");
+Weapon restore_weapon_by_prefix_key(const char *prefix) {
+    char *kind = restore_string_by_prefix(prefix, "kind");
 
     Weapon w;
     w.kind = weapon_kind_from_string(kind);
@@ -200,9 +229,9 @@ Armor restore_equipment_armor() {
     return restore_armor_by_prefix_key("player.equipment.armor");
 }
 
-Armor restore_armor_by_prefix_key(const char* prefix) {
+Armor restore_armor_by_prefix_key(const char *prefix) {
     Armor a;
-    char* kind_str = restore_string_by_prefix(prefix, "kind");
+    char *kind_str = restore_string_by_prefix(prefix, "kind");
     a.kind = armor_kind_from_string(kind_str);
     a.defense = restore_int_by_prefix(prefix, "defense");
 
@@ -217,7 +246,7 @@ Inventory restore_inventory() {
     inventory.golds = restore_int_by_key("player.inventory.golds");
     inventory.items = malloc(sizeof(InventoryItem) * inventory.capacity);
 
-    for(int i = 0; i < inventory.capacity; i++) {
+    for (int i = 0; i < inventory.capacity; i++) {
         inventory.items[i] = restore_inventory_item(i);
     }
 
@@ -227,8 +256,8 @@ Inventory restore_inventory() {
 InventoryItem restore_inventory_item(uint8_t index) {
     char key[MAX_LINE_SIZE];
     snprintf(key, MAX_LINE_SIZE, "player.inventory.items.%d.type", index);
-    char* type_str = restore_string_by_key(key);
-    if(type_str == NULL) {
+    char *type_str = restore_string_by_key(key);
+    if (type_str == NULL) {
         free(type_str);
         return (InventoryItem) {EMPTY_ITEM, NULL};
     }
@@ -241,13 +270,17 @@ InventoryItem restore_inventory_item(uint8_t index) {
     return item;
 }
 
-void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
+void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
     char log[MAX_LINE_SIZE];
     switch (type) {
-        case EMPTY_ITEM: return NULL;
-        case WEAPON_ITEM: return restore_inventory_weapon_by_index(index);
-        case ARMOR_ITEM: return restore_inventory_armor_by_index(index);
-        case POTION_ITEM: return restore_inventory_potion_by_index(index);
+        case EMPTY_ITEM:
+            return NULL;
+        case WEAPON_ITEM:
+            return restore_inventory_weapon_by_index(index);
+        case ARMOR_ITEM:
+            return restore_inventory_armor_by_index(index);
+        case POTION_ITEM:
+            return restore_inventory_potion_by_index(index);
         default:
             snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", type);
             log_error(log);
@@ -255,25 +288,25 @@ void* restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
     }
 }
 
-Weapon* restore_inventory_weapon_by_index(uint8_t index) {
+Weapon *restore_inventory_weapon_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
     return weapon_alloc(restore_weapon_by_prefix_key(prefix));
 }
 
-Armor* restore_inventory_armor_by_index(uint8_t index) {
+Armor *restore_inventory_armor_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
     return armor_alloc(restore_armor_by_prefix_key(prefix));
 }
 
-ManaPotion* restore_inventory_potion_by_index(uint8_t index) {
+ManaPotion *restore_inventory_potion_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
     return mana_potion_alloc(restore_potion_by_prefix_key(prefix));
 }
 
-ManaPotion restore_potion_by_prefix_key(const char* prefix) {
+ManaPotion restore_potion_by_prefix_key(const char *prefix) {
     ManaPotion p;
     p.is_full = restore_int_by_prefix(prefix, "is_full");
     return p;
@@ -289,25 +322,25 @@ Map restore_map() {
     return map;
 }
 
-Zone** restore_map_zones(uint16_t height, uint16_t width) {
-    Zone** zones = malloc(sizeof(Zone*) * height);
-    if(zones == NULL) {
+Zone **restore_map_zones(uint16_t height, uint16_t width) {
+    Zone **zones = malloc(sizeof(Zone *) * height);
+    if (zones == NULL) {
         log_allocation_error();
         return NULL;
     }
 
-    for(int row = 0; row < height; row++) {
+    for (int row = 0; row < height; row++) {
         zones[row] = NULL;
     }
 
-    for(int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++) {
         zones[y] = malloc(sizeof(Zone) * width);
-        if(zones[y] == NULL) {
+        if (zones[y] == NULL) {
             log_allocation_error();
             free_zones(zones, height, width);
             return NULL;
         }
-        for(int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++) {
             zones[y][x] = restore_zone_by_position((Position) {x, y});
         }
     }
@@ -321,9 +354,9 @@ Zone restore_zone_by_position(Position position) {
 
 }
 
-Zone restore_zone_by_prefix(const char* prefix) {
-    char* status_str = restore_string_by_prefix(prefix, "status");
-    if(status_str == NULL) {
+Zone restore_zone_by_prefix(const char *prefix) {
+    char *status_str = restore_string_by_prefix(prefix, "status");
+    if (status_str == NULL) {
         log_error("Could not restore zone");
         return empty_zone();
     }
@@ -340,7 +373,7 @@ MonstersList restore_monsters_list() {
     MonstersList list;
     list.size = (int8_t) restore_int_by_key("monsters_list.size");
     list.monsters = malloc(sizeof(Monster) * list.size);
-    for(int i = 0; i < list.size; i++) {
+    for (int i = 0; i < list.size; i++) {
         list.monsters[i] = restore_monster_by_index(i);
     }
     return list;
@@ -357,10 +390,10 @@ Monster restore_monster_by_index(uint8_t index) {
     return m;
 }
 
-ZoneStatus zone_status_from_save_string(const char* str) {
-    if(strcmp(str, "ZONE_EMPTY") == 0) return ZONE_EMPTY;
-    if(strcmp(str, "ZONE_NOT_DISCOVERED") == 0) return ZONE_NOT_DISCOVERED;
-    if(strcmp(str, "ZONE_FINISHED") == 0) return ZONE_FINISHED;
+ZoneStatus zone_status_from_save_string(const char *str) {
+    if (strcmp(str, "ZONE_EMPTY") == 0) return ZONE_EMPTY;
+    if (strcmp(str, "ZONE_NOT_DISCOVERED") == 0) return ZONE_NOT_DISCOVERED;
+    if (strcmp(str, "ZONE_FINISHED") == 0) return ZONE_FINISHED;
     char log[32];
     snprintf(log, 32, "Unknown ZoneStatus [%s]", str);
     log_error(log);

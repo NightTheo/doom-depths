@@ -15,6 +15,6 @@ typedef enum PlayerInventoryAction {
     _player_inventory_action_count
 } PlayerInventoryAction;
 
-const char* inventory_action_to_string(PlayerInventoryAction action);
+const char *inventory_action_to_string(PlayerInventoryAction action);
 
 #endif //DOOMDEPTHS_PLAYER_INVENTORY_ACTIONS_H

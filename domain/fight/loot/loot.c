@@ -27,13 +27,13 @@ Loot random_loot() {
     return l;
 }
 
-char* loot_to_string(Loot l) {
+char *loot_to_string(Loot l) {
     uint16_t str_len = 256;
-    char* str = malloc(str_len);
-    char* weapon_str = weapon_to_string(l.weapon);
-    char* armor_str = armor_to_string(l.armor);
-    char* potion_str = potion_to_string(l.potion);
-    snprintf(str,str_len-1,
+    char *str = malloc(str_len);
+    char *weapon_str = weapon_to_string(l.weapon);
+    char *armor_str = armor_to_string(l.armor);
+    char *potion_str = potion_to_string(l.potion);
+    snprintf(str, str_len - 1,
              "Loot {gold: %d, %s, %s, %s}",
              l.gold, weapon_str, armor_str, potion_str);
 

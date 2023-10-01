@@ -8,6 +8,6 @@
 
 #include "time.h"
 
-char* now_to_str();
+char *now_to_str();
 
 #endif //DOOMDEPTHS_TIME_UTIL_H
