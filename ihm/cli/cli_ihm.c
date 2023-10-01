@@ -8,8 +8,8 @@
 #include "stdio.h"
 #include "cli_ihm.h"
 #include "../../infrastructure/utils/log/log.h"
-#include "../../infrastructure/utils/random/random.h"
 #include "../../application/port/out/restore_last_game.h"
+#include "../../application/port/in/new_game.h"
 
 PlayerFightAction ask_player_fight_action(Player p) {
     display_fight_actions(p);
@@ -74,14 +74,6 @@ const char* start_menu_action_to_string(StartMenuAction action) {
             log_error(log);
             return "Unknown action";
     }
-}
-
-GameState new_game() {
-    Map m = basic_map();
-    GameState gameState;
-    gameState.repository_status = REPOSITORY_NOT_USED;
-    gameState.game = new_doom_depths(enter_map(m), m, player(100, 20));
-    return gameState;
 }
 
 GameState open_start_menu() {

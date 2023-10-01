@@ -42,4 +42,5 @@ add_executable(DoomDepths main.c
         infrastructure/repository/repository_status/respository_status.h
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
+        application/service/new_game.c
 )
