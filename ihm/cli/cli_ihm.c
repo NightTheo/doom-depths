@@ -9,6 +9,7 @@
 #include "cli_ihm.h"
 #include "../../infrastructure/utils/log/log.h"
 #include "../../infrastructure/utils/random/random.h"
+#include "../../application/port/out/restore_last_game.h"
 
 PlayerFightAction ask_player_fight_action(Player p) {
     display_fight_actions(p);

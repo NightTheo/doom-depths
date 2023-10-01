@@ -7,6 +7,7 @@
 #include <string.h>
 #include "../../domain/repository.h"
 #include "../utils/log/log.h"
+#include "game_state.h"
 
 #define SAVE_FILE_PATH "doomdetphs.save"
 #define MAX_LINE_SIZE 512
@@ -412,12 +413,6 @@ RepositoryStatus save_game_state(GameState gameState) {
     return SAVE_LAST_GAME_SUCCEEDED;
 }
 
-void log_repository_status(RepositoryStatus status) {
-    char log[64];
-    const char* status_str = repository_status_to_string(status);
-    snprintf(log, 64, "Repository status: [%s]", status_str);
-}
-
 char* player_to_save_string(Player p) {
     char* s = malloc(WRITE_BUFFER_SIZE);
     char* equipment_str = equipment_to_save_string(p.equipment);
@@ -631,21 +626,6 @@ char* potion_to_save_string_with_prefix(ManaPotion p, const char* prefix) {
              prefix, p.is_full
     );
     return s;
-}
-
-const char* repository_status_to_string(RepositoryStatus status) {
-    char log[64];
-    switch (status) {
-        case REPOSITORY_NOT_USED: return "REPOSITORY_NOT_USED";
-        case RESTORE_LAST_GAME_SUCCEEDED: return "RESTORE_LAST_GAME_SUCCEEDED";
-        case RESTORE_LAST_GAME_FAILED: return "RESTORE_LAST_GAME_FAILED";
-        case SAVE_LAST_GAME_SUCCEEDED: return "SAVE_LAST_GAME_SUCCEEDED";
-        case SAVE_LAST_GAME_FAILED: return "SAVE_LAST_GAME_FAILED";
-        default:
-            snprintf(log, 64, "Unknown RepositoryStatus [%d]", status);
-            log_error(log);
-            return "?";
-    }
 }
 
 char* map_to_save_string(Map map) {

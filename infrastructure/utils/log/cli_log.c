@@ -8,6 +8,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "../../../domain/monsters/monsters.h"
+#include "../../repository/game_state.h"
 
 void log_info(const char* msg_info) {
     char * now = now_to_str();

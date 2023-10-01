@@ -10,6 +10,7 @@
 #include "../../infrastructure/utils/log/log.h"
 #include "../../ihm/ihm.h"
 #include "../repository.h"
+#include "../../application/port/out/save_game_state.h"
 
 Fight turn(DoomDepths game);
 Player decrement_player_remaining_attacks(Player p);

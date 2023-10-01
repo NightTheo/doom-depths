@@ -10,15 +10,8 @@ int main() {
     srand(time(NULL));
 
     /* TODO
-     * [x] global struct with Map and player
-     * [x] change GameState to contain this struct
-     * [x] save this struct
-     * [x] restore this struct
-     * [x] display map and select a zone
-     * [x] fix display "items: [�T"
+     * [ ] NO LEAKS
      * [ ] specials traits in each zone
-     * [x] NO LEAKS
-     * [ ] grimoire -> no mana, quit
      *
      * THEN
      * [ ] Port & Adapters architecture

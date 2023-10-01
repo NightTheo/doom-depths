@@ -35,4 +35,10 @@ add_executable(DoomDepths main.c
         domain/doom_detpths/doom_depths.h
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
+        adapter/in/new_game.h
+        application/port/out/restore_last_game.h
+        infrastructure/repository/game_state.h
+        application/port/out/save_game_state.h
+        infrastructure/repository/repository_status/respository_status.c
+        infrastructure/repository/repository_status/respository_status.h
 )
