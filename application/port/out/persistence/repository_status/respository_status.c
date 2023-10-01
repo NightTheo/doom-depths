@@ -5,7 +5,8 @@
 
 #include <stdio.h>
 #include "respository_status.h"
-#include "../../utils/log/log.h"
+#include "../../log/log_error.h"
+#include "../../log/log_repository_status.h"
 
 const char* repository_status_to_string(RepositoryStatus status) {
     char log[64];
@@ -20,10 +21,4 @@ const char* repository_status_to_string(RepositoryStatus status) {
             log_error(log);
             return "?";
     }
-}
-
-void log_repository_status(RepositoryStatus status) {
-    char log[64];
-    const char* status_str = repository_status_to_string(status);
-    snprintf(log, 64, "Repository status: [%s]", status_str);
 }

@@ -5,7 +5,8 @@
 
 #include <stdio.h>
 #include "../cli_ihm.h"
-#include "../../../infrastructure/utils/log/log.h"
+#include "../../../application/port/out/log/log_error.h"
+#include "../../../application/port/out/log/log_info.h"
 
 Position ask_player_zone_position_to_go(Map map);
 void display_map(Map m);

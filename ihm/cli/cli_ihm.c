@@ -7,9 +7,11 @@
 #include "../ihm.h"
 #include "stdio.h"
 #include "cli_ihm.h"
-#include "../../infrastructure/utils/log/log.h"
-#include "../../application/port/out/restore_last_game.h"
+#include "../../application/port/out/persistence/restore_last_game.h"
 #include "../../application/port/in/new_game.h"
+#include "../../application/port/out/log/log_info.h"
+#include "../../application/port/out/log/log_monster.h"
+#include "../../application/port/out/log/log_error.h"
 
 PlayerFightAction ask_player_fight_action(Player p) {
     display_fight_actions(p);

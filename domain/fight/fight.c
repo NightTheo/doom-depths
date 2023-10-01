@@ -7,9 +7,14 @@
 #include "fight.h"
 #include "../../infrastructure/utils/random/random.h"
 #include "../../infrastructure/utils/utils.h"
-#include "../../infrastructure/utils/log/log.h"
 #include "../../ihm/ihm.h"
-#include "../../application/port/out/save_game_state.h"
+#include "../../application/port/out/persistence/save_game_state.h"
+#include "../../application/port/out/log/log_info.h"
+#include "../../application/port/out/log/log_player.h"
+#include "../../application/port/out/log/log_grimoire.h"
+#include "../../application/port/out/log/log_monster.h"
+#include "../../application/port/out/log/log_repository_status.h"
+#include "../../application/port/out/log/log_error.h"
 
 Fight turn(DoomDepths game);
 Player decrement_player_remaining_attacks(Player p);
@@ -26,30 +31,6 @@ Fight empty_fight() {
     f.monsters_list = empty_monster_list();
     f.player = empty_player();
     return f;
-}
-
-DoomDepths start_fight(DoomDepths game) {
-    if(doom_depths_is_empty(game)) {
-        log_error("Game is empty");
-        return game;
-    };
-    Fight f = get_current_fight_in_game(game);
-    f.player.remaining_number_of_attacks = f.player.equipment.weapon.max_number_of_attacks_per_turn;
-    while(player_is_alive(f.player) && f.monsters_list.size > 0) {
-        f = turn(set_current_fight_in_game(game, f));
-        f.player = monsters_attack_player(f.monsters_list, f.player);
-        f.player = player_recover_mana(f.player, 10);
-        f.player = restore_player_number_of_remaining_attacks(f.player);
-        f.turn += 1;
-    }
-
-    game.player = f.player;
-    game = set_current_fight_in_game(game, f);
-    Zone zone_finished = set_zone_status(
-            get_zone_of_player_current_zone_in_map(game.map),
-            ZONE_FINISHED
-            );
-    return set_current_zone_in_game(game, zone_finished);
 }
 
 Fight turn(DoomDepths game) {

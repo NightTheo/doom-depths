@@ -2,8 +2,8 @@
 #include <time.h>
 
 #include "domain/monsters/monsters.h"
-#include "domain/fight/fight.h"
 #include "ihm/ihm.h"
+#include "application/port/in/start_fight.h"
 
 int main() {
     srand(time(NULL));
@@ -13,11 +13,12 @@ int main() {
      * [ ] specials traits in each zone
      *
      * THEN
-     * [ ] Port & Adapters architecture
+     * [~] Port & Adapters architecture
      * [ ] Write beautiful readme
      *
      * THEN
      * [ ] Boost CLI
+     * [ ] parser JSON ? yeah
      *
      * THEN
      * [ ] SDL

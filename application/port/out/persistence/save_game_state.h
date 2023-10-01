@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_SAVE_GAME_STATE_H
 #define DOOMDEPTHS_SAVE_GAME_STATE_H
 
-#include "../../../infrastructure/repository/game_state.h"
+#include "game_state.h"
 
 RepositoryStatus save_game_state(GameState gameState);
 

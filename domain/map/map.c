@@ -6,7 +6,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "map.h"
-#include "../../infrastructure/utils/log/log.h"
+#include "../../application/port/out/log/log_error.h"
+#include "../../application/port/out/log/log_info.h"
 
 Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
     char log[64];

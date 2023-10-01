@@ -7,8 +7,9 @@
 #include "player.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "../../infrastructure/utils/log/log.h"
 #include "../../infrastructure/utils/utils.h"
+#include "../../application/port/out/log/log_info.h"
+#include "../../application/port/out/log/log_error.h"
 
 Player player_use_potion_from_inventory(Player player, uint8_t potion_index);
 

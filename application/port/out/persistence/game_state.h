@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_GAME_STATE_H
 #define DOOMDEPTHS_GAME_STATE_H
 
-#include "../../domain/doom_detpths/doom_depths.h"
+#include "../../../../domain/doom_detpths/doom_depths.h"
 #include "repository_status/respository_status.h"
 
 

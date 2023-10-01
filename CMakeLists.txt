@@ -4,7 +4,7 @@ project(DoomDepths C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(DoomDepths main.c
-        infrastructure/utils/log/cli_log.c
+        adapter/out/log/cli_log.c
         infrastructure/utils/utils.c
         domain/monsters/monsters.c
         infrastructure/utils/random/random.c
@@ -35,12 +35,20 @@ add_executable(DoomDepths main.c
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
         application/port/in/new_game.h
-        application/port/out/restore_last_game.h
-        infrastructure/repository/game_state.h
-        application/port/out/save_game_state.h
-        infrastructure/repository/repository_status/respository_status.c
-        infrastructure/repository/repository_status/respository_status.h
+        application/port/out/persistence/restore_last_game.h
+        application/port/out/persistence/game_state.h
+        application/port/out/persistence/save_game_state.h
+        application/port/out/persistence/repository_status/respository_status.c
+        application/port/out/persistence/repository_status/respository_status.h
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
         application/service/new_game.c
+        application/port/in/start_fight.h
+        application/service/start_fight.c
+        application/port/out/log/log_info.h
+        application/port/out/log/log_error.h
+        application/port/out/log/log_monster.h
+        application/port/out/log/log_player.h
+        application/port/out/log/log_grimoire.h
+        application/port/out/log/log_repository_status.h
 )

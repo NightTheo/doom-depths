@@ -4,7 +4,8 @@
 //
 
 
-#include "../../infrastructure/repository/game_state.h"
+#include "../port/out/persistence/game_state.h"
+#include "../../application/port/in/new_game.h"
 #include "../../ihm/ihm.h"
 
 GameState new_game() {

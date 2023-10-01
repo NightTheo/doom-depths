@@ -7,7 +7,7 @@
 #include "doom_depths.h"
 #include "../../infrastructure/utils/random/random.h"
 #include "stdbool.h"
-#include "../../infrastructure/utils/log/log.h"
+#include "../../application/port/out/log/log_error.h"
 
 DoomDepths empty_game();
 

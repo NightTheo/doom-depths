@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include "inventory.h"
 #include "string.h"
-#include "../../../infrastructure/utils/log/log.h"
+#include "../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_error.h"
 
 InventoryItem free_inventory_item(InventoryItem i);
 

@@ -6,7 +6,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "time_util.h"
-#include "../log/log.h"
+#include "../../../application/port/out/log/log_error.h"
+
 
 char* now_to_str() {
     time_t timestamp = time(NULL);

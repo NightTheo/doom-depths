@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include "player_inventory_actions.h"
-#include "../../../../infrastructure/utils/log/log.h"
+#include "../../../../application/port/out/log/log_error.h"
 
 const char* inventory_action_to_string(PlayerInventoryAction action) {
     char log[32];

@@ -11,7 +11,7 @@
 #include "../domain/monsters/monsters.h"
 #include "../domain/fight/loot/loot.h"
 #include "../domain/map/map.h"
-#include "../infrastructure/repository/game_state.h"
+#include "../application/port/out/persistence/game_state.h"
 
 typedef enum StartMenuAction {
     NEW_GAME,

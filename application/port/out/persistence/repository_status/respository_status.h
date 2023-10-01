@@ -15,6 +15,5 @@ typedef enum RepositoryStatus {
 } RepositoryStatus;
 
 const char* repository_status_to_string(RepositoryStatus status);
-void log_repository_status(RepositoryStatus status);
 
 #endif //DOOMDEPTHS_RESPOSITORY_STATUS_H

@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include "../cli_ihm.h"
-#include "../../../infrastructure/utils/log/log.h"
+#include "../../../application/port/out/log/log_info.h"
 
 void display_grimoire(Grimoire g);
 int16_t get_spell_index_to_cast_in_grimoire(Grimoire g, uint16_t max_mana);

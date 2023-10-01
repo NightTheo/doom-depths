@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include "player_fight_actions.h"
-#include "../../../infrastructure/utils/log/log.h"
+#include "../../../application/port/out/log/log_error.h"
 
 const char* player_fight_action_to_string(PlayerFightAction action) {
     char log[64];

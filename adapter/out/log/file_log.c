@@ -3,11 +3,19 @@
 // Created by Theo OMNES on 12/09/2023.
 //
 
-#include "log.h"
 #include "stdlib.h"
 #include "stdio.h"
 
+#include "../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_error.h"
+#include "../../../infrastructure/utils/time/time_util.h"
+
+#include "../../../domain/player/player.h"
+#include "../../../domain/monsters/monsters.h"
+
 #define LOG_FILE_PATH "log.txt"
+#define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
+#define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 
 void log_info(const char* msg_info) {
     FILE* f = fopen(LOG_FILE_PATH, "at");

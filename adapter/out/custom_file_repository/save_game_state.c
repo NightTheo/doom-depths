@@ -5,8 +5,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "../../../application/port/out/save_game_state.h"
-#include "../../../infrastructure/utils/log/log.h"
+#include "../../../application/port/out/persistence/save_game_state.h"
+#include "../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_error.h"
 
 
 #define SAVE_FILE_PATH "doomdetphs.save"
@@ -316,7 +317,7 @@ char* map_zones_to_save_string(Map map) {
         log_allocation_error();
         return NULL;
     }
-
+    strncpy(s, "", 4);
     for(int x = 0; x < map.width; x++) {
         for(int y = 0; y < map.height; y++) {
             char* zone_str = zone_to_save_string(map.zones[y][x], x, y);

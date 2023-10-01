@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_RESTORE_LAST_GAME_H
 #define DOOMDEPTHS_RESTORE_LAST_GAME_H
 
-#include "../../../infrastructure/repository/game_state.h"
+#include "game_state.h"
 
 GameState restore_last_game();
 

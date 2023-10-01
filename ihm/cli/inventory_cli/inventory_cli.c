@@ -6,8 +6,9 @@
 #include "inventory_cli.h"
 
 #include <stdio.h>
-#include "../../../infrastructure/utils/log/log.h"
 #include "../../ihm.h"
+#include "../../../application/port/out/log/log_error.h"
+#include "../../../application/port/out/log/log_info.h"
 
 
 Player enter_player_s_inventory(Player p) {
