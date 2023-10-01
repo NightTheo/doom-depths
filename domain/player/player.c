@@ -119,3 +119,8 @@ Player free_player(Player p) {
     p.inventory = free_inventory(p.inventory);
     return p;
 }
+
+Player reset_remaining_number_of_attacks(Player player) {
+    player.remaining_number_of_attacks = player.equipment.weapon.max_number_of_attacks_per_turn;
+    return player;
+}

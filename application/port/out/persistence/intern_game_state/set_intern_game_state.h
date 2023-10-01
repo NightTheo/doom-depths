@@ -6,8 +6,8 @@
 #ifndef DOOMDEPTHS_SET_INTERN_GAME_STATE_H
 #define DOOMDEPTHS_SET_INTERN_GAME_STATE_H
 
-typedef struct GameState GameState;
+typedef struct DoomDepths DoomDepths;
 
-GameState set_intern_game_state(GameState game_state);
+DoomDepths set_intern_game_state(DoomDepths game_state);
 
 #endif //DOOMDEPTHS_SET_INTERN_GAME_STATE_H

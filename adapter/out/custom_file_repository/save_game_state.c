@@ -55,7 +55,7 @@ const char *zone_status_to_save_string(ZoneStatus status);
 RepositoryStatus save_game_state(GameState gameState) {
     log_info("Save game state");
 
-    Zone current_zone = get_zone_of_player_current_zone_in_map(gameState.game.map);
+    Zone current_zone = get_player_current_zone_in_map(gameState.game.map);
     char *player_str = player_to_save_string(current_zone.fight.player);
     char *turn_str = turn_to_save_string(current_zone.fight.turn);
     char *monsters_str = monsters_list_to_save_string(current_zone.fight.monsters_list);

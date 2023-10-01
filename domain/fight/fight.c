@@ -23,6 +23,7 @@
 #include "../../application/port/out/ihm/get_monster_to_attack.h"
 #include "../../application/port/out/ihm/get_fight_action.h"
 #include "../../application/port/in/attack_with_weapon.h"
+#include "../../application/port/out/persistence/intern_game_state/set_current_fight.h"
 
 Fight new_round(DoomDepths game);
 
@@ -63,7 +64,7 @@ Fight new_round(DoomDepths game) {
         f.monsters_list = list_of_monster_without_dead_ones(f.monsters_list);
     }
 
-    return f;
+    return set_current_fight(f);
 }
 
 Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
@@ -79,8 +80,13 @@ Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
             return enter_player_s_inventory_in_fight(f);
         case SAVE_GAME:
             return save_game_in_fight(game);
-        default:
+        default: {
+            char log[32];
+            snprintf(log, 32, "Unknown FightAction [%d].", action);
+            log_error(log);
             break;
+        }
+
     }
     return f;
 }
@@ -172,12 +178,4 @@ Fight free_fight(Fight fight) {
     fight.player = free_player(fight.player);
     fight.monsters_list = free_monsters_list(fight.monsters_list);
     return fight;
-}
-
-Fight init_new_fight(Player p, MonstersList m) {
-    Fight f;
-    f.player = p;
-    f.turn = 1;
-    f.monsters_list = m;
-    return f;
 }

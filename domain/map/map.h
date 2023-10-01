@@ -39,7 +39,9 @@ bool position_is_in_map_and_not_empty(Position p, Map m);
 
 Zone get_zone_in_map_by_position(Map map, Position position);
 
-Zone get_zone_of_player_current_zone_in_map(Map m);
+Map set_zone_in_map_by_position(Zone zone, Map map, Position position);
+
+Zone get_player_current_zone_in_map(Map m);
 
 bool position_is_finished(Position p, Map m);
 

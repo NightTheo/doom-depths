@@ -41,8 +41,6 @@ add_executable(DoomDepths main.c
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
         application/service/new_run.c
-        application/port/in/start_fight.h
-        application/service/start_fight.c
         application/port/out/log/log_info.h
         application/port/out/log/log_error.h
         application/port/out/log/log_monster.h
@@ -73,11 +71,26 @@ add_executable(DoomDepths main.c
         application/service/cast_spell.c
         application/service/drink_potion.c
         application/port/in/drink_potion.h
-        application/port/in/equip_item.c
+        application/service/equip_item.c
         application/port/in/equip_item.h
         application/port/in/start_ihm.h
         adapter/in/cli/cli_controller.c
         adapter/out/in_memory_intern_game_state/in_memory_intern_game_state.c
         application/port/out/persistence/intern_game_state/set_intern_game_state.h
         application/port/out/persistence/intern_game_state/get_intern_game_state.h
+        application/service/player_enter_zone.c
+        application/port/in/player_enter_zone.h
+        application/port/out/persistence/intern_game_state/get_map.h
+        application/service/leave_town.c
+        application/port/in/leave_town.h
+        application/port/in/query/is_current_fight_finished.h
+        application/port/out/persistence/intern_game_state/set_current_fight.h
+        application/port/in/query/is_player_alive.h
+        application/service/is_player_alive.c
+        application/port/out/persistence/intern_game_state/get_current_player.h
+        application/service/finish_current_zone.c
+        application/port/out/persistence/intern_game_state/get_current_zone.h
+        application/port/out/persistence/intern_game_state/set_current_map.h
+        application/port/in/finish_current_zone.h
+        application/port/in/query/is_current_fight_finished.c
 )

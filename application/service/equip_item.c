@@ -5,14 +5,14 @@
 
 #include <stdio.h>
 
-#include "equip_item.h"
+#include "../port/in/equip_item.h"
 
-#include "../../../domain/player/player.h"
+#include "../../domain/player/player.h"
 
-#include "../out/log/log_error.h"
-#include "../out/log/log_info.h"
+#include "../port/out/log/log_error.h"
+#include "../port/out/log/log_info.h"
 
-#include "../../../infrastructure/utils/utils.h"
+#include "../../infrastructure/utils/utils.h"
 
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index);

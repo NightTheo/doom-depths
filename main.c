@@ -1,14 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "domain/monsters/monsters.h"
-
-#include "application/port/in/start_fight.h"
-
-#include "application/port/out/persistence/intern_game_state/game_state.h"
-#include "application/port/out/ihm/display_leave_town_actions.h"
-#include "application/port/out/ihm/display_game_over.h"
-#include "application/port/out/ihm/display_map.h"
 #include "application/port/in/start_ihm.h"
 
 int main() {

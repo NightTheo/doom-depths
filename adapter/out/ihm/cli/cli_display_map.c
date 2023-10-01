@@ -39,7 +39,7 @@ bool can_display_position_in_map(Position p, Map m) {
 /*
      a   b   c
 0           [x]
-1   [ ] [ ] [ ]
+1   [x] [x] [x]
 2   [ ]
 */
 void display_map(Map m) {

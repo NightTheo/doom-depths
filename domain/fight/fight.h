@@ -40,6 +40,4 @@ Player monsters_attack_player(MonstersList monsters, Player p);
 
 Fight free_fight(Fight fight);
 
-Fight init_new_fight(Player p, MonstersList m);
-
 #endif //DOOMDEPTHS_FIGHT_H

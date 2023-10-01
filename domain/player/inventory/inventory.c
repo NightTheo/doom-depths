@@ -160,7 +160,6 @@ char *item_to_string(InventoryItem item) {
 }
 
 char *inventory_to_string(Inventory inventory) {
-    // TODO fix error bad chars at start of items
     char *res = malloc(1500);
     strcpy(res, "");
     char str_items[1024];
@@ -170,7 +169,7 @@ char *inventory_to_string(Inventory inventory) {
         if (i < inventory.capacity - 1) {
             const char *separator = ", ";
             item = realloc(item, strlen(item) + strlen(separator) + 1);
-            strcat(item, separator);
+            strncat(item, separator, 4);
         }
         strncat(str_items, item, 1024);
         free(item);

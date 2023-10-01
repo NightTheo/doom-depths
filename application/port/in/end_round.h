@@ -8,6 +8,6 @@
 
 typedef struct Fight Fight;
 
-Fight end_round(Fight fight);
+Fight end_round();
 
 #endif //DOOMDEPTHS_END_ROUND_H

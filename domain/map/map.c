@@ -8,6 +8,7 @@
 #include "map.h"
 #include "../../application/port/out/log/log_error.h"
 #include "../../application/port/out/log/log_info.h"
+#include "../../infrastructure/utils/random/random.h"
 
 Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
     char log[64];
@@ -120,17 +121,22 @@ bool position_is_in_map(Position p, Map m) {
 }
 
 
-Map spawn_player_on_map_at_position(Player player, Map m, Position spawn) {
-    if (position_is_in_map_and_not_empty(spawn, m) == false) {
+Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
+    if (position_is_in_map_and_not_empty(position, m) == false) {
         return m;
     }
 
-    m.spawn = spawn;
-    Zone z = m.zones[spawn.zone_y][spawn.zone_x];
-    z.fight = free_fight(z.fight);
-    z.fight.player = player;
-    // TODO init fight (monsters by zone);
-    m.zones[spawn.zone_y][spawn.zone_x] = z;
+    Position old_position = m.spawn;
+
+    m.spawn = position;
+    Zone z = m.zones[position.zone_y][position.zone_x];
+    if(!positions_a_equals_b(old_position, position)) {
+        free_fight(z.fight);
+    }
+    z.fight.player = reset_remaining_number_of_attacks(player);
+    z.fight.monsters_list = random_list_of_monsters(random_between_included(2, 5));
+    z.fight.turn = 1;
+    m.zones[position.zone_y][position.zone_x] = z;
     return m;
 }
 
@@ -141,8 +147,16 @@ Zone get_zone_in_map_by_position(Map map, Position position) {
     return map.zones[position.zone_y][position.zone_x];
 }
 
+Map set_zone_in_map_by_position(Zone zone, Map map, Position position) {
+    if (position_is_in_map(position, map) == false) {
+        return empty_map();
+    }
+    map.zones[position.zone_y][position.zone_x] = zone;
+    return map;
+}
 
-Zone get_zone_of_player_current_zone_in_map(Map m) {
+
+Zone get_player_current_zone_in_map(Map m) {
     return get_zone_in_map_by_position(m, m.spawn);
 }
 

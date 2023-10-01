@@ -11,7 +11,8 @@
 
 DoomDepths empty_game();
 
-DoomDepths new_doom_depths(Position spawn, Map map, Player p) {
+DoomDepths new_doom_depths(Map map, Player p) {
+    Position spawn = map.spawn;
     if (position_is_in_map_and_not_empty(spawn, map) == false) {
         log_error("Bad spawn.");
         free_map(map);
@@ -21,10 +22,6 @@ DoomDepths new_doom_depths(Position spawn, Map map, Player p) {
     DoomDepths game;
     game.map = spawn_player_on_map_at_position(p, map, spawn);
     game.player = p;
-    game.map.zones[spawn.zone_y][spawn.zone_x].fight = init_new_fight(
-            game.player,
-            random_list_of_monsters(random_between_included(2, 5))
-    );
 
     return game;
 }
@@ -38,7 +35,7 @@ DoomDepths empty_game() {
 }
 
 Fight get_current_fight_in_game(DoomDepths game) {
-    return get_zone_of_player_current_zone_in_map(game.map).fight;
+    return get_player_current_zone_in_map(game.map).fight;
 }
 
 DoomDepths set_current_zone_in_game(DoomDepths game, Zone zone) {
@@ -48,7 +45,7 @@ DoomDepths set_current_zone_in_game(DoomDepths game, Zone zone) {
 }
 
 DoomDepths set_current_fight_in_game(DoomDepths game, Fight f) {
-    Zone z = get_zone_of_player_current_zone_in_map(game.map);
+    Zone z = get_player_current_zone_in_map(game.map);
     z.fight = f;
     return set_current_zone_in_game(game, z);
 }

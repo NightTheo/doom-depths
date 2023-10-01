@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-#include "../../../../application/port/out/ihm/leave_town_action.h"
+#include "../../../../application/port/in/leave_town_action.h"
 
 #include "../../../../application/port/in/new_run.h"
 #include "../../../../application/port/in/continue_last_run.h"

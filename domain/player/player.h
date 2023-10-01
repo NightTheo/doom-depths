@@ -48,4 +48,6 @@ Player free_player(Player p);
 
 bool player_is_empty(Player p);
 
+Player reset_remaining_number_of_attacks(Player player);
+
 #endif //DOOMDEPTHS_PLAYER_H

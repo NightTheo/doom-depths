@@ -15,7 +15,7 @@ struct DoomDepths {
     Player player;
 };
 
-DoomDepths new_doom_depths(Position spawn, Map map, Player p);
+DoomDepths new_doom_depths(Map map, Player p);
 
 Fight get_current_fight_in_game(DoomDepths game);
 

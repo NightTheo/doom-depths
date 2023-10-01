@@ -1,0 +1,36 @@
+
+//
+// Created by Theo OMNES on 01/10/2023.
+//
+
+#include <stdio.h>
+#include "../port/out/persistence/intern_game_state/game_state.h"
+#include "../port/in/leave_town_action.h"
+//#include "leave_town.h"
+#include "../port/out/log/log_error.h"
+#include "../port/in/new_run.h"
+#include "../port/in/continue_last_run.h"
+
+bool leave_town(LeaveTownAction action) {
+    if(action < 0 || action >= _leave_town_actions_count) {
+        log_error("Not a valid action");
+        return false;
+    }
+
+    switch (action) {
+        case NEW_RUN:
+            new_run();
+            break;
+        case RESTORE_LAST_GAME:
+            continue_last_run();
+            break;
+        default: {
+            char log[64];
+            sprintf(log, "Unknown choice [%d]", action);
+            log_error(log);
+            new_run();
+            return false;
+        }
+    }
+    return true;
+}
