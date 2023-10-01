@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 #include "respository_status.h"
-#include "../log/log_error.h"
-#include "../log/log_repository_status.h"
+#include "../../log/log_error.h"
+#include "../../log/log_repository_status.h"
 
 const char *repository_status_to_string(RepositoryStatus status) {
     char log[64];

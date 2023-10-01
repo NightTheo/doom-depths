@@ -33,11 +33,11 @@ add_executable(DoomDepths main.c
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
         application/port/in/new_run.h
-        application/port/out/persistence/restore_last_game.h
-        application/port/out/persistence/game_state.h
-        application/port/out/persistence/save_game_state.h
-        application/port/out/persistence/respository_status.c
-        application/port/out/persistence/respository_status.h
+        application/port/out/persistence/storage/restore_last_game.h
+        application/port/out/persistence/intern_game_state/game_state.h
+        application/port/out/persistence/storage/save_game_state.h
+        application/port/out/persistence/storage/respository_status.c
+        application/port/out/persistence/storage/respository_status.h
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
         application/service/new_run.c
@@ -49,7 +49,7 @@ add_executable(DoomDepths main.c
         application/port/out/log/log_player.h
         application/port/out/log/log_grimoire.h
         application/port/out/log/log_repository_status.h
-        application/port/out/ihm/leave_town.h
+        application/port/out/ihm/display_leave_town_actions.h
         adapter/out/ihm/cli/cli_leave_town.c
         application/port/out/ihm/display_loot.h
         adapter/out/ihm/cli/cli_display_loot.c
@@ -75,4 +75,9 @@ add_executable(DoomDepths main.c
         application/port/in/drink_potion.h
         application/port/in/equip_item.c
         application/port/in/equip_item.h
+        application/port/in/start_ihm.h
+        adapter/in/cli/cli_controller.c
+        adapter/out/in_memory_intern_game_state/in_memory_intern_game_state.c
+        application/port/out/persistence/intern_game_state/set_intern_game_state.h
+        application/port/out/persistence/intern_game_state/get_intern_game_state.h
 )

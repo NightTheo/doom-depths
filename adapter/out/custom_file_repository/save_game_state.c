@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "../../../application/port/out/persistence/save_game_state.h"
+#include "../../../application/port/out/persistence/storage/save_game_state.h"
 #include "../../../application/port/out/log/log_info.h"
 #include "../../../application/port/out/log/log_error.h"
 

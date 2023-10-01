@@ -14,7 +14,7 @@
 #include "../../../application/port/out/log/log_player.h"
 #include "../../../application/port/out/log/log_monster.h"
 #include "../../../application/port/out/log/log_grimoire.h"
-#include "../../../application/port/out/persistence/respository_status.h"
+#include "../../../application/port/out/persistence/storage/respository_status.h"
 #include "../../../application/port/out/log/log_repository_status.h"
 
 #include "../../../domain/player/player.h"

@@ -6,8 +6,8 @@
 #ifndef DOOMDEPTHS_GAME_STATE_H
 #define DOOMDEPTHS_GAME_STATE_H
 
-#include "../../../../domain/doom_depths/doom_depths.h"
-#include "respository_status.h"
+#include "../../../../../domain/doom_depths/doom_depths.h"
+#include "../storage/respository_status.h"
 
 
 typedef struct GameState GameState;

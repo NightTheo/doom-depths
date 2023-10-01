@@ -5,10 +5,11 @@
 
 #include "application/port/in/start_fight.h"
 
-#include "application/port/out/persistence/game_state.h"
-#include "application/port/out/ihm/leave_town.h"
+#include "application/port/out/persistence/intern_game_state/game_state.h"
+#include "application/port/out/ihm/display_leave_town_actions.h"
 #include "application/port/out/ihm/display_game_over.h"
 #include "application/port/out/ihm/display_map.h"
+#include "application/port/in/start_ihm.h"
 
 int main() {
     srand(time(NULL));
@@ -18,7 +19,8 @@ int main() {
      * [ ] specials traits in each zone
      *
      * THEN
-     * [/] Port & Adapters architecture
+     * [x] Port & Adapters architecture
+     * [ ] Refactoring loop engine
      * [ ] Write beautiful readme
      * [ ] parser JSON ? yeah
      *
@@ -31,17 +33,7 @@ int main() {
      * [ ] multi language ? by factory
     */
 
-    GameState state = leave_town();
-    while (true) {
-        state.game = start_fight(state.game);
-        if (player_is_dead(state.game.player)) {
-            display_game_over();
-            break;
-        }
-        state.game.map.spawn = enter_map(state.game.map);
-        state.game.map = spawn_player_on_map_at_position(state.game.player, state.game.map, state.game.map.spawn);
-    }
+    start_ihm();
 
-    free_doom_depths(state.game);
     return EXIT_SUCCESS;
 }
