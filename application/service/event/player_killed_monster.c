@@ -9,12 +9,14 @@
 #include "../../../domain/fight/event/player_killed_monster.h"
 #include "../../port/out/persistence/intern_game_state/get_current_fight.h"
 #include "../../port/out/ihm/display_loot.h"
+#include "../../port/out/persistence/intern_game_state/set_current_fight.h"
 
 void player_killed_monster(Loot loot) {
     Fight fight = get_current_fight();
     fight.monsters_list = list_of_monster_without_dead_ones(fight.monsters_list);
-    if (loot_is_not_empty(loot)) {
+    if (loot_is_not_empty(loot) == false) {
         display_loot(loot);
         fight.player.inventory = push_loot_in_inventory(fight.player.inventory, loot);
     }
+    set_current_fight(fight);
 }

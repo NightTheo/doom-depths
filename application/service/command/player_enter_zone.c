@@ -20,6 +20,6 @@ DoomDepths player_enter_zone(Position position) {
     if (player_is_empty(player)) free_player(player);
 
     game.map = spawn_player_on_map_at_position(player, game.map, position);
-    set_intern_game_state(game);
-    return game;
+
+    return set_intern_game_state(game);
 }

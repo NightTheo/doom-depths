@@ -13,6 +13,7 @@
 #include "../../port/out/log/log_error.h"
 #include "../../port/out/persistence/intern_game_state/set_current_fight.h"
 #include "../../../domain/fight/event/player_killed_monster.h"
+#include "../../port/out/persistence/intern_game_state/get_current_fight.h"
 
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
 
@@ -51,10 +52,11 @@ Fight cast_spell_on_player_in_fight(Fight f, Spell s) {
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s) {
     Monster monster_attacked = f.monsters_list.monsters[0];
     monster_attacked = s.cast_on_monster(monster_attacked);
+    f.monsters_list.monsters[0] = monster_attacked;
+    set_current_fight(f);
+
     if (monster_is_dead(monster_attacked)) {
         player_killed_monster(random_loot());
     }
-
-    f.monsters_list.monsters[0] = monster_attacked;
-    return set_current_fight(f);
+    return get_current_fight();
 }

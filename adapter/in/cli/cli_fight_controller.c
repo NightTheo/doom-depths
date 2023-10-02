@@ -86,7 +86,7 @@ PlayerFightAction ask_player_fight_action(Player p) {
     do {
         fflush(stdin);
         scanf("%d", &input);
-    } while (input <= (p.remaining_number_of_attacks > 0 ? ATTACK : END_ROUND) || input >= __player_fight_action_count);
+    } while (input <= (p.remaining_number_of_attacks > 0 ? ATTACK : END_ROUND) || input > __player_fight_action_count);
 
     char log[32];
     snprintf(log, 32, "Player choose action [%s]", player_fight_action_to_string(input - 1));

@@ -21,9 +21,11 @@ Fight attack_with_weapon() {
     );
     fight.player = attackResult.player;
     fight.monsters_list.monsters[0] = attackResult.monster;
+    set_current_fight(fight);
+
     if (monster_is_dead(fight.monsters_list.monsters[0])) {
         player_killed_monster(attackResult.loot);
     }
 
-    return set_current_fight(fight);
+    return get_current_fight();
 }

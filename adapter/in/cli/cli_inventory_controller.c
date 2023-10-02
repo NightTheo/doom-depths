@@ -93,7 +93,7 @@ PlayerInventoryAction get_player_inventory_action() {
 uint8_t get_item_index(Inventory inventory) {
     int8_t input = -1;
 
-    fprintf(stdout, "Select item an item (enter its number) [1-10]\n");
+    fprintf(stdout, "Select an item (enter its number) [1-10]\n");
     do {
         fflush(stdin);
         scanf("%hhd", &input);

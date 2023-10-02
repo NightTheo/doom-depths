@@ -13,7 +13,7 @@ int main() {
      * THEN
      * [x] Port & Adapters architecture
      * [ ] log variatique (format,...)
-     * [ ] Refactoring loop engine
+     * [x] Refactoring loop engine
      * [ ] Write beautiful readme
      * [ ] parser JSON ? yeah
      *

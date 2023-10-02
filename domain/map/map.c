@@ -166,8 +166,8 @@ bool position_is_finished(Position p, Map m) {
 
 bool player_can_move_to_position_in_map(Position p, Map m) {
     if (position_is_in_map_and_not_empty(p, m) == false) return false;
-    if (positions_a_equals_b(m.spawn, p)) return true;
     if (position_is_finished(p, m)) return false;
+    if (positions_a_equals_b(m.spawn, p)) return true;
 
     bool player_can_move = position_is_finished(up_from(p), m)
                            || position_is_finished(down_from(p), m)

@@ -119,7 +119,7 @@ Inventory free_inventory(Inventory inventory) {
     for (int i = 0; i < inventory.capacity; i++) {
         inventory.items[i] = free_inventory_item(inventory.items[i]);
     }
-    free(inventory.items);
+    //free(inventory.items);
     inventory.items = NULL;
     return inventory;
 }
