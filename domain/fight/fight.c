@@ -10,34 +10,15 @@
 
 #include "../../infrastructure/utils/random/random.h"
 #include "../../infrastructure/utils/utils.h"
-#include "../../application/port/out/persistence/storage/save_game_state.h"
 #include "../../application/port/out/log/log_info.h"
-#include "../../application/port/out/log/log_player.h"
-#include "../../application/port/out/log/log_grimoire.h"
 #include "../../application/port/out/log/log_monster.h"
-#include "../../application/port/out/log/log_repository_status.h"
-#include "../../application/port/out/log/log_error.h"
-#include "../../application/port/out/ihm/display_loot.h"
-#include "../../application/port/out/ihm/display_player_inventory.h"
-#include "../../application/port/out/ihm/display_grimoire.h"
-#include "../../application/port/out/ihm/get_monster_to_attack.h"
-#include "../../application/port/out/ihm/get_fight_action.h"
-#include "../../application/port/in/attack_with_weapon.h"
 #include "../../application/port/out/persistence/intern_game_state/set_current_fight.h"
 
-Fight new_round(DoomDepths game);
-
 Player decrement_player_remaining_attacks(Player p);
-
-Fight player_makes_action(PlayerFightAction action, DoomDepths game);
 
 Fight cast_spell_on_player_in_fight(Fight f, Spell s);
 
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
-
-Fight enter_player_s_inventory_in_fight(Fight f);
-
-Fight save_game_in_fight(DoomDepths game);
 
 Fight empty_fight() {
     Fight f;
@@ -45,62 +26,6 @@ Fight empty_fight() {
     f.monsters_list = empty_monster_list();
     f.player = empty_player();
     return f;
-}
-
-Fight new_round(DoomDepths game) {
-    Fight f = get_current_fight_in_game(game);
-    char turn_log[16];
-    sprintf(turn_log, "round %d", f.turn);
-    log_info(turn_log);
-
-    while (f.monsters_list.size > 0) {
-        log_player(f.player);
-        log_grimoire(f.player.grimoire);
-        log_monsters(f.monsters_list);
-        game = set_current_fight_in_game(game, f);
-        PlayerFightAction action = ask_player_fight_action(f.player);
-        if (action == END_ROUND) break;
-        f = player_makes_action(action, game);
-        f.monsters_list = list_of_monster_without_dead_ones(f.monsters_list);
-    }
-
-    return set_current_fight(f);
-}
-
-Fight player_makes_action(PlayerFightAction action, DoomDepths game) {
-    Fight f = get_current_fight_in_game(game);
-    switch (action) {
-        case END_ROUND:
-            return f;
-        case ATTACK:
-            return attack_with_weapon(f);
-        case OPEN_GRIMOIRE:
-            return open_grimoire_in_fight(f);
-        case SHOW_INVENTORY:
-            return enter_player_s_inventory_in_fight(f);
-        case SAVE_GAME:
-            return save_game_in_fight(game);
-        default: {
-            char log[32];
-            snprintf(log, 32, "Unknown FightAction [%d].", action);
-            log_error(log);
-            break;
-        }
-
-    }
-    return f;
-}
-
-
-Fight enter_player_s_inventory_in_fight(Fight f) {
-    f.player = display_player_inventory(f.player);
-    return f;
-}
-
-Fight save_game_in_fight(DoomDepths game) {
-    RepositoryStatus status = save_game_state((GameState) {REPOSITORY_NOT_USED, game});
-    log_repository_status(status);
-    return get_current_fight_in_game(game);
 }
 
 Monster monster_takes_damages(Monster m, uint8_t damages) {
@@ -114,7 +39,7 @@ Monster monster_takes_damages(Monster m, uint8_t damages) {
 
 AttackResult player_attacks_monster(Player p, Monster m) {
     AttackResult res = {p, m, empty_loot()};
-    if(monster_is_dead(m)) {
+    if (monster_is_dead(m)) {
         log_info("Monster already dead.");
         return res;
     }
@@ -128,7 +53,6 @@ AttackResult player_attacks_monster(Player p, Monster m) {
     res.monster = monster_takes_damages(m, damages);
     if (monster_is_dead(res.monster)) {
         res.loot = random_loot();
-        display_loot(res.loot);
     }
     return res;
 }

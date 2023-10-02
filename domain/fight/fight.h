@@ -9,6 +9,7 @@
 #include "../monsters/monsters.h"
 #include "../player/player.h"
 #include "loot/loot.h"
+#include "player_fight_action/player_fight_actions.h"
 
 typedef struct DoomDepths DoomDepths;
 
@@ -25,8 +26,6 @@ typedef struct AttackResult {
 } AttackResult;
 
 Fight empty_fight();
-
-Fight new_round(DoomDepths game);
 
 Monster monster_takes_damages(Monster m, uint8_t damages);
 

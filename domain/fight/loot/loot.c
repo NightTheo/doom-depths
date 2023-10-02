@@ -42,3 +42,10 @@ char *loot_to_string(Loot l) {
     free(potion_str);
     return str;
 }
+
+bool loot_is_not_empty(Loot l) {
+    return l.potion.is_full
+           && l.gold > 0
+           && l.armor.kind != EMPTY_ARMOR
+           && l.weapon.kind != EMPTY_WEAPON;
+}

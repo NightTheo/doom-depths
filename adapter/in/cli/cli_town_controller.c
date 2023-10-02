@@ -1,21 +1,14 @@
 
 //
-// Created by Theo OMNES on 01/10/2023.
+// Created by Theo OMNES on 02/10/2023.
 //
 
 #include <stdio.h>
 
-#include "../../../../application/port/in/leave_town_action.h"
-
-#include "../../../../application/port/in/new_run.h"
-#include "../../../../application/port/in/continue_last_run.h"
-
-#include "../../../../application/port/out/persistence/storage/restore_last_game.h"
-#include "../../../../application/port/out/log/log_error.h"
-
+#include "../../../application/port/in/leave_town_action.h"
+#include "../../../application/port/out/log/log_error.h"
 
 const char *leave_town_options_to_string(LeaveTownAction action);
-
 
 void display_leave_town_actions() {
     for (LeaveTownAction a = 0; a < _leave_town_actions_count; a++) {
@@ -36,4 +29,13 @@ const char *leave_town_options_to_string(LeaveTownAction action) {
             log_error(log);
             return "Unknown action";
     }
+}
+
+LeaveTownAction get_leave_town_action() {
+    int8_t input = -1;
+    do {
+        fflush(stdin);
+        scanf("%hhd", &input);
+    } while (input <= 0 || input > _leave_town_actions_count);
+    return (LeaveTownAction) input - 1;
 }

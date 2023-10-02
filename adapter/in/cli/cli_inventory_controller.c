@@ -5,11 +5,13 @@
 
 #include <stdio.h>
 
-#include "../../../../domain/player/player.h"
-#include "../../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
+#include "../../../domain/player/player.h"
+#include "../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
 
-#include "../../../../application/port/out/log/log_error.h"
-#include "../../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_error.h"
+#include "../../../application/port/out/log/log_info.h"
+#include "../../../application/port/in/equip_item.h"
+#include "../../../application/port/in/drink_potion.h"
 
 
 void display_inventory_items(Inventory inventory);
@@ -22,8 +24,10 @@ PlayerInventoryAction get_player_inventory_action();
 
 uint8_t get_item_index(Inventory inventory);
 
+Player player_use_item_from_inventory(Player p, uint8_t index_item);
 
-Player display_player_inventory(Player p) {
+
+Player enter_player_inventory(Player p) {
     while (true) {
         char *equipment_str = equipment_to_string(p.equipment);
         fprintf(stdout, "%s\n", equipment_str);
@@ -96,4 +100,28 @@ uint8_t get_item_index(Inventory inventory) {
     } while (input < 1 || input > inventory.capacity);
 
     return input - 1;
+}
+
+Player player_use_item_from_inventory(Player p, uint8_t index_item) {
+    char log[64];
+    if (index_item < 0 || index_item >= p.inventory.capacity) {
+        snprintf(log, 64, "Index [%d] is not in inventory", index_item);
+        log_error(log);
+        return p;
+    }
+
+    InventoryItem item_to_use = p.inventory.items[index_item];
+    switch (item_to_use.type) {
+        case EMPTY_ITEM:
+            log_info("Empty item, nothing to do.");
+            break;
+        case POTION_ITEM:
+            p = drink_potion_at_index(p, index_item);
+            break;
+        default:
+            log_info("Item not usable.");
+            break;
+    }
+
+    return p;
 }

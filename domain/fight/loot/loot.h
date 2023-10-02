@@ -7,6 +7,7 @@
 #define DOOMDEPTHS_LOOT_H
 
 #include "stdint.h"
+#include "stdbool.h"
 #include "../weapon/weapon.h"
 #include "../armor/armor.h"
 #include "../../magic/mana_potion/mana_potion.h"
@@ -23,5 +24,7 @@ Loot empty_loot();
 Loot random_loot();
 
 char *loot_to_string(Loot l);
+
+bool loot_is_not_empty(Loot l);
 
 #endif //DOOMDEPTHS_LOOT_H

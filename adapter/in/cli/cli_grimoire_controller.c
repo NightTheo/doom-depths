@@ -5,23 +5,24 @@
 
 #include <stdio.h>
 
-#include "../../../../domain/fight/fight.h"
+#include "../../../domain/fight/fight.h"
 
-#include "../../../../application/port/in/cast_spell.h"
+#include "../../../application/port/in/cast_spell.h"
 
-#include "../../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_info.h"
 
 void display_grimoire(Grimoire g);
 
 int16_t get_spell_index_to_cast_in_grimoire(Grimoire g, uint16_t max_mana);
 
+Spell get_spell_by_index(Grimoire g, int16_t index);
+
+
 Fight open_grimoire_in_fight(Fight f) {
-    Spell s = get_spell_by_index(f.player.grimoire, get_spell_index_to_cast_in_grimoire(f.player.grimoire,
-                                                                                        f.player.current_mana));
-    if (spell_is_empty(s)) {
-        log_info("Couln't get spell to cast.");
-        return f;
-    }
+    Spell s = get_spell_by_index(
+            f.player.grimoire,
+            get_spell_index_to_cast_in_grimoire(f.player.grimoire, f.player.current_mana)
+    );
     f = cast_spell(f, s);
     return f;
 }
@@ -55,3 +56,12 @@ int16_t get_spell_index_to_cast_in_grimoire(Grimoire g, uint16_t max_mana) {
     return input - 1;
 }
 
+Spell get_spell_by_index(Grimoire g, int16_t index) {
+    if (index < 0 || index >= g.number_of_spells) {
+        char log[32];
+        snprintf(log, 32, "Index [%d] is not in grimoire.", index);
+        log_info(log);
+        return empty_spell();
+    }
+    return g.spells[index];
+}

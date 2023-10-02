@@ -65,13 +65,3 @@ char *grimoire_to_string(Grimoire g) {
              g.spells[0].name, g.spells[1].name);
     return s;
 }
-
-Spell get_spell_by_index(Grimoire g, int16_t index) {
-    if (index < 0 || index >= g.number_of_spells) {
-        char log[32];
-        snprintf(log, 32, "Index [%d] is not in grimoire.", index);
-        log_info(log);
-        return empty_spell();
-    }
-    return g.spells[index];
-}

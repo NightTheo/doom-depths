@@ -8,6 +8,6 @@
 
 #include "../intern_game_state/game_state.h"
 
-RepositoryStatus save_game_state(GameState gameState);
+RepositoryStatus save_game_state(DoomDepths game);
 
 #endif //DOOMDEPTHS_SAVE_GAME_STATE_H

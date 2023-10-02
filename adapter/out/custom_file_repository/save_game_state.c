@@ -52,14 +52,14 @@ char *zone_to_save_string(Zone z, uint8_t x, uint8_t y);
 
 const char *zone_status_to_save_string(ZoneStatus status);
 
-RepositoryStatus save_game_state(GameState gameState) {
+RepositoryStatus save_game_state(DoomDepths game) {
     log_info("Save game state");
 
-    Zone current_zone = get_player_current_zone_in_map(gameState.game.map);
+    Zone current_zone = get_player_current_zone_in_map(game.map);
     char *player_str = player_to_save_string(current_zone.fight.player);
     char *turn_str = turn_to_save_string(current_zone.fight.turn);
     char *monsters_str = monsters_list_to_save_string(current_zone.fight.monsters_list);
-    char *map_str = map_to_save_string(gameState.game.map);
+    char *map_str = map_to_save_string(game.map);
 
     FILE *f = fopen(SAVE_FILE_PATH, "w");
     if (f == NULL) {

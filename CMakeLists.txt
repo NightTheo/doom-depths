@@ -20,14 +20,14 @@ add_executable(DoomDepths main.c
         domain/magic/spell/spell.c
         domain/magic/mana_potion/mana_potion.c
         domain/magic/grimoire/grimoire.c
-        adapter/out/ihm/cli/cli_display_grimoire.c
+        adapter/in/cli/cli_grimoire_controller.c
         domain/map/map.c
         domain/map/map.h
         domain/map/zone/zone.c
         domain/map/zone/zone.h
         domain/map/position/position.c
         domain/map/position/position.h
-        adapter/out/ihm/cli/cli_display_map.c
+        adapter/in/cli/cli_map_controller.c
         domain/doom_depths/doom_depths.c
         domain/doom_depths/doom_depths.h
         infrastructure/utils/time/time_util.c
@@ -47,20 +47,12 @@ add_executable(DoomDepths main.c
         application/port/out/log/log_player.h
         application/port/out/log/log_grimoire.h
         application/port/out/log/log_repository_status.h
-        application/port/out/ihm/display_leave_town_actions.h
-        adapter/out/ihm/cli/cli_leave_town.c
         application/port/out/ihm/display_loot.h
         adapter/out/ihm/cli/cli_display_loot.c
-        application/port/out/ihm/display_player_inventory.h
-        adapter/out/ihm/cli/cli_display_player_inventory.c
-        application/port/out/ihm/display_grimoire.h
+        adapter/in/cli/cli_inventory_controller.c
         application/port/out/ihm/display_game_over.h
         adapter/out/ihm/cli/cli_display_game_over.c
-        application/port/out/ihm/display_map.h
-        application/port/out/ihm/get_fight_action.h
-        adapter/out/ihm/cli/cli_get_fight_action.c
-        application/port/out/ihm/get_monster_to_attack.h
-        adapter/out/ihm/cli/cli_get_monster_to_attack.c
+        adapter/in/cli/cli_fight_controller.c
         application/port/in/continue_last_run.h
         application/service/continue_last_run.c
         application/port/in/attack_with_weapon.h
@@ -86,11 +78,20 @@ add_executable(DoomDepths main.c
         application/port/in/query/is_current_fight_finished.h
         application/port/out/persistence/intern_game_state/set_current_fight.h
         application/port/in/query/is_player_alive.h
-        application/service/is_player_alive.c
+        application/service/query/is_player_alive.c
         application/port/out/persistence/intern_game_state/get_current_player.h
         application/service/finish_current_zone.c
         application/port/out/persistence/intern_game_state/get_current_zone.h
         application/port/out/persistence/intern_game_state/set_current_map.h
         application/port/in/finish_current_zone.h
-        application/port/in/query/is_current_fight_finished.c
+        application/service/query/is_current_fight_finished.c
+        application/service/query/is_current_round_finished.c
+        application/port/in/query/is_current_round_finished.h
+        application/service/start_new_round.c
+        application/port/in/start_new_round.h
+        adapter/in/cli/cli_controllers.h
+        application/port/out/persistence/intern_game_state/set_player.h
+        adapter/in/cli/cli_town_controller.c
+        domain/fight/event/player_killed_monster.h
+        application/service/event/player_killed_monster.c
 )

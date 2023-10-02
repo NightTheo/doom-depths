@@ -12,7 +12,7 @@
 
 GameState continue_last_run() {
     GameState last_run = restore_last_game();
-    if(last_run.repository_status == SAVE_LAST_GAME_SUCCEEDED) {
+    if (last_run.repository_status == SAVE_LAST_GAME_SUCCEEDED) {
         set_intern_game_state(last_run.game);
     }
     return last_run;

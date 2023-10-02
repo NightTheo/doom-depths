@@ -11,15 +11,10 @@
 
 Fight end_round() {
     Fight fight = get_current_fight();
-    if(current_fight_is_finished()) return fight;
+    if (current_fight_is_finished()) return fight;
 
     fight.player = monsters_attack_player(fight.monsters_list, fight.player);
-
-    if(player_is_dead(fight.player)) return set_current_fight(fight);
-
-    fight.player = player_recover_mana(fight.player, 10);
-    fight.player = restore_player_number_of_remaining_attacks(fight.player);
-    fight.turn += 1;
+    if (player_is_dead(fight.player)) return set_current_fight(fight);
 
     return set_current_fight(fight);
 }

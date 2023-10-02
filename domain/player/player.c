@@ -91,36 +91,7 @@ bool player_is_dead(Player p) {
     return !player_is_alive(p);
 }
 
-Player player_use_item_from_inventory(Player p, uint8_t index_item) {
-    char log[64];
-    if (index_item < 0 || index_item >= p.inventory.capacity) {
-        snprintf(log, 64, "Index [%d] is not in inventory", index_item);
-        log_error(log);
-        return p;
-    }
-
-    InventoryItem item_to_use = p.inventory.items[index_item];
-    switch (item_to_use.type) {
-        case EMPTY_ITEM:
-            log_info("Empty item, nothing to do.");
-            break;
-        case POTION_ITEM:
-            p = drink_potion_at_index(p, index_item);
-            break;
-        default:
-            log_info("Item not usable.");
-            break;
-    }
-
-    return p;
-}
-
 Player free_player(Player p) {
     p.inventory = free_inventory(p.inventory);
     return p;
-}
-
-Player reset_remaining_number_of_attacks(Player player) {
-    player.remaining_number_of_attacks = player.equipment.weapon.max_number_of_attacks_per_turn;
-    return player;
 }

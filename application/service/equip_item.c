@@ -13,9 +13,11 @@
 #include "../port/out/log/log_info.h"
 
 #include "../../infrastructure/utils/utils.h"
+#include "../port/out/persistence/intern_game_state/set_player.h"
 
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index);
+
 Player player_equip_armor_from_inventory(Player p, uint8_t armor_index);
 
 
@@ -42,6 +44,7 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
             break;
     }
 
+
     return p;
 }
 
@@ -53,9 +56,9 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
         log_error(log);
         return p;
     }
-    InventoryItem w = p.inventory.items[weapon_index];
+    InventoryItem item_in_inventory = p.inventory.items[weapon_index];
     Weapon weapond_equiped_before = p.equipment.weapon;
-    p.equipment.weapon = *((Weapon *) w.item);
+    p.equipment.weapon = *((Weapon *) item_in_inventory.item);
 
     p.inventory.items[weapon_index] = weapon_inventory_item(weapond_equiped_before);
     p.remaining_number_of_attacks = min(
@@ -63,15 +66,17 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
             p.equipment.weapon.max_number_of_attacks_per_turn
     );
 
-    free(w.item);
-    w.item = NULL;
+    free(item_in_inventory.item);
+    item_in_inventory.item = NULL;
 
     //log
     char *w_str = weapon_to_string(p.equipment.weapon);
     snprintf(log, 128, "Player equiped %s", w_str);
     log_info(log);
     free(w_str);
-    return p;
+
+
+    return set_player(p);
 }
 
 Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
@@ -95,5 +100,6 @@ Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
     snprintf(log, 128, "Player equiped %s", a_str);
     log_info(log);
     free(a_str);
-    return p;
+
+    return set_player(p);
 }

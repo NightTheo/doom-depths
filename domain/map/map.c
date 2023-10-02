@@ -130,10 +130,10 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
 
     m.spawn = position;
     Zone z = m.zones[position.zone_y][position.zone_x];
-    if(!positions_a_equals_b(old_position, position)) {
+    if (!positions_a_equals_b(old_position, position)) {
         free_fight(z.fight);
     }
-    z.fight.player = reset_remaining_number_of_attacks(player);
+    z.fight.player = restore_player_number_of_remaining_attacks(player);
     z.fight.monsters_list = random_list_of_monsters(random_between_included(2, 5));
     z.fight.turn = 1;
     m.zones[position.zone_y][position.zone_x] = z;

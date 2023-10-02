@@ -12,6 +12,7 @@
 
 #include "../port/out/log/log_error.h"
 #include "../port/out/log/log_info.h"
+#include "../port/out/persistence/intern_game_state/set_player.h"
 
 Player drink_potion_at_index(Player player, uint8_t potion_index) {
     char log[128];
@@ -39,5 +40,5 @@ Player drink_potion_at_index(Player player, uint8_t potion_index) {
     player.inventory.items[potion_index] = empty_inventory_item();
     free(potion_item.item);
     potion_item.item = NULL;
-    return player;
+    return set_player(player);
 }

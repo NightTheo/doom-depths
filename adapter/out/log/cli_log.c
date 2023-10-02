@@ -70,5 +70,8 @@ void log_repository_status(RepositoryStatus status) {
     char log[64];
     const char *status_str = repository_status_to_string(status);
     snprintf(log, 64, REPOSITORY_STATUS_FORMAT, status_str);
-    fprintf(stdout, log, status_str);
+
+    bool is_failure = status == SAVE_LAST_GAME_FAILED || status == RESTORE_LAST_GAME_FAILED;
+
+    fprintf(is_failure ? stderr : stdout, log, status_str);
 }

@@ -5,11 +5,11 @@
 
 #include <stdio.h>
 
-#include "../../../../domain/map/map.h"
-#include "../../../../domain/map/position/position.h"
+#include "../../../domain/map/map.h"
+#include "../../../domain/map/position/position.h"
 
-#include "../../../../application/port/out/log/log_error.h"
-#include "../../../../application/port/out/log/log_info.h"
+#include "../../../application/port/out/log/log_error.h"
+#include "../../../application/port/out/log/log_info.h"
 
 Position ask_player_zone_position_to_go(Map map);
 
@@ -36,12 +36,6 @@ bool can_display_position_in_map(Position p, Map m) {
            || position_is_finished(left_from(p), m);
 }
 
-/*
-     a   b   c
-0           [x]
-1   [x] [x] [x]
-2   [ ]
-*/
 void display_map(Map m) {
     for (int i = 0; i < m.width + 1; i++) {
         if (i == 0) fputs("\t", stdout);

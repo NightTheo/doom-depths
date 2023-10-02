@@ -12,7 +12,7 @@
 #include "../port/in/continue_last_run.h"
 
 bool leave_town(LeaveTownAction action) {
-    if(action < 0 || action >= _leave_town_actions_count) {
+    if (action < 0 || action >= _leave_town_actions_count) {
         log_error("Not a valid action");
         return false;
     }
@@ -20,10 +20,11 @@ bool leave_town(LeaveTownAction action) {
     switch (action) {
         case NEW_RUN:
             new_run();
-            break;
-        case RESTORE_LAST_GAME:
-            continue_last_run();
-            break;
+            return true;
+        case RESTORE_LAST_GAME: {
+            GameState status = continue_last_run();
+            return status.repository_status == RESTORE_LAST_GAME_SUCCEEDED;
+        }
         default: {
             char log[64];
             sprintf(log, "Unknown choice [%d]", action);
@@ -32,5 +33,4 @@ bool leave_town(LeaveTownAction action) {
             return false;
         }
     }
-    return true;
 }
