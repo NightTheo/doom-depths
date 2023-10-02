@@ -11,7 +11,6 @@
 #include "../../infrastructure/utils/random/random.h"
 
 Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
-    char log[64];
     if (zones == NULL) {
         log_error("Invalid argument : zones are NULL");
         return empty_map();
@@ -24,8 +23,7 @@ Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
 
     Zone *row = zones[spawn.zone_y];
     if (row == NULL || zone_is_empty(row[spawn.zone_x])) {
-        snprintf(log, 64, "Zone [x:%d,y:%d] NULL or empty", spawn.zone_x, spawn.zone_y);
-        log_error(log);
+        log_error("Zone [x:%d,y:%d] NULL or empty", spawn.zone_x, spawn.zone_y);
         return empty_map();
     }
 
@@ -111,10 +109,8 @@ bool position_is_in_map(Position p, Map m) {
                                      && p.zone_y < m.height;
 
     if (player_position_is_in_map == false) return false;
-    char log[64];
     if (m.zones[p.zone_y] == NULL) {
-        snprintf(log, 64, "Map row [%d] is NULL", p.zone_y);
-        log_error(log);
+        log_error("Map row [%d] is NULL", p.zone_y);
         return false;
     }
     return true;
@@ -175,10 +171,8 @@ bool player_can_move_to_position_in_map(Position p, Map m) {
                            || position_is_finished(left_from(p), m);
 
     if (player_can_move == false) {
-        char log[64];
         char *position_str = position_to_string(p);
-        snprintf(log, 64, "Player cannot move to %s.", position_str);
-        log_info(log);
+        log_info("Player cannot move to %s.", position_str);
         free(position_str);
     }
     return player_can_move;

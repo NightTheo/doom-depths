@@ -101,9 +101,7 @@ Inventory push_item_in_inventory(Inventory inventory, InventoryItem item) {
     inventory.items_count += 1;
 
     char *item_str = item_to_string(item);
-    char log[128];
-    snprintf(log, 128, "Item %s pushed at %d.", item_str, index_to_add + 1);
-    log_info(log);
+    log_info("Item %s pushed at %d.", item_str, index_to_add + 1);
     free(item_str);
     return inventory;
 }
@@ -152,8 +150,7 @@ char *item_to_string(InventoryItem item) {
             char *default_str;
             default_str = malloc(32);
             strcpy(default_str, "Unknown InventoryItemType");
-            snprintf(log, 32, "Unknown InventoryItemType [%d]", item.type);
-            log_error(log);
+            log_error("Unknown InventoryItemType [%d]", item.type);
             return default_str;
         }
     }
@@ -184,8 +181,6 @@ InventoryItemType inventory_item_type_from_string(const char *str) {
     if (strcmp(str, "ARMOR_ITEM") == 0) return ARMOR_ITEM;
     if (strcmp(str, "POTION_ITEM") == 0) return POTION_ITEM;
 
-    char log[32];
-    snprintf(log, 32, "[%s] does not match a InventoryItemType", str);
-    log_error(log);
+    log_error("[%s] does not match a InventoryItemType", str);
     return EMPTY_ITEM; // by default
 }

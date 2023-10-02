@@ -17,8 +17,7 @@ const char *inventory_action_to_string(PlayerInventoryAction action) {
         case USE_ITEM:
             return "Use item";
         default:
-            snprintf(log, 31, "Unkown PlayerInventoryAction [%d]", action);
-            log_error(log);
+            log_error("Unkown PlayerInventoryAction [%d]", action);
             return "?";
     }
 }

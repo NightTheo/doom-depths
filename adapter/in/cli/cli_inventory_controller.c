@@ -43,8 +43,7 @@ void enter_player_inventory(Player p) {
             case EQUIP_ITEM: return player_equip_item_from_inventory(get_item_index(p.inventory));
             case USE_ITEM: return player_use_item_from_inventory(p, get_item_index(p.inventory));
             default:
-                snprintf(log, 64, "unknown action [%d]", action);
-                log_error(log);
+                log_error("unknown action [%d]", action);
                 return;
         }
     }
@@ -78,9 +77,7 @@ PlayerInventoryAction get_player_inventory_action() {
         scanf("%hhd", &input);
     } while (input < 1 || input > _player_inventory_action_count);
 
-    char log[32];
-    sprintf(log, "player choose %s", inventory_action_to_string(input - 1));
-    log_info(log);
+    log_info("player choose %s", inventory_action_to_string(input - 1));
 
     return (PlayerInventoryAction) input - 1;
 }
@@ -98,10 +95,8 @@ uint8_t get_item_index(Inventory inventory) {
 }
 
 void player_use_item_from_inventory(Player p, uint8_t index_item) {
-    char log[64];
     if (index_item < 0 || index_item >= p.inventory.capacity) {
-        snprintf(log, 64, "Index [%d] is not in inventory", index_item);
-        log_error(log);
+        log_error("Index [%d] is not in inventory", index_item);
         return;
     }
 

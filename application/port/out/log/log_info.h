@@ -6,6 +6,8 @@
 #ifndef DOOMDEPTHS_LOG_INFO_H
 #define DOOMDEPTHS_LOG_INFO_H
 
-void log_info(const char *msg_info);
+#include <stdarg.h>
+
+void log_info(const char *msg_info, ...);
 
 #endif //DOOMDEPTHS_LOG_INFO_H

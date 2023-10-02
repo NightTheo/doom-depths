@@ -25,7 +25,7 @@
 #define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 #define REPOSITORY_STATUS_FORMAT "Repository status: [%s]\n"
 
-void log_info(const char *msg_info) {
+void log_info(const char *msg_info, ...) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
     if (f == NULL) return;
     char *now = now_to_str();

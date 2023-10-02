@@ -17,7 +17,6 @@ void display_leave_town_actions() {
 }
 
 const char *leave_town_options_to_string(LeaveTownAction action) {
-    char log[64];
     switch (action) {
 
         case NEW_RUN:
@@ -25,8 +24,7 @@ const char *leave_town_options_to_string(LeaveTownAction action) {
         case RESTORE_LAST_GAME:
             return "CONTINUE";
         default:
-            sprintf(log, "Unknown action [%d]", action);
-            log_error(log);
+            log_error("Unknown action [%d]", action);
             return "Unknown action";
     }
 }

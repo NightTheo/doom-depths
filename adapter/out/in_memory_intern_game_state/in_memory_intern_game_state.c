@@ -47,10 +47,6 @@ Player get_current_player() {
     return get_current_fight().player;
 }
 
-Zone get_current_zone() {
-    return get_player_current_zone_in_map(get_map());
-}
-
 Player set_player(Player player) {
     Fight fight = get_current_fight();
     fight.player = player;

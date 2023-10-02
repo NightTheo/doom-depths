@@ -79,7 +79,6 @@ bool file_exists(const char *path) {
 }
 
 char *restore_string_by_key(const char *key) {
-    char log[MAX_LINE_SIZE];
     FILE *f = fopen(SAVE_FILE_PATH, "r");
     if (f == NULL) {
         log_error("Unable to open file '" SAVE_FILE_PATH "'.");
@@ -92,24 +91,21 @@ char *restore_string_by_key(const char *key) {
         size_t key_len = strlen(key);
         bool line_has_key = strlen(line) > key_len + 1 && strncmp(line, key, key_len) == 0 && line[key_len] == '=';
         if (line_has_key) {
-            sprintf(log, "found key '%s'", key);
-            log_info(log);
+            log_info("found key '%s'", key);
             strncpy(string, line + key_len + 1, MAX_LINE_SIZE);
             uint16_t value_len = strlen(string);
             if (string[value_len - 1] == '\n') string[value_len - 1] = '\0';
 
             char *s = malloc(strlen(string));
             strncpy(s, string, strlen(string));
-            sprintf(log, "Value is [%s]", s);
-            log_info(log);
+            log_info("Value is [%s]", s);
             fclose(f);
             return s;
         }
     }
 
     fclose(f);
-    sprintf(log, "Key [%s] not found", key);
-    log_info(log);
+    log_info("Key [%s] not found", key);
     return NULL;
 }
 
@@ -128,9 +124,7 @@ int restore_int_by_key(const char *key) {
     char *end;
     long parsed = strtol(str, &end, 10);
     if (str == end) {
-        char log[MAX_LINE_SIZE];
-        snprintf(log, MAX_LINE_SIZE, "Parsing string to int error, tried [%s]", str);
-        log_error(log);
+        log_error("Parsing string to int error, tried [%s]", str);
         return RESTORE_INT_ERROR;
     }
 
@@ -271,7 +265,6 @@ InventoryItem restore_inventory_item(uint8_t index) {
 }
 
 void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
-    char log[MAX_LINE_SIZE];
     switch (type) {
         case EMPTY_ITEM:
             return NULL;
@@ -282,8 +275,7 @@ void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
         case POTION_ITEM:
             return restore_inventory_potion_by_index(index);
         default:
-            snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", type);
-            log_error(log);
+            log_error("Unknown InventoryItemType [%d]", type);
             return NULL;
     }
 }
@@ -394,8 +386,6 @@ ZoneStatus zone_status_from_save_string(const char *str) {
     if (strcmp(str, "ZONE_EMPTY") == 0) return ZONE_EMPTY;
     if (strcmp(str, "ZONE_NOT_DISCOVERED") == 0) return ZONE_NOT_DISCOVERED;
     if (strcmp(str, "ZONE_FINISHED") == 0) return ZONE_FINISHED;
-    char log[32];
-    snprintf(log, 32, "Unknown ZoneStatus [%s]", str);
-    log_error(log);
+    log_error("Unknown ZoneStatus [%s]", str);
     return ZONE_EMPTY;
 }

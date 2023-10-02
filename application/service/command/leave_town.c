@@ -26,9 +26,7 @@ bool leave_town(LeaveTownAction action) {
             return status.repository_status == RESTORE_LAST_GAME_SUCCEEDED;
         }
         default: {
-            char log[64];
-            sprintf(log, "Unknown choice [%d]", action);
-            log_error(log);
+            log_error("Unknown choice [%d]", action);
             new_run();
             return false;
         }

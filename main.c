@@ -9,15 +9,12 @@ int main() {
     /* TODO
      * [ ] NO LEAKS
      * [ ] specials traits in each zone
-     *
-     * THEN
-     * [x] Port & Adapters architecture
      * [ ] log variatique (format,...)
      * [x] Refactoring loop engine
      * [ ] Write beautiful readme
      * [ ] parser JSON ? yeah
-     *
-     * THEN
+     * [ ] fix start at turn 2, Player choose action "[Open grim",
+     * [ ] fix restore
      * [ ] Boost CLI
      *
      * THEN

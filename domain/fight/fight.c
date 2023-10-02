@@ -32,8 +32,7 @@ Monster monster_takes_damages(Monster m, uint8_t damages) {
     int8_t damages_after_defense = max(0, damages - m.defense);
     m.health = max(0, m.health - damages_after_defense);
     char log[64];
-    sprintf(log, "Monster took %d damages", damages_after_defense);
-    log_info(log);
+    log_info("Monster took %d damages", damages_after_defense);
     return m;
 }
 
@@ -74,9 +73,7 @@ Player monsters_attack_player(MonstersList monsters, Player p) {
 
 AttackResult monster_attacks_player(Monster m, Player p) {
     int8_t damages = random_between_included(m.min_attack_power, m.max_attack_power);
-    char log[64];
-    snprintf(log, 64, "monsters attack player with %d damages.", damages);
-    log_info(log);
+    log_info("monsters attack player with %d damages.", damages);
     AttackResult res = {
             player_takes_damages(p, damages),
             m,
@@ -92,9 +89,7 @@ Player player_takes_damages(Player p, int8_t damages) {
                             : damages_after_armor_defense;
     p.current_health = p.current_health - damages_taken;
 
-    char log[32];
-    sprintf(log, "Player tooks %d damages", damages_taken);
-    log_info(log);
+    log_info("Player tooks %d damages", damages_taken);
     return p;
 }
 

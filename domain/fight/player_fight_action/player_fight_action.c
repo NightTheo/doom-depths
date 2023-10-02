@@ -8,7 +8,6 @@
 #include "../../../application/port/out/log/log_error.h"
 
 const char *player_fight_action_to_string(PlayerFightAction action) {
-    char log[64];
     switch (action) {
         case ATTACK:
             return "Attack";
@@ -21,8 +20,7 @@ const char *player_fight_action_to_string(PlayerFightAction action) {
         case SAVE_GAME:
             return "Save All";
         default:
-            sprintf(log, "Unknown action [%d]", action);
-            log_error(log);
+            log_error("Unknown action [%d]", action);
             return "Unknown action";
     }
 }

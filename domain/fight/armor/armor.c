@@ -40,15 +40,13 @@ Armor random_armor() {
 }
 
 const char *armor_kind_to_string(ArmorKind armorKind) {
-    char log[32];
     switch (armorKind) {
         case EMPTY_ARMOR:
             return "Empty armor";
         case CHEST_PLATE:
             return "Chest plate";
         default:
-            snprintf(log, 31, "unkown armor kind [%d]", armorKind);
-            log_error(log);
+            log_error("unkown armor kind [%d]", armorKind);
             return "?";
     }
 }
@@ -66,8 +64,6 @@ ArmorKind armor_kind_from_string(const char *str) {
     if (strcmp(str, "EMPTY_ARMOR") == 0) return EMPTY_ARMOR;
     if (strcmp(str, "CHEST_PLATE") == 0) return CHEST_PLATE;
 
-    char log[32];
-    snprintf(log, 32, "[%s] does not match an ArmorKind", str);
-    log_error(log);
+    log_error("[%s] does not match an ArmorKind", str);
     return EMPTY_ARMOR; // by default
 }

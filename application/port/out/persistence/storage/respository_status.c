@@ -9,7 +9,6 @@
 #include "../../log/log_repository_status.h"
 
 const char *repository_status_to_string(RepositoryStatus status) {
-    char log[64];
     switch (status) {
         case REPOSITORY_NOT_USED:
             return "REPOSITORY_NOT_USED";
@@ -22,8 +21,7 @@ const char *repository_status_to_string(RepositoryStatus status) {
         case SAVE_LAST_GAME_FAILED:
             return "SAVE_LAST_GAME_FAILED";
         default:
-            snprintf(log, 64, "Unknown RepositoryStatus [%d]", status);
-            log_error(log);
+            log_error("Unknown RepositoryStatus [%d]", status);
             return "?";
     }
 }

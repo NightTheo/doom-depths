@@ -43,9 +43,7 @@ Monster _fire(Monster m) {
     uint8_t damages = 10;
     m.health = damages > m.health ? 0 : m.health - damages;
 
-    char log[32];
-    snprintf(log, 32, "Monster took %d damages", damages);
-    log_info(log);
+    log_info("Monster took %d damages", damages);
 
     return m;
 }

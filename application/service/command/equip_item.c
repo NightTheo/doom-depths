@@ -24,10 +24,8 @@ Player player_equip_armor_from_inventory(Player p, uint8_t armor_index);
 
 void player_equip_item_from_inventory(uint8_t index_item) {
     Player p = get_player();
-    char log[64];
     if (index_item < 0 || index_item >= p.inventory.capacity) {
-        snprintf(log, 64, "Index [%d] is not in inventory", index_item);
-        log_error(log);
+        log_error("Index [%d] is not in inventory", index_item);
         return;
     }
     InventoryItem item_to_equip = p.inventory.items[index_item];
@@ -52,10 +50,8 @@ void player_equip_item_from_inventory(uint8_t index_item) {
 
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
-    char log[128];
     if (weapon_index < 0 || weapon_index >= p.inventory.capacity) {
-        snprintf(log, 128, "Index [%d] is not in inventory", weapon_index);
-        log_error(log);
+        log_error("Index [%d] is not in inventory", weapon_index);
         return p;
     }
     InventoryItem item_in_inventory = p.inventory.items[weapon_index];
@@ -73,8 +69,7 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
 
     //log
     char *w_str = weapon_to_string(p.equipment.weapon);
-    snprintf(log, 128, "Player equiped %s", w_str);
-    log_info(log);
+    log_info("Player equiped %s", w_str);
     free(w_str);
 
 
@@ -82,10 +77,8 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
 }
 
 Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
-    char log[128];
     if (armor_index < 0 || armor_index >= p.inventory.capacity) {
-        snprintf(log, 128, "Index [%d] is not in inventory", armor_index);
-        log_error(log);
+        log_error("Index [%d] is not in inventory", armor_index);
         return p;
     }
 
@@ -99,8 +92,7 @@ Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
 
     // log
     char *a_str = armor_to_string(p.equipment.armor);
-    snprintf(log, 128, "Player equiped %s", a_str);
-    log_info(log);
+    log_info("Player equiped %s", a_str);
     free(a_str);
 
     return p;

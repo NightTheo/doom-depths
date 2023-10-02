@@ -49,17 +49,13 @@ int16_t get_spell_index_to_cast_in_grimoire(Grimoire g, uint16_t max_mana) {
         fflush(stdin);
         scanf("%hhd", &input);
     }
-    char log[32];
-    snprintf(log, 32, "Spell index is [%d]", input - 1);
-    log_info(log);
+    log_info("Spell index is [%d]", input - 1);
     return input - 1;
 }
 
 Spell get_spell_by_index(Grimoire g, int16_t index) {
     if (index < 0 || index >= g.number_of_spells) {
-        char log[32];
-        snprintf(log, 32, "Index [%d] is not in grimoire.", index);
-        log_info(log);
+        log_info("Index [%d] is not in grimoire.", index);
         return empty_spell();
     }
     return g.spells[index];

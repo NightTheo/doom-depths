@@ -14,7 +14,7 @@
 
 #define LOG_FILE_PATH "log.txt"
 
-void log_info(const char *) {
+void log_info(const char *, ...) {
     return;
 }
 

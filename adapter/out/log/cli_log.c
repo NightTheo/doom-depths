@@ -4,6 +4,7 @@
 //
 
 #include <time.h>
+#include <string.h>
 #include "stdlib.h"
 #include "stdio.h"
 
@@ -20,22 +21,42 @@
 #include "../../../domain/player/player.h"
 #include "../../../domain/monsters/monsters.h"
 
-#define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg
-#define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 #define REPOSITORY_STATUS_FORMAT "Repository status: [%s]\n"
+#define MAX_LOG_SIZE 4096
 
-void log_info(const char *msg_info) {
+
+/**
+ * Inspired by #trevodorax aka Paul GAUDEAUX
+ */
+void log_info(const char *msg_info, ...) {
+    va_list args;
+    va_start(args, msg_info);
+
     char *now = now_to_str();
-    if (now == NULL) return;
-    fprintf(stdout, LOG_INFO_FORMAT, now, msg_info);
-    free(now);
+    if (now != NULL) {
+        char str[MAX_LOG_SIZE];
+        str[0] = '\0';
+        vsnprintf(str, MAX_LOG_SIZE, msg_info, args);
+        fprintf(stdout, "[%s][info] %s\n", now, str);
+        free(now);
+    }
+    va_end(args);
 }
 
-void log_error(const char *msg_error) {
+void log_error(const char *msg_error, ...) {
+    va_list args;
+    va_start(args, msg_error);
+
     char *now = now_to_str();
-    if (now == NULL) return;
-    fprintf(stderr, LOG_ERROR_FORMAT, now, msg_error);
-    free(now);
+    if (now != NULL) {
+        char str[MAX_LOG_SIZE];
+        str[0] = '\0';
+        vsnprintf(str, MAX_LOG_SIZE, msg_error, args);
+        fprintf(stderr, "[%s][error] %s\n", now, msg_error);
+        free(now);
+    }
+
+    va_end(args);
 }
 
 void log_allocation_error() {

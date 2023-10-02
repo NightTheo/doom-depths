@@ -17,16 +17,13 @@
 
 void drink_potion_at_index(uint8_t potion_index) {
     Player player = get_player();
-    char log[128];
     if (potion_index < 0 || potion_index >= player.inventory.capacity) {
-        snprintf(log, 128, "Index [%d] is not in inventory", potion_index);
-        log_error(log);
+        log_error("Index [%d] is not in inventory", potion_index);
         return;
     }
 
     if (player.inventory.items[potion_index].type != POTION_ITEM) {
-        snprintf(log, 128, "Item at index [%d] is not a potion", potion_index);
-        log_error(log);
+        log_error("Item at index [%d] is not a potion", potion_index);
         return;
     }
 
@@ -35,8 +32,7 @@ void drink_potion_at_index(uint8_t potion_index) {
     if (mana_potion.is_full) {
         player = player_recover_mana(player, player.max_mana);
     } else {
-        strcpy(log, "Potion is empty.");
-        log_info(log);
+        log_info("Potion is empty.");
     }
 
     player.inventory.items[potion_index] = empty_inventory_item();

@@ -80,8 +80,6 @@ WeaponKind weapon_kind_from_string(const char *str) {
     if (strcmp(str, "EMPTY_WEAPON") == 0) return EMPTY_WEAPON;
     if (strcmp(str, "SWORD") == 0) return SWORD;
 
-
-    snprintf(log, 32, "[%s] does not match a WeaponKind", str);
-    log_error(log);
+    log_error("[%s] does not match a WeaponKind", str);
     return EMPTY_WEAPON; // by default
 }

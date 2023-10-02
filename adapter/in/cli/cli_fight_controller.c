@@ -54,9 +54,7 @@ void fight() {
 
 void display_round() {
     Fight f = get_current_fight();
-    char turn_log[16];
-    sprintf(turn_log, "round %d", f.turn);
-    log_info(turn_log);
+    log_info("round %d", f.turn);
 
     while (current_round_is_finished() == false) {
         f = get_current_fight();
@@ -83,9 +81,7 @@ PlayerFightAction ask_player_fight_action(Player p) {
         scanf("%d", &input);
     } while (input <= (p.remaining_number_of_attacks > 0 ? ATTACK : END_ROUND) || input > __player_fight_action_count);
 
-    char log[32];
-    snprintf(log, 32, "Player choose action [%s]", player_fight_action_to_string(input - 1));
-    log_info(log);
+    log_info("Player choose action [%s]", player_fight_action_to_string(input - 1));
 
     return input - 1;
 }
@@ -109,9 +105,7 @@ void player_makes_action(PlayerFightAction action) {
         case SAVE_GAME:
             return save_game_in_fight();
         default: {
-            char log[32];
-            snprintf(log, 32, "Invalid FightAction [%d].", action);
-            log_error(log);
+            log_error("Invalid FightAction [%d].", action);
             return;
         }
 

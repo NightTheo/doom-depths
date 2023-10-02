@@ -37,9 +37,7 @@ void cast_spell(Spell s) {
         case MONSTER_SPELL_TARGET:
             return cast_spell_on_monster_in_fight(f, s);
         default: {
-            char log[64];
-            snprintf(log, 64, "Unknown target [%d]", s.target);
-            log_error(log);
+            log_error("Unknown target [%d]", s.target);
         }
     }
 }

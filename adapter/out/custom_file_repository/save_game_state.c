@@ -163,7 +163,6 @@ char *item_to_save_string(InventoryItem item, uint8_t index) {
 }
 
 const char *item_type_to_string(InventoryItemType type) {
-    char log[MAX_LINE_SIZE];
     switch (type) {
         case EMPTY_ITEM:
             return "EMPTY_ITEM";
@@ -174,8 +173,7 @@ const char *item_type_to_string(InventoryItemType type) {
         case POTION_ITEM:
             return "POTION_ITEM";
         default:
-            snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", type);
-            log_error(log);
+            log_error("Unknown InventoryItemType [%d]", type);
             return "Unknown InventoryItemType";
     }
 }
@@ -194,8 +192,7 @@ char *item_to_save_string_by_type(InventoryItem item, uint8_t index) {
         case POTION_ITEM:
             return potion_to_save_string_with_prefix(*((ManaPotion *) item.item), prefix);
         default:
-            snprintf(log, MAX_LINE_SIZE, "Unknown InventoryItemType [%d]", item.type);
-            log_error(log);
+            log_error("Unknown InventoryItemType [%d]", item.type);
             return NULL;
     }
 }
@@ -217,15 +214,13 @@ char *weapon_to_save_string_with_prefix(Weapon w, const char *prefix) {
 }
 
 const char *weapon_kind_to_save_string(WeaponKind k) {
-    char log[MAX_LINE_SIZE];
     switch (k) {
         case EMPTY_WEAPON:
             return "EMPTY_WEAPON";
         case SWORD:
             return "SWORD";
         default:
-            snprintf(log, MAX_LINE_SIZE, "Unknown WeaponKind [%d]", k);
-            log_error(log);
+            log_error("Unknown WeaponKind [%d]", k);
             return "Unknown WeaponKind";;
     }
 }
@@ -243,15 +238,13 @@ char *armor_to_save_string_with_prefix(Armor a, const char *prefix) {
 }
 
 const char *armor_kind_to_save_string(ArmorKind k) {
-    char log[MAX_LINE_SIZE];
     switch (k) {
         case EMPTY_ARMOR:
             return "EMPTY_ARMOR";
         case CHEST_PLATE:
             return "CHEST_PLATE";
         default:
-            snprintf(log, MAX_LINE_SIZE, "Unknown ArmorKind [%d]", k);
-            log_error(log);
+            log_error("Unknown ArmorKind [%d]", k);
             return "Unknown ArmorKind";
     }
 }
@@ -365,9 +358,7 @@ const char *zone_status_to_save_string(ZoneStatus status) {
         case ZONE_FINISHED:
             return "ZONE_FINISHED";
         default: {
-            char log[32];
-            snprintf(log, 32, "Unknown ZoneStatus [%d]", status);
-            log_error(log);
+            log_error("Unknown ZoneStatus [%d]", status);
             return "?";
         }
     }

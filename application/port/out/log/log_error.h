@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_LOG_ERROR_H
 #define DOOMDEPTHS_LOG_ERROR_H
 
-void log_error(const char *msg_error);
+void log_error(const char *msg_error, ...);
 
 void log_allocation_error();
 
