@@ -32,7 +32,7 @@ add_executable(DoomDepths main.c
         domain/doom_depths/doom_depths.h
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
-        application/port/in/new_run.h
+        application/port/in/command/new_run.h
         application/port/out/persistence/storage/restore_last_game.h
         application/port/out/persistence/intern_game_state/game_state.h
         application/port/out/persistence/storage/save_game_state.h
@@ -40,7 +40,7 @@ add_executable(DoomDepths main.c
         application/port/out/persistence/storage/respository_status.h
         adapter/out/custom_file_repository/restore_last_game.c
         adapter/out/custom_file_repository/save_game_state.c
-        application/service/new_run.c
+        application/service/command/new_run.c
         application/port/out/log/log_info.h
         application/port/out/log/log_error.h
         application/port/out/log/log_monster.h
@@ -53,42 +53,42 @@ add_executable(DoomDepths main.c
         application/port/out/ihm/display_game_over.h
         adapter/out/ihm/cli/cli_display_game_over.c
         adapter/in/cli/cli_fight_controller.c
-        application/port/in/continue_last_run.h
-        application/service/continue_last_run.c
-        application/port/in/attack_with_weapon.h
-        application/service/player_use_weapon.c
-        application/port/in/end_round.h
-        application/service/end_round.c
-        application/port/in/cast_spell.h
-        application/service/cast_spell.c
-        application/service/drink_potion.c
-        application/port/in/drink_potion.h
-        application/service/equip_item.c
-        application/port/in/equip_item.h
-        application/port/in/start_ihm.h
+        application/port/in/command/continue_last_run.h
+        application/service/command/continue_last_run.c
+        application/port/in/command/attack_with_weapon.h
+        application/service/command/player_use_weapon.c
+        application/port/in/command/end_round.h
+        application/service/command/end_round.c
+        application/port/in/command/cast_spell.h
+        application/service/command/cast_spell.c
+        application/service/command/drink_potion.c
+        application/port/in/command/drink_potion.h
+        application/service/command/equip_item.c
+        application/port/in/command/equip_item.h
+        application/port/in/command/start_ihm.h
         adapter/in/cli/cli_controller.c
         adapter/out/in_memory_intern_game_state/in_memory_intern_game_state.c
         application/port/out/persistence/intern_game_state/set_intern_game_state.h
         application/port/out/persistence/intern_game_state/get_intern_game_state.h
-        application/service/player_enter_zone.c
-        application/port/in/player_enter_zone.h
+        application/service/command/player_enter_zone.c
+        application/port/in/command/player_enter_zone.h
         application/port/out/persistence/intern_game_state/get_map.h
-        application/service/leave_town.c
-        application/port/in/leave_town.h
+        application/service/command/leave_town.c
+        application/port/in/command/leave_town.h
         application/port/in/query/is_current_fight_finished.h
         application/port/out/persistence/intern_game_state/set_current_fight.h
         application/port/in/query/is_player_alive.h
         application/service/query/is_player_alive.c
         application/port/out/persistence/intern_game_state/get_current_player.h
-        application/service/finish_current_zone.c
+        application/service/command/finish_current_zone.c
         application/port/out/persistence/intern_game_state/get_current_zone.h
         application/port/out/persistence/intern_game_state/set_current_map.h
-        application/port/in/finish_current_zone.h
+        application/port/in/command/finish_current_zone.h
         application/service/query/is_current_fight_finished.c
         application/service/query/is_current_round_finished.c
         application/port/in/query/is_current_round_finished.h
-        application/service/start_new_round.c
-        application/port/in/start_new_round.h
+        application/service/command/start_new_round.c
+        application/port/in/command/start_new_round.h
         adapter/in/cli/cli_controllers.h
         application/port/out/persistence/intern_game_state/set_player.h
         adapter/in/cli/cli_town_controller.c

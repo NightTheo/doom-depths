@@ -7,7 +7,7 @@
 
 #include "../../../domain/fight/fight.h"
 
-#include "../../../application/port/in/cast_spell.h"
+#include "../../../application/port/in/command/cast_spell.h"
 
 #include "../../../application/port/out/log/log_info.h"
 

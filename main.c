@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "application/port/in/start_ihm.h"
+#include "application/port/in/command/start_ihm.h"
 
 int main() {
     srand(time(NULL));

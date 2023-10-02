@@ -4,9 +4,9 @@
 //
 
 
-#include "../port/out/persistence/intern_game_state/game_state.h"
-#include "../../application/port/in/new_run.h"
-#include "../port/out/persistence/intern_game_state/set_intern_game_state.h"
+#include "../../port/out/persistence/intern_game_state/game_state.h"
+#include "../../port/in/command/new_run.h"
+#include "../../port/out/persistence/intern_game_state/set_intern_game_state.h"
 
 GameState new_run() {
     Map m = basic_map();

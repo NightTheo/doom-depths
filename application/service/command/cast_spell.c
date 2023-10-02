@@ -5,14 +5,14 @@
 
 #include <stdio.h>
 
-#include "../../domain/fight/fight.h"
+#include "../../../domain/fight/fight.h"
 
-#include "../port/in/cast_spell.h"
+#include "../../port/in/command/cast_spell.h"
 
-#include "../port/out/log/log_info.h"
-#include "../port/out/log/log_error.h"
-#include "../port/out/persistence/intern_game_state/set_current_fight.h"
-#include "../../domain/fight/event/player_killed_monster.h"
+#include "../../port/out/log/log_info.h"
+#include "../../port/out/log/log_error.h"
+#include "../../port/out/persistence/intern_game_state/set_current_fight.h"
+#include "../../../domain/fight/event/player_killed_monster.h"
 
 Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
 

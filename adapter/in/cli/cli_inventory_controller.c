@@ -10,8 +10,8 @@
 
 #include "../../../application/port/out/log/log_error.h"
 #include "../../../application/port/out/log/log_info.h"
-#include "../../../application/port/in/equip_item.h"
-#include "../../../application/port/in/drink_potion.h"
+#include "../../../application/port/in/command/equip_item.h"
+#include "../../../application/port/in/command/drink_potion.h"
 
 
 void display_inventory_items(Inventory inventory);

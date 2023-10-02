@@ -3,14 +3,14 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include "../../domain/fight/fight.h"
+#include "../../../domain/fight/fight.h"
 
-#include "../port/in/attack_with_weapon.h"
+#include "../../port/in/command/attack_with_weapon.h"
 
-#include "../port/out/persistence/intern_game_state/set_current_fight.h"
-#include "../port/out/persistence/intern_game_state/get_current_fight.h"
-#include "../port/out/ihm/display_loot.h"
-#include "../../domain/fight/event/player_killed_monster.h"
+#include "../../port/out/persistence/intern_game_state/set_current_fight.h"
+#include "../../port/out/persistence/intern_game_state/get_current_fight.h"
+#include "../../port/out/ihm/display_loot.h"
+#include "../../../domain/fight/event/player_killed_monster.h"
 
 
 Fight attack_with_weapon() {

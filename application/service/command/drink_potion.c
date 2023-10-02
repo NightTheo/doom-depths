@@ -6,13 +6,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../port/in/drink_potion.h"
+#include "../../port/in/command/drink_potion.h"
 
-#include "../../domain/player/player.h"
+#include "../../../domain/player/player.h"
 
-#include "../port/out/log/log_error.h"
-#include "../port/out/log/log_info.h"
-#include "../port/out/persistence/intern_game_state/set_player.h"
+#include "../../port/out/log/log_error.h"
+#include "../../port/out/log/log_info.h"
+#include "../../port/out/persistence/intern_game_state/set_player.h"
 
 Player drink_potion_at_index(Player player, uint8_t potion_index) {
     char log[128];
