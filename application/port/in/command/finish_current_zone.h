@@ -8,6 +8,6 @@
 
 typedef struct Map Map;
 
-Map finish_current_zone();
+void finish_current_zone();
 
 #endif //DOOMDEPTHS_FINISH_CURRENT_ZONE_H

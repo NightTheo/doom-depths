@@ -10,6 +10,6 @@
 
 typedef struct Player Player;
 
-Player player_equip_item_from_inventory(Player p, uint8_t index_item);
+void player_equip_item_from_inventory(uint8_t index_item);
 
 #endif //DOOMDEPTHS_EQUIP_ITEM_H

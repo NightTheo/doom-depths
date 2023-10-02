@@ -8,6 +8,6 @@
 
 typedef struct Fight Fight;
 
-Fight attack_with_weapon();
+void attack_with_weapon();
 
 #endif //DOOMDEPTHS_ATTACK_WITH_WEAPON_H

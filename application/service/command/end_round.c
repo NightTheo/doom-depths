@@ -9,12 +9,10 @@
 #include "../../port/out/persistence/intern_game_state/get_current_fight.h"
 #include "../../port/in/query/is_current_fight_finished.h"
 
-Fight end_round() {
+void end_round() {
     Fight fight = get_current_fight();
-    if (current_fight_is_finished()) return fight;
+    if (current_fight_is_finished()) return;
 
     fight.player = monsters_attack_player(fight.monsters_list, fight.player);
-    if (player_is_dead(fight.player)) return set_current_fight(fight);
-
-    return set_current_fight(fight);
+    set_current_fight(fight);
 }

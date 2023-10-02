@@ -94,4 +94,5 @@ add_executable(DoomDepths main.c
         adapter/in/cli/cli_town_controller.c
         domain/fight/event/player_killed_monster.h
         application/service/event/player_killed_monster.c
+        application/port/out/persistence/intern_game_state/get_player.h
 )

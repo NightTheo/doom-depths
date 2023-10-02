@@ -13,7 +13,7 @@
 #include "../../../domain/fight/event/player_killed_monster.h"
 
 
-Fight attack_with_weapon() {
+void attack_with_weapon() {
     Fight fight = get_current_fight();
     AttackResult attackResult = player_attacks_monster(
             fight.player,
@@ -26,6 +26,4 @@ Fight attack_with_weapon() {
     if (monster_is_dead(fight.monsters_list.monsters[0])) {
         player_killed_monster(attackResult.loot);
     }
-
-    return get_current_fight();
 }

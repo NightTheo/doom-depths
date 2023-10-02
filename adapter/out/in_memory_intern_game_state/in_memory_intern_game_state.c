@@ -12,6 +12,7 @@
 #include "../../../application/port/out/persistence/intern_game_state/get_map.h"
 #include "../../../application/port/out/persistence/intern_game_state/get_current_fight.h"
 #include "../../../application/port/out/persistence/intern_game_state/set_player.h"
+#include "../../../application/port/out/persistence/intern_game_state/get_player.h"
 
 DoomDepths GAME_STATE = {DOOM_DEPTHS_EMPTY};
 
@@ -55,4 +56,8 @@ Player set_player(Player player) {
     fight.player = player;
     set_current_fight(fight);
     return player;
+}
+
+Player get_player() {
+    return get_current_fight().player;
 }

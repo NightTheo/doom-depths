@@ -18,13 +18,12 @@ int16_t get_spell_index_to_cast_in_grimoire(Grimoire g, uint16_t max_mana);
 Spell get_spell_by_index(Grimoire g, int16_t index);
 
 
-Fight open_grimoire_in_fight(Fight f) {
+void open_grimoire_in_fight(Fight f) {
     Spell s = get_spell_by_index(
             f.player.grimoire,
             get_spell_index_to_cast_in_grimoire(f.player.grimoire, f.player.current_mana)
     );
-    f = cast_spell(f, s);
-    return f;
+    cast_spell(s);
 }
 
 void display_grimoire(Grimoire g) {

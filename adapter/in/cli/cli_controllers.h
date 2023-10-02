@@ -10,13 +10,13 @@ typedef struct Fight Fight;
 typedef enum LeaveTownAction LeaveTownAction;
 
 
-Fight open_grimoire_in_fight(Fight f);
+void open_grimoire_in_fight(Fight f);
 
-Player enter_player_inventory(Player p);
+void enter_player_inventory(Player p);
 
 Position enter_map(Map m);
 
-void fight(DoomDepths game);
+void fight();
 
 void display_leave_town_actions();
 

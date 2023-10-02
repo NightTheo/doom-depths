@@ -8,6 +8,6 @@
 
 typedef struct Fight Fight;
 
-Fight start_new_round();
+void start_new_round();
 
 #endif //DOOMDEPTHS_START_NEW_ROUND_H

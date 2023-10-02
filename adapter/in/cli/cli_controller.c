@@ -22,9 +22,10 @@ void start_ihm() {
     leave_town(leave_town_action);
 
     while (true) {
-        DoomDepths game = player_enter_zone(enter_map(get_intern_game_state().map));
+        Position position = enter_map(get_intern_game_state().map);
+        player_enter_zone(position);
 
-        fight(game);
+        fight();
 
         bool player_won = current_player_is_alive();
         if (player_won) {

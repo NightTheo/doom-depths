@@ -14,6 +14,7 @@
 
 #include "../../../infrastructure/utils/utils.h"
 #include "../../port/out/persistence/intern_game_state/set_player.h"
+#include "../../port/out/persistence/intern_game_state/get_player.h"
 
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index);
@@ -21,12 +22,13 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index);
 Player player_equip_armor_from_inventory(Player p, uint8_t armor_index);
 
 
-Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
+void player_equip_item_from_inventory(uint8_t index_item) {
+    Player p = get_player();
     char log[64];
     if (index_item < 0 || index_item >= p.inventory.capacity) {
         snprintf(log, 64, "Index [%d] is not in inventory", index_item);
         log_error(log);
-        return p;
+        return;
     }
     InventoryItem item_to_equip = p.inventory.items[index_item];
     switch (item_to_equip.type) {
@@ -45,7 +47,7 @@ Player player_equip_item_from_inventory(Player p, uint8_t index_item) {
     }
 
 
-    return p;
+    set_player(p);
 }
 
 
@@ -76,7 +78,7 @@ Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index) {
     free(w_str);
 
 
-    return set_player(p);
+    return p;
 }
 
 Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
@@ -101,5 +103,5 @@ Player player_equip_armor_from_inventory(Player p, uint8_t armor_index) {
     log_info(log);
     free(a_str);
 
-    return set_player(p);
+    return p;
 }

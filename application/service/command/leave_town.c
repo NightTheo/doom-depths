@@ -4,9 +4,9 @@
 //
 
 #include <stdio.h>
+#include "../../port/in/command/leave_town.h"
 #include "../../port/out/persistence/intern_game_state/game_state.h"
 #include "../../port/in/command/leave_town_action.h"
-//#include "leave_town.h"
 #include "../../port/out/log/log_error.h"
 #include "../../port/in/command/new_run.h"
 #include "../../port/in/command/continue_last_run.h"

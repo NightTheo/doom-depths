@@ -10,6 +10,6 @@
 
 typedef struct Player Player;
 
-Player drink_potion_at_index(Player player, uint8_t potion_index);
+void drink_potion_at_index(uint8_t potion_index);
 
 #endif //DOOMDEPTHS_DRINK_POTION_H

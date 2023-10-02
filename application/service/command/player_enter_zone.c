@@ -9,11 +9,11 @@
 #include "../../port/out/persistence/intern_game_state/set_intern_game_state.h"
 #include "../../../infrastructure/utils/random/random.h"
 
-DoomDepths player_enter_zone(Position position) {
+void player_enter_zone(Position position) {
     DoomDepths game = get_intern_game_state();
 
     bool move_is_not_possible = !player_can_move_to_position_in_map(position, game.map);
-    if (move_is_not_possible) return game;
+    if (move_is_not_possible) return;
 
     Fight old_fight = get_current_fight_in_game(game);
     Player player = old_fight.player;
@@ -21,5 +21,5 @@ DoomDepths player_enter_zone(Position position) {
 
     game.map = spawn_player_on_map_at_position(player, game.map, position);
 
-    return set_intern_game_state(game);
+    set_intern_game_state(game);
 }

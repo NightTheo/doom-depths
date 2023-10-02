@@ -9,6 +9,6 @@
 typedef struct GameState GameState;
 
 // TODO return DoomDepths, not GameState
-GameState new_run();
+void new_run();
 
 #endif //DOOMDEPTHS_NEW_RUN_H

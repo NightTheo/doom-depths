@@ -9,6 +9,6 @@
 typedef struct DoomDepths DoomDepths;
 typedef struct Position Position;
 
-DoomDepths player_enter_zone(Position position);
+void player_enter_zone(Position position);
 
 #endif //DOOMDEPTHS_PLAYER_ENTER_ZONE_H

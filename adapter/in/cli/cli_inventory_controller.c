@@ -24,10 +24,10 @@ PlayerInventoryAction get_player_inventory_action();
 
 uint8_t get_item_index(Inventory inventory);
 
-Player player_use_item_from_inventory(Player p, uint8_t index_item);
+void player_use_item_from_inventory(Player p, uint8_t index_item);
 
 
-Player enter_player_inventory(Player p) {
+void enter_player_inventory(Player p) {
     while (true) {
         char *equipment_str = equipment_to_string(p.equipment);
         fprintf(stdout, "%s\n", equipment_str);
@@ -39,18 +39,13 @@ Player enter_player_inventory(Player p) {
         char log[128];
 
         switch (action) {
-            case EXIT_INVENTORY:
-                return p;
-            case EQUIP_ITEM:
-                p = player_equip_item_from_inventory(p, get_item_index(p.inventory));
-                break;
-            case USE_ITEM:
-                p = player_use_item_from_inventory(p, get_item_index(p.inventory));
-                break;
+            case EXIT_INVENTORY: return;
+            case EQUIP_ITEM: return player_equip_item_from_inventory(get_item_index(p.inventory));
+            case USE_ITEM: return player_use_item_from_inventory(p, get_item_index(p.inventory));
             default:
                 snprintf(log, 64, "unknown action [%d]", action);
                 log_error(log);
-                break;
+                return;
         }
     }
 }
@@ -102,12 +97,12 @@ uint8_t get_item_index(Inventory inventory) {
     return input - 1;
 }
 
-Player player_use_item_from_inventory(Player p, uint8_t index_item) {
+void player_use_item_from_inventory(Player p, uint8_t index_item) {
     char log[64];
     if (index_item < 0 || index_item >= p.inventory.capacity) {
         snprintf(log, 64, "Index [%d] is not in inventory", index_item);
         log_error(log);
-        return p;
+        return;
     }
 
     InventoryItem item_to_use = p.inventory.items[index_item];
@@ -116,12 +111,10 @@ Player player_use_item_from_inventory(Player p, uint8_t index_item) {
             log_info("Empty item, nothing to do.");
             break;
         case POTION_ITEM:
-            p = drink_potion_at_index(p, index_item);
+            drink_potion_at_index(index_item);
             break;
         default:
             log_info("Item not usable.");
             break;
     }
-
-    return p;
 }

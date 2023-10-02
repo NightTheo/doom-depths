@@ -8,6 +8,6 @@
 
 typedef struct Fight Fight;
 
-Fight cast_spell(Fight fight, Spell s);
+void cast_spell(Spell s);
 
 #endif //DOOMDEPTHS_CAST_SPELL_H

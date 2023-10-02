@@ -16,9 +16,9 @@
 
 Player decrement_player_remaining_attacks(Player p);
 
-Fight cast_spell_on_player_in_fight(Fight f, Spell s);
+void cast_spell_on_player_in_fight(Fight f, Spell s);
 
-Fight cast_spell_on_monster_in_fight(Fight f, Spell s);
+void cast_spell_on_monster_in_fight(Fight f, Spell s);
 
 Fight empty_fight() {
     Fight f;
