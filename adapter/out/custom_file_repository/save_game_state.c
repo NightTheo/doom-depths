@@ -52,6 +52,7 @@ char *zone_to_save_string(Zone z, uint8_t x, uint8_t y);
 
 const char *zone_status_to_save_string(ZoneStatus status);
 
+// TODO create port in fot that adapter out
 RepositoryStatus save_game_state(DoomDepths game) {
     log_info("Save game state");
 
@@ -181,7 +182,6 @@ const char *item_type_to_string(InventoryItemType type) {
 }
 
 char *item_to_save_string_by_type(InventoryItem item, uint8_t index) {
-    char log[MAX_LINE_SIZE];
     char prefix[MAX_LINE_SIZE];
     snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
     switch (item.type) {

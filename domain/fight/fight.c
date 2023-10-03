@@ -31,7 +31,6 @@ Fight empty_fight() {
 Monster monster_takes_damages(Monster m, uint8_t damages) {
     int8_t damages_after_defense = max(0, damages - m.defense);
     m.health = max(0, m.health - damages_after_defense);
-    char log[64];
     log_info("Monster took %d damages", damages_after_defense);
     return m;
 }

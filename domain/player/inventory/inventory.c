@@ -146,7 +146,6 @@ char *item_to_string(InventoryItem item) {
         case POTION_ITEM:
             return potion_to_string(*((ManaPotion *) item.item));
         default: {
-            char log[32];
             char *default_str;
             default_str = malloc(32);
             strcpy(default_str, "Unknown InventoryItemType");

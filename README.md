@@ -1,6 +1,12 @@
-# DOOMDEPTHS
+# DoomDepths in C
 
 > OMNES Theo - 5AL1 - 2023 - ESGI
 
+/!\ Readme in progress
 
-Bonjour !
+## Quick start
+
+```bash
+```
+
+## Architecture

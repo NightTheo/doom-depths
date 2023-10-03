@@ -31,7 +31,7 @@ void player_equip_item_from_inventory(uint8_t index_item) {
     InventoryItem item_to_equip = p.inventory.items[index_item];
     switch (item_to_equip.type) {
         case EMPTY_ITEM:
-            log_info("Empty item, nothing to do.");
+            log_info("Empty item, nothing done.");
             break;
         case WEAPON_ITEM:
             p = player_equip_weapon_from_inventory(p, index_item);

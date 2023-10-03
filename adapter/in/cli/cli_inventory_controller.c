@@ -36,12 +36,15 @@ void enter_player_inventory(Player p) {
         display_inventory_items(p.inventory);
         display_inventory_actions();
         PlayerInventoryAction action = get_player_inventory_action();
-        char log[128];
 
         switch (action) {
             case EXIT_INVENTORY: return;
-            case EQUIP_ITEM: return player_equip_item_from_inventory(get_item_index(p.inventory));
-            case USE_ITEM: return player_use_item_from_inventory(p, get_item_index(p.inventory));
+            case EQUIP_ITEM:
+                player_equip_item_from_inventory(get_item_index(p.inventory));
+                break;
+            case USE_ITEM:
+                player_use_item_from_inventory(p, get_item_index(p.inventory));
+                break;
             default:
                 log_error("unknown action [%d]", action);
                 return;

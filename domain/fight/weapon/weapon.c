@@ -72,7 +72,6 @@ char *weapon_to_string(Weapon w) {
 }
 
 WeaponKind weapon_kind_from_string(const char *str) {
-    char log[64];
     if (str == NULL) {
         log_error("NULL parameter in weapon_kind_from_string().");
         return EMPTY_WEAPON;
