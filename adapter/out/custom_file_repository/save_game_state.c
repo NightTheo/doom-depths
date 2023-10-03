@@ -92,6 +92,7 @@ char *player_to_save_string(Player p) {
 
     snprintf(s, WRITE_BUFFER_SIZE,
              "\n@PLAYER@\n"
+             "player.is_empty=%d\n"
              "player.current_health=%d\n"
              "player.max_health=%d\n"
              "player.remaining_number_of_attacks=%d\n"
@@ -99,6 +100,7 @@ char *player_to_save_string(Player p) {
              "%s\n"
              "player.max_mana=%d\n"
              "player.current_mana=%d",
+             p.is_empty,
              p.current_health,
              p.max_health,
              p.remaining_number_of_attacks,

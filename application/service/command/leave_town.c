@@ -10,6 +10,7 @@
 #include "../../port/out/log/log_error.h"
 #include "../../port/in/command/new_run.h"
 #include "../../port/in/command/continue_last_run.h"
+#include "../../port/out/log/log_repository_status.h"
 
 bool leave_town(LeaveTownAction action) {
     if (action < 0 || action >= _leave_town_actions_count) {
@@ -23,6 +24,7 @@ bool leave_town(LeaveTownAction action) {
             return true;
         case RESTORE_LAST_GAME: {
             GameState status = continue_last_run();
+            log_repository_status(status.repository_status);
             return status.repository_status == RESTORE_LAST_GAME_SUCCEEDED;
         }
         default: {

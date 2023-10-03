@@ -9,12 +9,15 @@ int main() {
     /* TODO
      * [ ] NO LEAKS
      * [ ] specials traits in each zone
-     * [ ] log variatique (format,...)
+     * [x] log variatique (format,...)
      * [x] Refactoring loop engine
      * [ ] Write beautiful readme
      * [ ] parser JSON ? yeah
-     * [ ] fix start at turn 2, Player choose action "[Open grim",
-     * [ ] fix restore
+     * [x] fix start at turn 2,
+     * [x] Player choose action "[Open grim",
+     * [x] fix restore
+     * [ ] exit grimoire
+     * [ ] display stuff without log
      * [ ] Boost CLI
      *
      * THEN

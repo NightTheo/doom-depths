@@ -118,7 +118,7 @@ char *restore_string_by_prefix(const char *prefix, const char *key) {
 int restore_int_by_key(const char *key) {
     char *str = restore_string_by_key(key);
     if (str == NULL) {
-        log_error("Cannot restore int.");
+        log_error("Cannot restore int with key [%s].", key);
         return RESTORE_INT_ERROR;
     }
     char *end;
@@ -179,6 +179,7 @@ Position restore_player_position() {
 
 Player restore_player() {
     Player p;
+    p.is_empty = restore_int_by_key("player.is_empty");
     p.current_health = restore_int_by_key("player.current_health");
     p.max_health = restore_int_by_key("player.max_health");
     p.remaining_number_of_attacks = restore_int_by_key("player.remaining_number_of_attacks");

@@ -44,6 +44,7 @@ void fight() {
     DoomDepths game = get_intern_game_state();
     if (doom_depths_is_empty(game)) {
         log_error("Game is empty");
+        // TODO set intern state to KO !
         return;
     }
     while (current_fight_is_finished() == false) {

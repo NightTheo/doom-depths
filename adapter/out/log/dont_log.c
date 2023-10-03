@@ -18,7 +18,7 @@ void log_info(const char *, ...) {
     return;
 }
 
-void log_error(const char *) {
+void log_error(const char *, ...) {
     return;
 }
 

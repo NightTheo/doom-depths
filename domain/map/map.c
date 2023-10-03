@@ -131,7 +131,7 @@ Map spawn_player_on_map_at_position(Player player, Map m, Position position) {
     }
     z.fight.player = restore_player_number_of_remaining_attacks(player);
     z.fight.monsters_list = random_list_of_monsters(random_between_included(2, 5));
-    z.fight.turn = 1;
+    z.fight.turn = 0;
     m.zones[position.zone_y][position.zone_x] = z;
     return m;
 }

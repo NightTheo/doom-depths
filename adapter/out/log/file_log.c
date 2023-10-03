@@ -25,24 +25,44 @@
 #define LOG_ERROR_FORMAT "[%s][error] %s\n" // [time][error] msg
 #define REPOSITORY_STATUS_FORMAT "Repository status: [%s]\n"
 
+#define MAX_LOG_SIZE 4096
+
 void log_info(const char *msg_info, ...) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
-    if (f == NULL) return;
+
+    va_list args;
+    va_start(args, msg_info);
+
     char *now = now_to_str();
-    if (now == NULL) return;
-    fprintf(f, LOG_INFO_FORMAT, now, msg_info);
+    if (now != NULL) {
+        char str[MAX_LOG_SIZE];
+        str[0] = '\0';
+        vsnprintf(str, MAX_LOG_SIZE, msg_info, args);
+        fprintf(stderr, "[%s][info] %s\n", now, str);
+        free(now);
+    }
+    va_end(args);
+
     fclose(f);
-    free(now);
 }
 
-void log_error(const char *msg_error) {
+void log_error(const char *msg_error, ...) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
-    if (f == NULL) return;
+
+    va_list args;
+    va_start(args, msg_error);
+
     char *now = now_to_str();
-    if (now == NULL) return;
-    fprintf(stderr, LOG_ERROR_FORMAT, now, msg_error);
+    if (now != NULL) {
+        char str[MAX_LOG_SIZE];
+        str[0] = '\0';
+        vsnprintf(str, MAX_LOG_SIZE, msg_error, args);
+        fprintf(stderr, "[%s][error] %s\n", now, str);
+        free(now);
+    }
+    va_end(args);
+
     fclose(f);
-    free(now);
 }
 
 void log_allocation_error() {
@@ -56,7 +76,7 @@ void log_monster(Monster m) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
     if (f == NULL) return;
     char *s = monster_to_string(m);
-    fprintf(f, "%s\n", s);
+    log_info(s);
     free(s);
     fclose(f);
 }
@@ -71,7 +91,7 @@ void log_player(Player p) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
     if (f == NULL) return;
     char *s = player_to_string(p);
-    fprintf(f, "%s\n", s);
+    log_info(s);
     free(s);
     fclose(f);
 }
@@ -80,7 +100,7 @@ void log_grimoire(Grimoire g) {
     FILE *f = fopen(LOG_FILE_PATH, "at");
     if (f == NULL) return;
     char *s = grimoire_to_string(g);
-    fprintf(f, "%s\n", s);
+    log_info(s);
     free(s);
     fclose(f);
 }

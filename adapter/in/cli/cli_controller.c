@@ -22,8 +22,10 @@ void start_ihm() {
     leave_town(leave_town_action);
 
     while (true) {
-        Position position = enter_map(get_intern_game_state().map);
-        player_enter_zone(position);
+        if(leave_town_action == NEW_RUN) {
+            Position position = enter_map(get_intern_game_state().map);
+            player_enter_zone(position);
+        }
 
         fight();
 
