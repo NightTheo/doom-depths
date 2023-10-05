@@ -17,8 +17,9 @@ pip install conan
 conan install . --output-folder=cmake-build-debug  --build=missing
 cd cmake-build-debug/build
 source ./Release/generators/conanbuild.sh
-cmake ../.. -DCMAKE_TOOLCHAIN_FILE=Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+cmake ../ -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .
+./DoomDepths
 ```
 ---
 

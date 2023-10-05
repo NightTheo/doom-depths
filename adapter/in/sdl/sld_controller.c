@@ -3,59 +3,51 @@
 // Created by Theo OMNES on 05/10/2023.
 //
 
-#include <application/port/in/command/start_ihm.h>
-#include "SDL.h"
+#include <stdbool.h>
 
+#include <application/port/in/command/start_ihm.h>
+#include "SDL2/SDL.h"
+#include "port/out/log/log_error.h"
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+
+SDL_Window *window = NULL;
+SDL_Surface *surface = NULL;
 
 void start_ihm() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        fprintf(stderr, "SDL_Init Error: %s\n", SDL_GetError());
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        log_error("SDL_Init Error: %s\n", SDL_GetError());
         return;
     }
 
-    SDL_Window* win = SDL_CreateWindow("Hello World!", 100, 100, 620, 387, SDL_WINDOW_SHOWN);
-    if (win == NULL) {
-        fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
+    window = SDL_CreateWindow("DoomDepths", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
+                              SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+        log_error("SDL_CreateWindow Error: %s\n", SDL_GetError());
         return;
     }
 
-    SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == NULL) {
-        fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
-        SDL_DestroyWindow(win);
-        SDL_Quit();
+    surface = SDL_GetWindowSurface(window);
+    if (surface == NULL) {
+        log_error("SDL_GetWindowSurface Error: %s\n", SDL_GetError());
+        SDL_DestroyWindow(window);
         return;
     }
 
-    SDL_Surface* bmp = SDL_LoadBMP("./grumpy-cat.bmp");
-    if (bmp == NULL) {
-        fprintf(stderr, "SDL_LoadBMP Error: %s\n", SDL_GetError());
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        return;
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
+    SDL_UpdateWindowSurface(window);
+
+    //Hack to get window to stay up
+    SDL_Event e;
+    bool quit = false;
+    while (quit == false) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT) quit = true;
+        }
     }
 
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, bmp);
-    if (tex == NULL) {
-        fprintf(stderr, "SDL_CreateTextureFromSurface Error: %s\n", SDL_GetError());
-        SDL_FreeSurface(bmp);
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        return;
-    }
-    SDL_FreeSurface(bmp);
-
-    for (int i = 0; i < 200; i++) {
-        SDL_RenderClear(ren);
-        SDL_RenderCopy(ren, tex, NULL, NULL);
-        SDL_RenderPresent(ren);
-        SDL_Delay(100);
-    }
-
-    SDL_DestroyTexture(tex);
-    SDL_DestroyRenderer(ren);
-    SDL_DestroyWindow(win);
+    SDL_FreeSurface(surface);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }

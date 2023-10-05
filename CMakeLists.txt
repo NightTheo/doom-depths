@@ -80,7 +80,6 @@ add_executable(DoomDepths main.c
         application/service/command/equip_item.c
         application/port/in/command/equip_item.h
         application/port/in/command/start_ihm.h
-        #adapter/in/cli/cli_controller.c
         adapter/out/in_memory_intern_game_state/in_memory_intern_game_state.c
         application/port/out/persistence/intern_game_state/set_intern_game_state.h
         application/port/out/persistence/intern_game_state/get_intern_game_state.h
@@ -110,6 +109,7 @@ add_executable(DoomDepths main.c
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
         adapter/in/sdl/sld_controller.c
+        #adapter/in/cli/cli_controller.c
 )
 
 target_link_libraries(DoomDepths SDL2::SDL2main)
