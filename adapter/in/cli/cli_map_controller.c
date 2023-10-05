@@ -5,11 +5,11 @@
 
 #include <stdio.h>
 
-#include "../../../domain/map/map.h"
-#include "../../../domain/map/position/position.h"
+#include <domain/map/map.h>
+#include <domain/map/position/position.h>
 
-#include "../../../application/port/out/log/log_error.h"
-#include "../../../application/port/out/log/log_info.h"
+#include <application/port/out/log/log_error.h>
+#include <application/port/out/log/log_info.h>
 
 Position ask_player_zone_position_to_go(Map map);
 

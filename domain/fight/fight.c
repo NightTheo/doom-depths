@@ -6,13 +6,12 @@
 #include <stdio.h>
 
 #include "fight.h"
-#include "player_fight_action/player_fight_actions.h"
 
-#include "../../infrastructure/utils/random/random.h"
-#include "../../infrastructure/utils/utils.h"
-#include "../../application/port/out/log/log_info.h"
-#include "../../application/port/out/log/log_monster.h"
-#include "../../application/port/out/persistence/intern_game_state/set_current_fight.h"
+#include <infrastructure/utils/random/random.h>
+#include <infrastructure/utils/utils.h>
+#include <application/port/out/log/log_info.h>
+#include <application/port/out/log/log_monster.h>
+#include <application/port/out/persistence/intern_game_state/set_current_fight.h>
 
 Player decrement_player_remaining_attacks(Player p);
 

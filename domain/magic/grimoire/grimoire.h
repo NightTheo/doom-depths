@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_GRIMOIRE_H
 #define DOOMDEPTHS_GRIMOIRE_H
 
-#include "../spell/spell.h"
+#include <domain/magic/spell/spell.h>
 #include "stdint.h"
 
 typedef struct Grimoire {

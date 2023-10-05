@@ -4,11 +4,10 @@
 //
 
 #include <string.h>
-#include <stdio.h>
 #include "map.h"
-#include "../../application/port/out/log/log_error.h"
-#include "../../application/port/out/log/log_info.h"
-#include "../../infrastructure/utils/random/random.h"
+#include <application/port/out/log/log_error.h>
+#include <application/port/out/log/log_info.h>
+#include <infrastructure/utils/random/random.h>
 
 Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
     if (zones == NULL) {

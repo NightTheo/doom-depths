@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.26)
+set(CMAKE_C_STANDARD 23)
 project(DoomDepths C)
 
-set(CMAKE_C_STANDARD 23)
+execute_process( COMMAND /bin/bash -c "conan install ${CMAKE_SOURCE_DIR}" )
+include( ${CMAKE_BINARY_DIR}/conan.cmake )
+
+set(CMAKE_TOOLCHAIN_FILE "./cmake-build-debug/build/Release/generators/conan_toolchain.cmake")
+set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_CXX_COMPILER_VERSION 15)
+
+find_package(SDL2 REQUIRED)
+
+include_directories(
+        "${CMAKE_SOURCE_DIR}/domain"
+        "${CMAKE_SOURCE_DIR}/application"
+        "${CMAKE_SOURCE_DIR}/adapter"
+)
 
 add_executable(DoomDepths main.c
         adapter/out/log/cli_log.c
@@ -66,7 +80,7 @@ add_executable(DoomDepths main.c
         application/service/command/equip_item.c
         application/port/in/command/equip_item.h
         application/port/in/command/start_ihm.h
-        adapter/in/cli/cli_controller.c
+        #adapter/in/cli/cli_controller.c
         adapter/out/in_memory_intern_game_state/in_memory_intern_game_state.c
         application/port/out/persistence/intern_game_state/set_intern_game_state.h
         application/port/out/persistence/intern_game_state/get_intern_game_state.h
@@ -95,4 +109,13 @@ add_executable(DoomDepths main.c
         domain/fight/event/player_killed_monster.h
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
+        adapter/in/sdl/sld_controller.c
+)
+
+target_link_libraries(DoomDepths SDL2::SDL2main)
+
+target_include_directories(
+        DoomDepths
+        PUBLIC
+        "${CMAKE_SOURCE_DIR}"
 )

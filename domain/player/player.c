@@ -7,10 +7,8 @@
 #include "player.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "../../infrastructure/utils/utils.h"
-#include "../../application/port/out/log/log_info.h"
-#include "../../application/port/out/log/log_error.h"
-#include "../../application/port/in/command/drink_potion.h"
+#include <infrastructure/utils/utils.h>
+#include <application/port/in/command/drink_potion.h>
 
 Player player(uint8_t max_health, uint8_t mana) {
     Equipment equipment = default_equipment();

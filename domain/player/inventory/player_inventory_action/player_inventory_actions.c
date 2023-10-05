@@ -3,9 +3,8 @@
 // Created by Theo OMNES on 25/09/2023.
 //
 
-#include <stdio.h>
 #include "player_inventory_actions.h"
-#include "../../../../application/port/out/log/log_error.h"
+#include <application/port/out/log/log_error.h>
 
 const char *inventory_action_to_string(PlayerInventoryAction action) {
     char log[32];

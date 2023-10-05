@@ -3,10 +3,10 @@
 // Created by Theo OMNES on 02/10/2023.
 //
 
-#include "../../../domain/map/map.h"
-#include "../../port/out/persistence/intern_game_state/get_current_zone.h"
-#include "../../port/out/persistence/intern_game_state/get_map.h"
-#include "../../port/out/persistence/intern_game_state/set_current_map.h"
+#include <domain/map/map.h>
+#include <port/out/persistence/intern_game_state/get_current_zone.h>
+#include <port/out/persistence/intern_game_state/get_map.h>
+#include <port/out/persistence/intern_game_state/set_current_map.h>
 
 void finish_current_zone() {
     Map map = get_map();

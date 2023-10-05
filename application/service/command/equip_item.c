@@ -5,16 +5,16 @@
 
 #include <stdio.h>
 
-#include "../../port/in/command/equip_item.h"
+#include <port/in/command/equip_item.h>
 
-#include "../../../domain/player/player.h"
+#include <domain/player/player.h>
 
-#include "../../port/out/log/log_error.h"
-#include "../../port/out/log/log_info.h"
+#include <port/out/log/log_error.h>
+#include <port/out/log/log_info.h>
 
-#include "../../../infrastructure/utils/utils.h"
-#include "../../port/out/persistence/intern_game_state/set_player.h"
-#include "../../port/out/persistence/intern_game_state/get_player.h"
+#include <infrastructure/utils/utils.h>
+#include <port/out/persistence/intern_game_state/set_player.h>
+#include <port/out/persistence/intern_game_state/get_player.h>
 
 
 Player player_equip_weapon_from_inventory(Player p, uint8_t weapon_index);

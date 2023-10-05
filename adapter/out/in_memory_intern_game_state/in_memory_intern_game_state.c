@@ -4,15 +4,15 @@
 //
 
 
-#include "../../../domain/map/zone/zone.h"
+#include <domain/map/zone/zone.h>
 
-#include "../../../application/port/out/persistence/intern_game_state/game_state.h"
-#include "../../../application/port/out/persistence/intern_game_state/set_intern_game_state.h"
-#include "../../../application/port/out/persistence/intern_game_state/get_intern_game_state.h"
-#include "../../../application/port/out/persistence/intern_game_state/get_map.h"
-#include "../../../application/port/out/persistence/intern_game_state/get_current_fight.h"
-#include "../../../application/port/out/persistence/intern_game_state/set_player.h"
-#include "../../../application/port/out/persistence/intern_game_state/get_player.h"
+#include <application/port/out/persistence/intern_game_state/game_state.h>
+#include <application/port/out/persistence/intern_game_state/set_intern_game_state.h>
+#include <application/port/out/persistence/intern_game_state/get_intern_game_state.h>
+#include <application/port/out/persistence/intern_game_state/get_map.h>
+#include <application/port/out/persistence/intern_game_state/get_current_fight.h>
+#include <application/port/out/persistence/intern_game_state/set_player.h>
+#include <application/port/out/persistence/intern_game_state/get_player.h>
 
 DoomDepths GAME_STATE = {DOOM_DEPTHS_EMPTY};
 

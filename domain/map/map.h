@@ -6,10 +6,10 @@
 #ifndef DOOMDEPTHS_MAP_H
 #define DOOMDEPTHS_MAP_H
 
-#include "zone/zone.h"
-#include "stdint.h"
-#include "position/position.h"
 #include "stdbool.h"
+#include <domain/map/zone/zone.h>
+#include "stdint.h"
+#include <domain/map/position/position.h>
 
 typedef struct Map Map;
 struct Map {

@@ -8,9 +8,9 @@
 
 #include "stdint.h"
 #include "stdbool.h"
-#include "../weapon/weapon.h"
-#include "../armor/armor.h"
-#include "../../magic/mana_potion/mana_potion.h"
+#include <domain/fight/weapon/weapon.h>
+#include <domain/fight/armor/armor.h>
+#include <domain/magic/mana_potion/mana_potion.h>
 
 typedef struct Loot {
     u_int16_t gold;

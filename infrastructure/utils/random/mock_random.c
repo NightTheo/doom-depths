@@ -3,7 +3,6 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include <stdlib.h>
 #include "random.h"
 #include "../utils.h"
 

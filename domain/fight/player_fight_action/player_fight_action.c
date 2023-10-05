@@ -3,9 +3,8 @@
 // Created by Theo OMNES on 13/09/2023.
 //
 
-#include <stdio.h>
 #include "player_fight_actions.h"
-#include "../../../application/port/out/log/log_error.h"
+#include <application/port/out/log/log_error.h>
 
 const char *player_fight_action_to_string(PlayerFightAction action) {
     switch (action) {

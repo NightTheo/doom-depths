@@ -4,13 +4,13 @@
 //
 
 #include <stdio.h>
-#include "../../port/in/command/leave_town.h"
-#include "../../port/out/persistence/intern_game_state/game_state.h"
-#include "../../port/in/command/leave_town_action.h"
-#include "../../port/out/log/log_error.h"
-#include "../../port/in/command/new_run.h"
-#include "../../port/in/command/continue_last_run.h"
-#include "../../port/out/log/log_repository_status.h"
+#include <port/in/command/leave_town.h>
+#include <port/out/persistence/intern_game_state/game_state.h>
+#include <port/in/command/leave_town_action.h>
+#include <port/out/log/log_error.h>
+#include <port/in/command/new_run.h>
+#include <port/in/command/continue_last_run.h>
+#include <port/out/log/log_repository_status.h>
 
 bool leave_town(LeaveTownAction action) {
     if (action < 0 || action >= _leave_town_actions_count) {

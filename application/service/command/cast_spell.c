@@ -3,17 +3,15 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include <stdio.h>
+#include <domain/fight/fight.h>
 
-#include "../../../domain/fight/fight.h"
+#include <port/in/command/cast_spell.h>
 
-#include "../../port/in/command/cast_spell.h"
-
-#include "../../port/out/log/log_info.h"
-#include "../../port/out/log/log_error.h"
-#include "../../port/out/persistence/intern_game_state/set_current_fight.h"
-#include "../../../domain/fight/event/player_killed_monster.h"
-#include "../../port/out/persistence/intern_game_state/get_current_fight.h"
+#include <port/out/log/log_info.h>
+#include <port/out/log/log_error.h>
+#include <port/out/persistence/intern_game_state/set_current_fight.h>
+#include <../domain/fight/event/player_killed_monster.h>
+#include <port/out/persistence/intern_game_state/get_current_fight.h>
 
 void cast_spell_on_monster_in_fight(Fight f, Spell s);
 

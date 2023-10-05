@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "armor.h"
-#include "../../../infrastructure/utils/random/random.h"
-#include "../../../application/port/out/log/log_error.h"
+#include <infrastructure/utils/random/random.h>
+#include <application/port/out/log/log_error.h>
 
 Armor armor(ArmorKind kind, uint8_t defense) {
     Armor a = {

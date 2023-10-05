@@ -6,7 +6,22 @@
 
 ## Quick start
 
+1. Installer Conan
 ```bash
+pip install conan
 ```
+---
+
+2. Installer les dépendances
+```bash
+conan install . --output-folder=cmake-build-debug  --build=missing
+cd cmake-build-debug/build
+source ./Release/generators/conanbuild.sh
+cmake ../.. -DCMAKE_TOOLCHAIN_FILE=Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+```
+---
+
+
 
 ## Architecture

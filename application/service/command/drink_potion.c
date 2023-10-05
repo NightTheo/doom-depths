@@ -3,17 +3,16 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include <stdio.h>
 #include <string.h>
 
-#include "../../port/in/command/drink_potion.h"
+#include <port/in/command/drink_potion.h>
 
-#include "../../../domain/player/player.h"
+#include <domain/player/player.h>
 
-#include "../../port/out/log/log_error.h"
-#include "../../port/out/log/log_info.h"
-#include "../../port/out/persistence/intern_game_state/set_player.h"
-#include "../../port/out/persistence/intern_game_state/get_player.h"
+#include <port/out/log/log_error.h>
+#include <port/out/log/log_info.h>
+#include <port/out/persistence/intern_game_state/set_player.h>
+#include <port/out/persistence/intern_game_state/get_player.h>
 
 void drink_potion_at_index(uint8_t potion_index) {
     Player player = get_player();

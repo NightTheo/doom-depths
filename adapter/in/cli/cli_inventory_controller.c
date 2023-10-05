@@ -5,13 +5,13 @@
 
 #include <stdio.h>
 
-#include "../../../domain/player/player.h"
-#include "../../../domain/player/inventory/player_inventory_action/player_inventory_actions.h"
+#include <domain/player/player.h>
+#include <domain/player/inventory/player_inventory_action/player_inventory_actions.h>
 
-#include "../../../application/port/out/log/log_error.h"
-#include "../../../application/port/out/log/log_info.h"
-#include "../../../application/port/in/command/equip_item.h"
-#include "../../../application/port/in/command/drink_potion.h"
+#include <application/port/out/log/log_error.h>
+#include <application/port/out/log/log_info.h>
+#include <application/port/in/command/equip_item.h>
+#include <application/port/in/command/drink_potion.h>
 
 
 void display_inventory_items(Inventory inventory);

@@ -3,11 +3,11 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include "../../port/out/persistence/intern_game_state/game_state.h"
-#include "../../port/in/command/player_enter_zone.h"
-#include "../../port/out/persistence/intern_game_state/get_intern_game_state.h"
-#include "../../port/out/persistence/intern_game_state/set_intern_game_state.h"
-#include "../../../infrastructure/utils/random/random.h"
+#include <port/out/persistence/intern_game_state/game_state.h>
+#include <port/in/command/player_enter_zone.h>
+#include <port/out/persistence/intern_game_state/get_intern_game_state.h>
+#include <port/out/persistence/intern_game_state/set_intern_game_state.h>
+#include <infrastructure/utils/random/random.h>
 
 void player_enter_zone(Position position) {
     DoomDepths game = get_intern_game_state();

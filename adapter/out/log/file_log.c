@@ -4,21 +4,21 @@
 //
 
 #include <time.h>
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-#include "../../../infrastructure/utils/time/time_util.h"
+#include <infrastructure/utils/time/time_util.h>
 
-#include "../../../application/port/out/log/log_info.h"
-#include "../../../application/port/out/log/log_error.h"
-#include "../../../application/port/out/log/log_player.h"
-#include "../../../application/port/out/log/log_monster.h"
-#include "../../../application/port/out/log/log_grimoire.h"
-#include "../../../application/port/out/persistence/storage/respository_status.h"
-#include "../../../application/port/out/log/log_repository_status.h"
+#include <application/port/out/log/log_info.h>
+#include <application/port/out/log/log_error.h>
+#include <application/port/out/log/log_player.h>
+#include <application/port/out/log/log_monster.h>
+#include <application/port/out/log/log_grimoire.h>
+#include <application/port/out/persistence/storage/respository_status.h>
+#include <application/port/out/log/log_repository_status.h>
 
-#include "../../../domain/player/player.h"
-#include "../../../domain/monsters/monsters.h"
+#include <domain/player/player.h>
+#include <domain/monsters/monsters.h>
 
 #define LOG_FILE_PATH "log.txt"
 #define LOG_INFO_FORMAT "[%s][info] %s\n" // [time][info] msg

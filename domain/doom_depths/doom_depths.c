@@ -3,11 +3,9 @@
 // Created by Theo OMNES on 29/09/2023.
 //
 
-#include <stdio.h>
 #include "doom_depths.h"
-#include "../../infrastructure/utils/random/random.h"
 #include "stdbool.h"
-#include "../../application/port/out/log/log_error.h"
+#include <application/port/out/log/log_error.h>
 
 DoomDepths empty_game();
 

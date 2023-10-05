@@ -3,11 +3,11 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include "../../../domain/fight/fight.h"
-#include "../../port/in/command/end_round.h"
-#include "../../port/out/persistence/intern_game_state/set_current_fight.h"
-#include "../../port/out/persistence/intern_game_state/get_current_fight.h"
-#include "../../port/in/query/is_current_fight_finished.h"
+#include <domain/fight/fight.h>
+#include <port/in/command/end_round.h>
+#include <port/out/persistence/intern_game_state/set_current_fight.h>
+#include <port/out/persistence/intern_game_state/get_current_fight.h>
+#include <port/in/query/is_current_fight_finished.h>
 
 void end_round() {
     Fight fight = get_current_fight();

@@ -5,11 +5,11 @@
 
 #include <stdio.h>
 
-#include "../../../domain/fight/fight.h"
+#include <domain/fight/fight.h>
 
-#include "../../../application/port/in/command/cast_spell.h"
+#include <application/port/in/command/cast_spell.h>
 
-#include "../../../application/port/out/log/log_info.h"
+#include <application/port/out/log/log_info.h>
 
 void display_grimoire(Grimoire g, uint16_t max_mana);
 
