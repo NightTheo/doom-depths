@@ -10,6 +10,7 @@ set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_COMPILER_VERSION 15)
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 include_directories(
         "${CMAKE_SOURCE_DIR}/domain"
@@ -113,6 +114,7 @@ add_executable(DoomDepths main.c
 )
 
 target_link_libraries(DoomDepths SDL2::SDL2main)
+target_link_libraries(DoomDepths sdl_ttf::sdl_ttf)
 
 target_include_directories(
         DoomDepths
