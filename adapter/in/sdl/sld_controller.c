@@ -9,42 +9,10 @@
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_ttf.h>
 
+#include "sdl_controller.h"
 #include "port/out/log/log_error.h"
+#include "in/sdl/components/button/button.h"
 
-
-typedef struct Padding Padding;
-struct Padding{
-    int horizontal;
-    int vertical;
-};
-
-typedef struct Button Button;
-struct Button{
-    SDL_Rect rect;
-    SDL_Texture* text_texture;
-    SDL_Color bg_color;
-    Padding padding;
-};
-
-typedef struct Point Point;
-struct Point{
-    int x;
-    int y;
-};
-
-typedef struct TownWindow TownWindow;
-struct TownWindow {
-    Button newRunButton;
-    Button continueButton;
-};
-
-typedef struct SDL_IHM SDL_IHM;
-struct SDL_IHM {
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    TTF_Font *font;
-    TownWindow town_window;
-};
 
 typedef struct InitResult InitResult;
 struct InitResult {
@@ -60,31 +28,18 @@ const int SCREEN_HEIGHT = 840;
 
 InitResult init();
 
+void start_event_loop(SDL_IHM ihm);
+
 void close(SDL_IHM ihm);
 
 SDL_Texture * load_texture(const char *path, SDL_Renderer *renderer);
 
 void handle_event(SDL_Event e, SDL_IHM ihm);
 
-void handle_clicked(SDL_Event event, SDL_IHM ihm);
-
-void handle_mouse_moved(SDL_Event event, SDL_IHM ihm);
-
-void start_event_loop(SDL_IHM ihm);
 
 SDL_Surface *load_surface(const char *path);
 
 void draw(SDL_IHM ihm);
-
-void drawButton(SDL_Renderer *renderer, Button *button);
-
-Button create_button(SDL_IHM *ihm, const char *text, Point p, SDL_Color background_color);
-
-Button horizontal_padding(Button button, int padding);
-
-Button vertical_padding(Button button, int padding);
-
-Button padding(Button button, int horizontal, int vertical);
 
 void start_ihm() {
     InitResult init_result = init();
@@ -113,38 +68,10 @@ void draw(SDL_IHM ihm) {
     SDL_SetRenderDrawColor(ihm.renderer, 0, 0, 0, 255);
     SDL_RenderClear(ihm.renderer);
 
-    drawButton(ihm.renderer, &ihm.town_window.newRunButton);
-    drawButton(ihm.renderer, &ihm.town_window.continueButton);
+    drawButton(ihm.renderer, ihm.town_window.newRunButton);
+    drawButton(ihm.renderer, ihm.town_window.continueButton);
 
     SDL_RenderPresent(ihm.renderer);
-}
-
-Button create_button(SDL_IHM *ihm, const char *text, Point p, SDL_Color background_color) {
-    Button button;
-    button.rect.x = p.x;
-    button.rect.y = p.y;
-
-    SDL_Surface* textSurface = TTF_RenderText_Solid(ihm->font, text, (SDL_Color){255, 255, 255, 255});
-    button.text_texture = SDL_CreateTextureFromSurface(ihm->renderer, textSurface);
-    SDL_FreeSurface(textSurface);
-
-    SDL_QueryTexture(button.text_texture, NULL, NULL, &button.rect.w, &button.rect.h);
-    button.bg_color = background_color;
-    return button;
-}
-
-void drawButton(SDL_Renderer *renderer, Button *button) {
-    SDL_SetRenderDrawColor(renderer, button->bg_color.r, button->bg_color.g, button->bg_color.b, button->bg_color.a);
-    SDL_RenderFillRect(renderer, &button->rect);
-
-    Padding p = button->padding;
-    SDL_Rect textRect = {
-            button->rect.x + p.horizontal,
-            button->rect.y + p.vertical,
-            button->rect.w - (2 * p.horizontal),
-            button->rect.h - (2 * p.vertical)
-    };
-    SDL_RenderCopy(renderer, button->text_texture, NULL, &textRect);
 }
 
 InitResult init() {
@@ -157,7 +84,7 @@ InitResult init() {
         log_error("TTF_Init Error : %s", TTF_GetError());
         return (InitResult) {false};
     }
-    TTF_Font *font = TTF_OpenFont("OpenSans.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("resources/font/OpenSans.ttf", 24);
     if(font == NULL) {
         log_error("TTF_OpenFont Error : %s", TTF_GetError());
         return (InitResult) {false};
@@ -181,38 +108,11 @@ InitResult init() {
     ihm.window = window;
     ihm.renderer = renderer;
     ihm.font = font;
-
-    SDL_Color color = {200, 0, 0, 255};
-
-    Button newRunButton = create_button(&ihm, "NEW RUN", (Point) {100, 200}, color);
-    Button continueButton = create_button(&ihm, "CONTINUE", (Point) {100, 300}, color);
-
-    ihm.town_window.newRunButton = padding(newRunButton, 30, 10);
-    ihm.town_window.continueButton = padding(continueButton, 30, 10);
+    ihm.town_window = town_window(ihm);
 
     return (InitResult) {true, ihm};
 }
 
-Button padding(Button button, int horizontal, int vertical) {
-    button.rect.w += 2 * horizontal;
-    button.rect.h += 2 * vertical;
-    button.padding.horizontal = horizontal;
-    button.padding.vertical = vertical;
-    return button;
-}
-
-
-Button vertical_padding(Button button, int padding) {
-    button.rect.h += 2 * padding;
-    button.padding.vertical = padding;
-    return button;
-}
-
-Button horizontal_padding(Button button, int padding) {
-    button.rect.w += 2 * padding;
-    button.padding.horizontal = padding;
-    return button;
-}
 
 void close(SDL_IHM ihm) {
     SDL_DestroyTexture(ihm.town_window.newRunButton.text_texture);
@@ -251,20 +151,5 @@ SDL_Surface *load_surface(const char *path) {
 }
 
 void handle_event(SDL_Event e, SDL_IHM ihm) {
-    switch (e.type) {
-        case SDL_MOUSEBUTTONUP:
-            return handle_clicked(e, ihm);
-        case SDL_MOUSEMOTION:
-            return handle_mouse_moved(e, ihm);
-        default:
-            return;
-    }
-}
-
-void handle_mouse_moved(SDL_Event event, SDL_IHM ihm) {
-
-}
-
-void handle_clicked(SDL_Event event, SDL_IHM ihm) {
 
 }

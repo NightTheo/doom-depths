@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.26)
 set(CMAKE_C_STANDARD 23)
 project(DoomDepths C)
 
-execute_process( COMMAND /bin/bash -c "conan install ${CMAKE_SOURCE_DIR}" )
-include( ${CMAKE_BINARY_DIR}/conan.cmake )
+execute_process( COMMAND /bin/bash -c "conan install ${CMAKE_SOURCE_DIR} --build=missing" )
 
-set(CMAKE_TOOLCHAIN_FILE "./cmake-build-debug/build/Release/generators/conan_toolchain.cmake")
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/build/Release/generators/conan_toolchain.cmake")
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_COMPILER_VERSION 15)
 
@@ -17,6 +16,8 @@ include_directories(
         "${CMAKE_SOURCE_DIR}/application"
         "${CMAKE_SOURCE_DIR}/adapter"
 )
+
+file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(DoomDepths main.c
         adapter/out/log/cli_log.c
@@ -110,6 +111,14 @@ add_executable(DoomDepths main.c
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
         adapter/in/sdl/sld_controller.c
+        adapter/in/sdl/town/sdl_town_controller.c
+        adapter/in/sdl/sdl_controller.h
+        adapter/in/sdl/town/sdl_town_controller.h
+        adapter/in/sdl/components/button/button.c
+        adapter/in/sdl/components/button/button.h
+        adapter/in/sdl/components/padding/padding.c
+        adapter/in/sdl/components/padding/padding.h
+        adapter/in/sdl/components/point/point.h
         #adapter/in/cli/cli_controller.c
 )
 
