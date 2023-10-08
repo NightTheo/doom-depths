@@ -9,10 +9,8 @@
 
 #include "in/sdl/components/color/sdl_color.h"
 #include "button.h"
-#include "port/out/log/log_info.h"
 
 /**
- *
  * By default padding to 0, background color to white
  */
 Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)()) {
@@ -21,7 +19,7 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)())
     button.rect.x = p.x;
     button.rect.y = p.y;
 
-    SDL_Surface *textSurface = TTF_RenderText_Solid(ihm.font, text, (SDL_Color) {255, 255, 255, 255});
+    SDL_Surface *textSurface = TTF_RenderText_Solid(ihm.font, text, get_color(SDL_WHITE));
     button.text_texture = SDL_CreateTextureFromSurface(ihm.renderer, textSurface);
     SDL_FreeSurface(textSurface);
     SDL_QueryTexture(button.text_texture, NULL, NULL, &button.rect.w, &button.rect.h);
