@@ -18,12 +18,15 @@ struct Button{
     SDL_Texture* text_texture;
     SDL_Color bg_color;
     Padding padding;
+    void (*callback)();
 };
 
 void drawButton(SDL_Renderer *renderer, Button button);
 
-Button padding_button(Button button, int horizontal, int vertical);
+Button padding_button(Padding padding, Button button);
 
-Button create_button(SDL_IHM ihm, const char *text, Point p, SDL_Color background_color);
+Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)());
+
+Button background_color_button(SDL_Color color, Button button);
 
 #endif //DOOMDEPTHS_BUTTON_H

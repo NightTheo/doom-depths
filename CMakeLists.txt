@@ -111,14 +111,16 @@ add_executable(DoomDepths main.c
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
         adapter/in/sdl/sld_controller.c
-        adapter/in/sdl/town/sdl_town_controller.c
+        adapter/in/sdl/pages/town/sdl_town_controller.c
         adapter/in/sdl/sdl_controller.h
-        adapter/in/sdl/town/sdl_town_controller.h
+        adapter/in/sdl/pages/town/sdl_town_controller.h
         adapter/in/sdl/components/button/button.c
         adapter/in/sdl/components/button/button.h
         adapter/in/sdl/components/padding/padding.c
         adapter/in/sdl/components/padding/padding.h
         adapter/in/sdl/components/point/point.h
+        adapter/in/sdl/components/color/sdl_color.h
+        adapter/in/sdl/components/color/sdl_color.c
         #adapter/in/cli/cli_controller.c
 )
 

@@ -7,7 +7,7 @@
 #define DOOMDEPTHS_SDL_CONTROLLER_H
 
 #include "SDL_ttf.h"
-#include "in/sdl/town/sdl_town_controller.h"
+#include "in/sdl/pages/town/sdl_town_controller.h"
 
 typedef struct SDL_IHM SDL_IHM;
 struct SDL_IHM {
