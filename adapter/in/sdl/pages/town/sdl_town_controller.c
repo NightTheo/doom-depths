@@ -38,3 +38,8 @@ void click_new_run() {
 void click_continue() {
     log_info("Clicked on continue");
 }
+
+void town_handle_event(SDL_Event event, SDL_IHM ihm) {
+    button_handle_event(event, ihm.town_window.newRunButton);
+    button_handle_event(event, ihm.town_window.continueButton);
+}

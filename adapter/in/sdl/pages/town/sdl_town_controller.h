@@ -18,5 +18,7 @@ struct TownWindow {
 
 TownWindow town_window(SDL_IHM ihm);
 
+void town_handle_event(SDL_Event event, SDL_IHM ihm);
+
 
 #endif //DOOMDEPTHS_SDL_TOWN_CONTROLLER_H

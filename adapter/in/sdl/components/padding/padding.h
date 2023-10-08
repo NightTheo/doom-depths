@@ -6,7 +6,6 @@
 #ifndef DOOMDEPTHS_PADDING_H
 #define DOOMDEPTHS_PADDING_H
 
-typedef struct Button Button;
 typedef struct SDL_Rect SDL_Rect;
 
 typedef struct Padding Padding;
