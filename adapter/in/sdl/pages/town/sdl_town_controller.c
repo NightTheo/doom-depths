@@ -18,17 +18,30 @@ TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
     w.is_displayed = true;
     SDL_Color buttons_background_color = get_color(SDL_RED);
-    Padding padding = {30, 10};
+    SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, &click_new_run);
-    w.newRunButton = padding_button(padding, w.newRunButton);
-    w.newRunButton = background_color_button(buttons_background_color, w.newRunButton);
+    w.newRunButton = color_button(
+            buttons_background_color,
+            buttons_hover_color,
+            w.newRunButton
+            );
 
     w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, &click_continue);
-    w.continueButton = padding_button(padding, w.continueButton);
-    w.continueButton = background_color_button(buttons_background_color, w.continueButton);
+    w.continueButton = color_button(
+            buttons_background_color,
+            buttons_hover_color,
+            w.continueButton
+            );
 
     return w;
+}
+
+void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
+    if(!town.is_displayed) return;
+
+    drawButton(renderer, town.newRunButton);
+    drawButton(renderer, town.continueButton);
 }
 
 void click_new_run() {
@@ -39,7 +52,9 @@ void click_continue() {
     log_info("Clicked on continue");
 }
 
-void town_handle_event(SDL_Event event, SDL_IHM ihm) {
-    button_handle_event(event, ihm.town_window.newRunButton);
-    button_handle_event(event, ihm.town_window.continueButton);
+TownWindow town_handle_event(SDL_Event event, TownWindow town) {
+    town.newRunButton = button_handle_event(event, town.newRunButton);
+    town.continueButton = button_handle_event(event, town.continueButton);
+
+    return town;
 }

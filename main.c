@@ -13,6 +13,7 @@
  * [ ] parser JSON ? yeah
  * [ ] display stuff without log
  * [ ] Boosted CLI
+ * [ ] inventory in Union, not allocated
  *
  * THEN
  * [ ] SDL

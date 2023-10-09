@@ -11,8 +11,6 @@
 
 #include "sdl_controller.h"
 #include "port/out/log/log_error.h"
-#include "in/sdl/components/button/button.h"
-#include "port/out/log/log_info.h"
 
 
 typedef struct InitResult InitResult;
@@ -34,12 +32,14 @@ void close_sdl(SDL_IHM ihm);
 
 SDL_Texture *load_texture(const char *path, SDL_Renderer *renderer);
 
-void handle_event(SDL_Event e, SDL_IHM ihm);
+SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm);
 
 
 SDL_Surface *load_surface(const char *path);
 
 void draw(SDL_IHM ihm);
+
+void draw_pages(SDL_IHM ihm);
 
 void start_ihm() {
     InitResult init_result = init();
@@ -55,13 +55,12 @@ void start_event_loop(SDL_IHM ihm) {
     SDL_Event e;
     bool app_is_up = true;
     while (app_is_up) {
-        if (SDL_PollEvent(&e)) {
+        if (SDL_PollEvent(&e) == 1) { // detect an event
             if (e.type == SDL_QUIT) app_is_up = false;
-            town_handle_event(e, ihm);
-        } else {
+            ihm = handle_event(e, ihm);
+        } else { // no event
             draw(ihm);
         }
-
     }
 }
 
@@ -70,10 +69,13 @@ void draw(SDL_IHM ihm) {
     SDL_SetRenderDrawColor(ihm.renderer, 0, 0, 0, 255);
     SDL_RenderClear(ihm.renderer);
 
-    drawButton(ihm.renderer, ihm.town_window.newRunButton);
-    drawButton(ihm.renderer, ihm.town_window.continueButton);
+    draw_pages(ihm);
 
     SDL_RenderPresent(ihm.renderer);
+}
+
+void draw_pages(SDL_IHM ihm) {
+    draw_town_window(ihm.renderer, ihm.town_window);
 }
 
 InitResult init() {
@@ -86,7 +88,7 @@ InitResult init() {
         log_error("TTF_Init Error : %s", TTF_GetError());
         return (InitResult) {false};
     }
-    TTF_Font *font = TTF_OpenFont("resources/font/OpenSans.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("resources/font/OpenSans.ttf", 20);
     if (font == NULL) {
         log_error("TTF_OpenFont Error : %s", TTF_GetError());
         return (InitResult) {false};
@@ -152,6 +154,7 @@ SDL_Surface *load_surface(const char *path) {
     return surface;
 }
 
-void handle_event(SDL_Event e, SDL_IHM ihm) {
-
+SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {
+    ihm.town_window = town_handle_event(e, ihm.town_window);
+    return ihm;
 }

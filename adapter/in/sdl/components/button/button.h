@@ -18,7 +18,9 @@ struct Button{
     bool is_visible;
     SDL_Rect rect;
     SDL_Texture* text_texture;
+    SDL_Color current_bg_color;
     SDL_Color bg_color;
+    SDL_Color bg_hover_color;
     Padding padding;
     void (*callback)();
 };
@@ -29,10 +31,10 @@ Button padding_button(Padding padding, Button button);
 
 Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)());
 
-Button background_color_button(SDL_Color color, Button button);
+Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
 
-void button_handle_event(SDL_Event event, Button button);
+Button button_handle_event(SDL_Event event, Button button);
 
-bool button_is_clicked_at_point(Button button, Point clicked_at);
+bool button_at_point(Button button, Point point);
 
 #endif //DOOMDEPTHS_BUTTON_H
