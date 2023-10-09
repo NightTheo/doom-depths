@@ -10,8 +10,9 @@
 #include "in/sdl/components/color/sdl_color.h"
 #include "button.h"
 #include "port/out/log/log_info.h"
+#include "button_clicked_event.h"
 
-Button button_handle_click(SDL_Event event, Button button);
+ButtonClicked button_handle_click(SDL_IHM ihm, SDL_Event event, Button button);
 
 Button button_handle_hover(SDL_Event event, Button button);
 
@@ -20,7 +21,7 @@ Button current_background_color_button(SDL_Color color, Button button);
 /**
  * By default padding to 0, background color to white
  */
-Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)()) {
+Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback callback) {
     Button button;
     button.is_visible = true;
     button.rect.x = p.x;
@@ -88,11 +89,11 @@ Button background_hover_color_button(SDL_Color color, Button button) {
     return button;
 }
 
-Button button_handle_event(SDL_Event event, Button button) {
+ButtonClicked button_handle_event(SDL_IHM ihm, SDL_Event event, Button button) {
     switch (event.type) {
-        case SDL_MOUSEBUTTONUP: return button_handle_click(event, button);
-        case SDL_MOUSEMOTION: return button_handle_hover(event, button);
-        default: return button;
+        case SDL_MOUSEBUTTONUP: return button_handle_click(ihm, event, button);
+        case SDL_MOUSEMOTION: return (ButtonClicked) {ihm, button_handle_hover(event, button)};
+        default: return (ButtonClicked) {ihm, button};
     }
 }
 
@@ -111,13 +112,12 @@ Button current_background_color_button(SDL_Color color, Button button) {
     return button;
 }
 
-Button button_handle_click(SDL_Event event, Button button) {
-    if (event.type != SDL_MOUSEBUTTONUP) return button;
+ButtonClicked button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
+    if (event.type != SDL_MOUSEBUTTONUP) return button_clicked(ihm, button);
     Point clicked_at = {event.button.x, event.button.y};
-    if (!button_at_point(button, clicked_at)) return button;
+    if (!button_at_point(button, clicked_at)) return button_clicked(ihm, button);
 
-    button.callback();
-    return button;
+    return button_clicked(button.callback(ihm), button);
 }
 
 bool button_at_point(Button button, Point point) {
@@ -125,4 +125,11 @@ bool button_at_point(Button button, Point point) {
 
     return point.x >= button.rect.x && point.x <= button.rect.x + button.rect.w
            && point.y >= button.rect.y && point.y <= button.rect.y + button.rect.h;
+}
+
+ButtonClicked button_clicked(SDL_IHM ihm, Button button) {
+    ButtonClicked clicked;
+    clicked.ihm = ihm;
+    clicked.button = button;
+    return clicked;
 }

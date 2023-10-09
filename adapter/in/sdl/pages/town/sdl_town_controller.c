@@ -10,15 +10,15 @@
 #include "in/sdl/components/color/sdl_color.h"
 #include "port/out/log/log_info.h"
 
-void click_new_run();
-void click_continue();
+SDL_IHM click_new_run(SDL_IHM ihm);
+SDL_IHM click_continue(SDL_IHM ihm);
 
 TownWindow town_window(SDL_IHM ihm) {
 
     TownWindow w;
     w.is_displayed = true;
     SDL_Color buttons_background_color = get_color(SDL_RED);
-    SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
+    SDL_Color buttons_hover_color = get_color(SDL_MIDDLE_RED);
 
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, &click_new_run);
     w.newRunButton = color_button(
@@ -44,17 +44,21 @@ void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
     drawButton(renderer, town.continueButton);
 }
 
-void click_new_run() {
+SDL_IHM click_new_run(SDL_IHM ihm) {
     log_info("Clicked on new run");
+    return ihm;
 }
 
-void click_continue() {
+SDL_IHM click_continue(SDL_IHM ihm) {
     log_info("Clicked on continue");
+    return ihm;
 }
 
-TownWindow town_handle_event(SDL_Event event, TownWindow town) {
-    town.newRunButton = button_handle_event(event, town.newRunButton);
-    town.continueButton = button_handle_event(event, town.continueButton);
+SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
+    TownWindow t = ihm.town_window;
+    ButtonClicked new_run_clicked = button_handle_event(ihm, event, ihm.town_window.newRunButton);
+    new_run_clicked.ihm->town_window.newRunButton =
+    //ihm.town_window.continueButton = button_handle_event(ihm, event, ihm.town_window.continueButton);
 
-    return town;
+    return ihm;
 }

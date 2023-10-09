@@ -9,9 +9,12 @@
 #include "SDL2/SDL.h"
 #include "in/sdl/components/padding/padding.h"
 #include "stdbool.h"
+#include "button_clicked_event.h"
 
-typedef struct SDL_IHM SDL_IHM;
 typedef struct Point Point;
+typedef struct SDL_IHM SDL_IHM;
+
+typedef  SDL_IHM (*button_callback)(SDL_IHM ihm);
 
 typedef struct Button Button;
 struct Button{
@@ -22,18 +25,19 @@ struct Button{
     SDL_Color bg_color;
     SDL_Color bg_hover_color;
     Padding padding;
-    void (*callback)();
+    button_callback callback;
 };
+
 
 void drawButton(SDL_Renderer *renderer, Button button);
 
 Button padding_button(Padding padding, Button button);
 
-Button create_button(SDL_IHM ihm, const char *text, Point p, void (*callback)());
+Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback callback);
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
 
-Button button_handle_event(SDL_Event event, Button button);
+ButtonClicked button_handle_event(SDL_IHM ihm, SDL_Event event, Button button);
 
 bool button_at_point(Button button, Point point);
 

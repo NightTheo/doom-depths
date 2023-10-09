@@ -9,12 +9,11 @@
 #include "SDL_ttf.h"
 #include "in/sdl/pages/town/sdl_town_controller.h"
 
-typedef struct SDL_IHM SDL_IHM;
-struct SDL_IHM {
+typedef struct SDL_IHM {
     SDL_Window *window;
     SDL_Renderer *renderer;
     TTF_Font *font;
     TownWindow town_window;
-};
+} SDL_IHM;
 
 #endif //DOOMDEPTHS_SDL_CONTROLLER_H
