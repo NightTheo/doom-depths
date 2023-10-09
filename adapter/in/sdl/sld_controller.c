@@ -155,6 +155,5 @@ SDL_Surface *load_surface(const char *path) {
 }
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {
-    ihm.town_window = town_handle_event(e, ihm.town_window);
-    return ihm;
+    return town_handle_event(e, ihm);
 }

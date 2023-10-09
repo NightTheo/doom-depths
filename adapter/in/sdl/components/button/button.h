@@ -9,12 +9,13 @@
 #include "SDL2/SDL.h"
 #include "in/sdl/components/padding/padding.h"
 #include "stdbool.h"
-#include "button_clicked_event.h"
 
 typedef struct Point Point;
 typedef struct SDL_IHM SDL_IHM;
 
 typedef  SDL_IHM (*button_callback)(SDL_IHM ihm);
+
+typedef struct ButtonClicked ButtonClicked;
 
 typedef struct Button Button;
 struct Button{

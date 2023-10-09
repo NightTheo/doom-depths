@@ -9,16 +9,22 @@
 #include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/color/sdl_color.h"
 #include "port/out/log/log_info.h"
+#include "in/sdl/components/button/button_clicked_event.h"
+#include "port/in/command/new_run.h"
+#include "port/in/command/continue_last_run.h"
+#include "port/out/persistence/intern_game_state/game_state.h"
 
 SDL_IHM click_new_run(SDL_IHM ihm);
 SDL_IHM click_continue(SDL_IHM ihm);
+
+TownWindow hide_town_window(TownWindow town);
 
 TownWindow town_window(SDL_IHM ihm) {
 
     TownWindow w;
     w.is_displayed = true;
     SDL_Color buttons_background_color = get_color(SDL_RED);
-    SDL_Color buttons_hover_color = get_color(SDL_MIDDLE_RED);
+    SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, &click_new_run);
     w.newRunButton = color_button(
@@ -46,19 +52,32 @@ void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
 
 SDL_IHM click_new_run(SDL_IHM ihm) {
     log_info("Clicked on new run");
+    new_run();
+    ihm.town_window = hide_town_window(ihm.town_window);
     return ihm;
+}
+
+TownWindow hide_town_window(TownWindow town) {
+    town.is_displayed = false;
+    return town;
 }
 
 SDL_IHM click_continue(SDL_IHM ihm) {
     log_info("Clicked on continue");
+    continue_last_run();
+    ihm.town_window = hide_town_window(ihm.town_window);
     return ihm;
 }
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
     TownWindow t = ihm.town_window;
     ButtonClicked new_run_clicked = button_handle_event(ihm, event, ihm.town_window.newRunButton);
-    new_run_clicked.ihm->town_window.newRunButton =
-    //ihm.town_window.continueButton = button_handle_event(ihm, event, ihm.town_window.continueButton);
+    ihm = new_run_clicked.ihm;
+    ihm.town_window.newRunButton = new_run_clicked.button;
+
+    ButtonClicked continue_clicked = button_handle_event(ihm, event, ihm.town_window.continueButton);
+    ihm = continue_clicked.ihm;
+    ihm.town_window.continueButton = continue_clicked.button;
 
     return ihm;
 }

@@ -6,8 +6,9 @@
 #ifndef DOOMDEPTHS_SDL_TOWN_CONTROLLER_H
 #define DOOMDEPTHS_SDL_TOWN_CONTROLLER_H
 
-#include "in/sdl/components/button/button.h"
+
 #include "stdbool.h"
+#include "in/sdl/components/button/button.h"
 
 typedef struct TownWindow TownWindow;
 struct TownWindow {
