@@ -34,7 +34,6 @@ SDL_Texture *load_texture(const char *path, SDL_Renderer *renderer);
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm);
 
-
 SDL_Surface *load_surface(const char *path);
 
 void draw(SDL_IHM ihm);
@@ -75,7 +74,6 @@ bool event_is_handled(SDL_Event event) {
             return false;
     }
 }
-
 
 void draw(SDL_IHM ihm) {
     SDL_SetRenderDrawColor(ihm.renderer, 0, 0, 0, 255);

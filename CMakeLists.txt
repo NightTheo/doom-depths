@@ -126,6 +126,8 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/map/sdl_map_page.h
         adapter/in/sdl/pages/map/zone/sdl_zone.c
         adapter/in/sdl/pages/map/zone/sdl_zone.h
+        adapter/in/sdl/components/button/button_size/button_size.c
+        adapter/in/sdl/components/button/button_size/button_size.h
         #adapter/in/cli/cli_controller.c
 )
 

@@ -9,6 +9,7 @@
 #include "SDL2/SDL.h"
 #include "in/sdl/components/padding/padding.h"
 #include "stdbool.h"
+#include "in/sdl/components/button/button_size/button_size.h"
 
 typedef struct Point Point;
 typedef struct SDL_IHM SDL_IHM;
@@ -22,20 +23,6 @@ typedef struct {
     SDL_Color background;
     SDL_Color hover;
 } ButtonColor;
-
-typedef enum {
-    ABSOLUTE,
-    WINDOW_RELATIVE,
-    TEXT_FIT
-} ButtonSizeType;
-
-typedef struct ButtonSize {
-    ButtonSizeType size_type;
-    Padding padding;
-    int8_t window_percentage; // [0-100]
-    uint16_t height;
-    uint16_t width;
-} ButtonSize;
 
 typedef struct Button Button;
 struct Button{

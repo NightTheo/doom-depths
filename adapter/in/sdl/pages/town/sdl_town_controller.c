@@ -25,10 +25,7 @@ TownWindow town_window(SDL_IHM ihm) {
     SDL_Color buttons_background_color = get_color(SDL_RED);
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
-    ButtonSize size;
-    size.size_type = WINDOW_RELATIVE;
-    size.window_percentage = 70;
-    size.padding = (Padding){0, 10};
+    ButtonSize size = window_relative_button_size(70, (Padding){0, 5});
 
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, &click_new_run);
     w.newRunButton = color_button(

@@ -15,10 +15,7 @@ SDL_IHM click_spawn(SDL_IHM ihm);
 MapPage map_page(SDL_IHM ihm) {
     MapPage map;
 
-    ButtonSize size;
-    size.size_type = ABSOLUTE;
-    size.height = 50;
-    size.width = 50;
+    ButtonSize size = absolute_button_size(50, 50, (Padding){0,0});
 
     map.spawn = create_button(ihm, "", (Point) {10, 200}, size, &click_spawn);
     map.spawn = color_button(get_color(SDL_BLUE), get_color(SDL_WHITE), map.spawn);
