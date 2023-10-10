@@ -15,7 +15,7 @@ ButtonSize absolute_button_size(uint16_t height, uint16_t width, Padding padding
     return size;
 }
 
-ButtonSize window_relative_button_size(uint16_t window_percentage, Padding padding) {
+ButtonSize window_relative_button_size(uint8_t window_percentage, Padding padding) {
     ButtonSize size;
     size.size_type = WINDOW_RELATIVE;
     size.window_percentage = window_percentage;

@@ -19,7 +19,7 @@ Button button_handle_hover(SDL_Event event, Button button);
 
 Button current_background_color_button(SDL_Color color, Button button);
 
-Button size_button(SDL_Window *window, ButtonSize size, Button button);
+Button size_button(SDL_Window *window, Button button);
 
 Button size_button_absolute(Button button);
 
@@ -40,22 +40,24 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, bu
     button.text_texture = SDL_CreateTextureFromSurface(ihm.renderer, textSurface);
     SDL_FreeSurface(textSurface);
 
-    button = size_button(ihm.window, size, button);
-
-    //button = padding_button(size.padding, button);
+    button = padding_button(size.padding, button);
     button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
     button.callback = callback;
+    log_info("before size %d", size.window_percentage);
+
+    button.size = size;
+    button = size_button(ihm.window, button);
 
     return button;
 }
 
-Button size_button(SDL_Window *window, ButtonSize size, Button button) {
-    switch (size.size_type) {
+Button size_button(SDL_Window *window, Button button) {
+    switch (button.size.size_type) {
         case ABSOLUTE: return size_button_absolute(button);
         case WINDOW_RELATIVE: return size_button_window_relative(window, button);
         case TEXT_FIT: return size_button_text_fit(button);
         default: {
-            log_error("Unknown size_type [%d]", size.size_type);
+            log_error("Unknown size_type [%d]", button.size.size_type);
             return button;
         }
     }
@@ -67,12 +69,14 @@ Button size_button_text_fit(Button button) {
 }
 
 Button size_button_window_relative(SDL_Window *window, Button button) {
+    log_info("button.size.window_percentage : %d", button.size.window_percentage);
     int window_width;
     SDL_GetWindowSize(window, &window_width, NULL);
     SDL_QueryTexture(button.text_texture, NULL, NULL, NULL, &button.rect.h);
     button.rect.h += 20;
     button.rect.w = (window_width * button.size.window_percentage) / 100;
     button.rect.x = (window_width - button.rect.w) / 2;
+    log_info("rect.w : %d", button.rect.w);
     return button;
 }
 
@@ -85,10 +89,10 @@ Button size_button_absolute(Button button) {
 void draw_button(SDL_Renderer *renderer, Button button) {
     if (!button.is_visible) return;
     SDL_Color color = button.color.current;
-    log_info("color %d %d %d %d", color.r, color.g, color.b, color.a);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &button.rect);
 
+    log_info("rect: h: %d, w: %d.", button.rect.h, button.rect.w);
     int text_width, text_height;
     SDL_QueryTexture(button.text_texture, NULL, NULL, &text_width, &text_height);
     SDL_Rect textRect = {

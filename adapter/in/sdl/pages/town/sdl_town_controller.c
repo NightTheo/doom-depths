@@ -19,14 +19,13 @@ SDL_IHM click_new_run(SDL_IHM ihm);
 SDL_IHM click_continue(SDL_IHM ihm);
 
 TownWindow town_window(SDL_IHM ihm) {
-
     TownWindow w;
     w.is_displayed = true;
     SDL_Color buttons_background_color = get_color(SDL_RED);
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
     ButtonSize size = window_relative_button_size(70, (Padding){0, 5});
-
+    log_info("size percent: %d", size.window_percentage);
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, &click_new_run);
     w.newRunButton = color_button(
             buttons_background_color,
@@ -40,7 +39,6 @@ TownWindow town_window(SDL_IHM ihm) {
             buttons_hover_color,
             w.continueButton
             );
-
     return w;
 }
 
