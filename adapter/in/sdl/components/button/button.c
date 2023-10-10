@@ -21,7 +21,7 @@ Button current_background_color_button(SDL_Color color, Button button);
 /**
  * By default padding to 0, background color to white
  */
-Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback callback) {
+Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, button_callback callback) {
     Button button;
     button.is_visible = true;
     button.rect.x = p.x;
@@ -34,12 +34,19 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback cal
     int window_width;
     SDL_GetWindowSize(ihm.window, &window_width, NULL);
 
-    SDL_QueryTexture(button.text_texture, NULL, NULL, NULL, &button.rect.h);
-    button.rect.h += 20;
-    button.rect.w = (window_width * 70) / 100;
-    button.rect.x = (window_width - button.rect.w) / 2;
+    //button = padding_button(size.padding, button);
+    if(size.size_type == WINDOW_RELATIVE) {
+        SDL_QueryTexture(button.text_texture, NULL, NULL, NULL, &button.rect.h);
+        button.rect.h += 20;
+        button.rect.w = (window_width * size.window_percentage) / 100;
+        button.rect.x = (window_width - button.rect.w) / 2;
+    } else if (size.size_type == ABSOLUTE) {
+        button.rect.h = size.height;
+        button.rect.w = size.width;
+    } else if(size.size_type == TEXT_FIT) {
+        SDL_QueryTexture(button.text_texture, NULL, NULL, &button.rect.w, &button.rect.h);
+    }
 
-    button.padding = (Padding) {0, 0};
     button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
 
     button.callback = callback;
@@ -65,8 +72,8 @@ void draw_button(SDL_Renderer *renderer, Button button) {
 }
 
 Button padding_button(Padding padding, Button button) {
-    button.padding = padding;
-    padding_rect(&button.rect, button.padding);
+    button.size.padding = padding;
+    padding_rect(&button.rect, button.size.padding);
     return button;
 }
 

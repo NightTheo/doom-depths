@@ -25,14 +25,19 @@ TownWindow town_window(SDL_IHM ihm) {
     SDL_Color buttons_background_color = get_color(SDL_RED);
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
-    w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, &click_new_run);
+    ButtonSize size;
+    size.size_type = WINDOW_RELATIVE;
+    size.window_percentage = 70;
+    size.padding = (Padding){0, 10};
+
+    w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, &click_new_run);
     w.newRunButton = color_button(
             buttons_background_color,
             buttons_hover_color,
             w.newRunButton
             );
 
-    w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, &click_continue);
+    w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, size, &click_continue);
     w.continueButton = color_button(
             buttons_background_color,
             buttons_hover_color,

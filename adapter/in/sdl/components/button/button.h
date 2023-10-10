@@ -23,14 +23,28 @@ typedef struct {
     SDL_Color hover;
 } ButtonColor;
 
+typedef enum {
+    ABSOLUTE,
+    WINDOW_RELATIVE,
+    TEXT_FIT
+} ButtonSizeType;
+
+typedef struct ButtonSize {
+    ButtonSizeType size_type;
+    Padding padding;
+    int8_t window_percentage; // [0-100]
+    uint16_t height;
+    uint16_t width;
+} ButtonSize;
+
 typedef struct Button Button;
 struct Button{
     bool is_visible;
     SDL_Rect rect;
     SDL_Texture* text_texture;
     ButtonColor color;
-    Padding padding;
     button_callback callback;
+    ButtonSize size;
 };
 
 ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover);
@@ -39,7 +53,7 @@ void draw_button(SDL_Renderer *renderer, Button button);
 
 Button padding_button(Padding padding, Button button);
 
-Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback callback);
+Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, button_callback callback);
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
 
