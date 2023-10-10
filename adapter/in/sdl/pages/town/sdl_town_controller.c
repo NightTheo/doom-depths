@@ -13,11 +13,10 @@
 #include "port/in/command/new_run.h"
 #include "port/in/command/continue_last_run.h"
 #include "port/out/persistence/intern_game_state/game_state.h"
+#include "port/out/persistence/intern_game_state/get_map.h"
 
 SDL_IHM click_new_run(SDL_IHM ihm);
 SDL_IHM click_continue(SDL_IHM ihm);
-
-TownWindow hide_town_window(TownWindow town);
 
 TownWindow town_window(SDL_IHM ihm) {
 
@@ -46,26 +45,24 @@ TownWindow town_window(SDL_IHM ihm) {
 void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
     if(!town.is_displayed) return;
 
-    drawButton(renderer, town.newRunButton);
-    drawButton(renderer, town.continueButton);
+    draw_button(renderer, town.newRunButton);
+    draw_button(renderer, town.continueButton);
 }
 
 SDL_IHM click_new_run(SDL_IHM ihm) {
     log_info("Clicked on new run");
     new_run();
-    ihm.town_window = hide_town_window(ihm.town_window);
+    ihm.town_window.is_displayed = false;
+    ihm.map_page.is_displayed = true;
+    ihm.map_page.map = get_map();
     return ihm;
-}
-
-TownWindow hide_town_window(TownWindow town) {
-    town.is_displayed = false;
-    return town;
 }
 
 SDL_IHM click_continue(SDL_IHM ihm) {
     log_info("Clicked on continue");
     continue_last_run();
-    ihm.town_window = hide_town_window(ihm.town_window);
+    ihm.town_window.is_displayed = false;
+    ihm.map_page.is_displayed = true;
     return ihm;
 }
 

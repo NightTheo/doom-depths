@@ -49,7 +49,7 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback cal
     return button;
 }
 
-void drawButton(SDL_Renderer *renderer, Button button) {
+void draw_button(SDL_Renderer *renderer, Button button) {
     if (!button.is_visible) return;
     SDL_Color color = button.current_bg_color;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);

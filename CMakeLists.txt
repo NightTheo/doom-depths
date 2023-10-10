@@ -122,8 +122,10 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/components/color/sdl_color.h
         adapter/in/sdl/components/color/sdl_color.c
         adapter/in/sdl/components/button/button_clicked_event.h
-        adapter/in/sdl/components/map/sdl_map.c
-        adapter/in/sdl/components/map/sdl_map.h
+        adapter/in/sdl/pages/map/sdl_map_page.c
+        adapter/in/sdl/pages/map/sdl_map_page.h
+        adapter/in/sdl/pages/map/zone/sdl_zone.c
+        adapter/in/sdl/pages/map/zone/sdl_zone.h
         #adapter/in/cli/cli_controller.c
 )
 

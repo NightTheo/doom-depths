@@ -3,7 +3,6 @@
 // Created by Theo OMNES on 05/10/2023.
 //
 
-#include <stdbool.h>
 
 #include <application/port/in/command/start_ihm.h>
 #include "SDL2/SDL.h"
@@ -11,6 +10,7 @@
 
 #include "sdl_controller.h"
 #include "port/out/log/log_error.h"
+#include "in/sdl/pages/map/sdl_map_page.h"
 
 
 typedef struct InitResult InitResult;
@@ -41,6 +41,8 @@ void draw(SDL_IHM ihm);
 
 void draw_pages(SDL_IHM ihm);
 
+bool event_is_handled(SDL_Event event);
+
 void start_ihm() {
     InitResult init_result = init();
     if (!init_result.is_success) return;
@@ -55,12 +57,22 @@ void start_event_loop(SDL_IHM ihm) {
     SDL_Event e;
     bool app_is_up = true;
     while (app_is_up) {
-        if (SDL_PollEvent(&e) == 1) { // detect an event
-            if (e.type == SDL_QUIT) app_is_up = false;
-            ihm = handle_event(e, ihm);
-        } else { // no event
-            draw(ihm);
-        }
+        if (SDL_PollEvent(&e) == 0) continue; // no event
+        if (e.type == SDL_QUIT) app_is_up = false;
+        if(!event_is_handled(e)) continue;
+        ihm = handle_event(e, ihm);
+        draw(ihm);
+    }
+}
+
+bool event_is_handled(SDL_Event event) {
+    Uint32 type = event.type;
+    switch (type) {
+        case SDL_MOUSEMOTION:
+        case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONUP: return true;
+        default:
+            return false;
     }
 }
 
@@ -75,7 +87,9 @@ void draw(SDL_IHM ihm) {
 }
 
 void draw_pages(SDL_IHM ihm) {
-    draw_town_window(ihm.renderer, ihm.town_window);
+    SDL_Renderer* renderer = ihm.renderer;
+    draw_town_window(renderer, ihm.town_window);
+    draw_map_page(renderer, ihm.map_page);
 }
 
 InitResult init() {
@@ -113,6 +127,8 @@ InitResult init() {
     ihm.renderer = renderer;
     ihm.font = font;
     ihm.town_window = town_window(ihm);
+    ihm.map_page = map_page(ihm);
+    ihm.map_page.is_displayed = false;
 
     return (InitResult) {true, ihm};
 }
@@ -155,5 +171,7 @@ SDL_Surface *load_surface(const char *path) {
 }
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {
-    return town_handle_event(e, ihm);
+    ihm = town_handle_event(e, ihm);
+    ihm = map_page_handle_event(e, ihm);
+    return ihm;
 }

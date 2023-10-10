@@ -30,7 +30,7 @@ struct Button{
 };
 
 
-void drawButton(SDL_Renderer *renderer, Button button);
+void draw_button(SDL_Renderer *renderer, Button button);
 
 Button padding_button(Padding padding, Button button);
 
