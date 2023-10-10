@@ -40,9 +40,7 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback cal
     button.rect.x = (window_width - button.rect.w) / 2;
 
     button.padding = (Padding) {0, 0};
-    button.bg_color = get_color(SDL_WHITE);
-    button.current_bg_color = get_color(SDL_WHITE);
-    button.bg_hover_color = get_color(SDL_WHITE);
+    button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
 
     button.callback = callback;
 
@@ -51,7 +49,7 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, button_callback cal
 
 void draw_button(SDL_Renderer *renderer, Button button) {
     if (!button.is_visible) return;
-    SDL_Color color = button.current_bg_color;
+    SDL_Color color = button.color.current;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &button.rect);
 
@@ -73,19 +71,19 @@ Button padding_button(Padding padding, Button button) {
 }
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button) {
-    button.current_bg_color = background_color;
-    button.bg_color = background_color;
-    button.bg_hover_color = hover_color;
+    button.color.current = background_color;
+    button.color.background = background_color;
+    button.color.hover = hover_color;
     return button;
 }
 
 Button background_color_button(SDL_Color color, Button button) {
-    button.bg_color = color;
+    button.color.background = color;
     return button;
 }
 
 Button background_hover_color_button(SDL_Color color, Button button) {
-    button.bg_hover_color = color;
+    button.color.hover = color;
     return button;
 }
 
@@ -101,14 +99,14 @@ Button button_handle_hover(SDL_Event event, Button button) {
     if (event.type != SDL_MOUSEMOTION) return button;
     Point mouse_at = {event.button.x, event.button.y};
     if (button_at_point(button, mouse_at)) {
-        return current_background_color_button(button.bg_hover_color, button);
+        return current_background_color_button(button.color.hover, button);
     } else {
-        return current_background_color_button(button.bg_color, button);
+        return current_background_color_button(button.color.background, button);
     }
 }
 
 Button current_background_color_button(SDL_Color color, Button button) {
-    button.current_bg_color = color;
+    button.color.current = color;
     return button;
 }
 
@@ -132,4 +130,13 @@ ButtonClicked button_clicked(SDL_IHM ihm, Button button) {
     clicked.ihm = ihm;
     clicked.button = button;
     return clicked;
+}
+
+ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover) {
+    ButtonColor color = {
+            current,
+            background,
+            hover,
+    };
+    return color;
 }

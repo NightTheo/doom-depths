@@ -17,18 +17,23 @@ typedef  SDL_IHM (*button_callback)(SDL_IHM ihm);
 
 typedef struct ButtonClicked ButtonClicked;
 
+typedef struct {
+    SDL_Color current;
+    SDL_Color background;
+    SDL_Color hover;
+} ButtonColor;
+
 typedef struct Button Button;
 struct Button{
     bool is_visible;
     SDL_Rect rect;
     SDL_Texture* text_texture;
-    SDL_Color current_bg_color;
-    SDL_Color bg_color;
-    SDL_Color bg_hover_color;
+    ButtonColor color;
     Padding padding;
     button_callback callback;
 };
 
+ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover);
 
 void draw_button(SDL_Renderer *renderer, Button button);
 
