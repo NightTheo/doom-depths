@@ -30,7 +30,7 @@ Button size_button_text_fit(Button button);
 /**
  * By default padding to 0, background color to white
  */
-Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, button_callback callback) {
+Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;
     button.is_visible = true;
     button.rect.x = p.x;
@@ -151,7 +151,8 @@ ButtonClicked button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
     Point clicked_at = {event.button.x, event.button.y};
     if (!button_at_point(button, clicked_at)) return button_clicked(ihm, button);
 
-    return button_clicked(button.callback(ihm), button);
+    ButtonCallback callback = button.callback;
+    return button_clicked(callback.invoke(ihm, callback.param), button);
 }
 
 bool button_at_point(Button button, Point point) {

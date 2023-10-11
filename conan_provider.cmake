@@ -151,7 +151,7 @@ function(detect_lib_cxx OS LIB_CXX)
             return()
         endif()
 
-        # TODO: it would be an error if we reach this point
+        # TODO: it would be an error if we reach this position
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         # Do nothing - compiler.runtime and compiler.runtime_type
         # should be handled separately: https://github.com/conan-io/cmake-conan/pull/516

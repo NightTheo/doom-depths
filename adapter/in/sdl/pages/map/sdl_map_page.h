@@ -18,8 +18,6 @@ typedef struct  {
     SdlZone **grid;
 } MapPage;
 
-MapPage map_page(SDL_IHM ihm);
-
 void draw_map_page(SDL_Renderer *renderer, MapPage map_page);
 
 SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm);

@@ -10,11 +10,8 @@
 #include "in/sdl/components/padding/padding.h"
 #include "stdbool.h"
 #include "in/sdl/components/button/button_size/button_size.h"
-
-typedef struct Point Point;
-typedef struct SDL_IHM SDL_IHM;
-
-typedef  SDL_IHM (*button_callback)(SDL_IHM ihm);
+#include "in/sdl/components/button/button_callback/button_callback.h"
+#include "in/sdl/components/point/point.h"
 
 typedef struct ButtonClicked ButtonClicked;
 
@@ -30,7 +27,7 @@ struct Button{
     SDL_Rect rect;
     SDL_Texture* text_texture;
     ButtonColor color;
-    button_callback callback;
+    ButtonCallback callback;
     ButtonSize size;
 };
 
@@ -40,7 +37,7 @@ void draw_button(SDL_Renderer *renderer, Button button);
 
 Button padding_button(Padding padding, Button button);
 
-Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, button_callback callback);
+Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback);
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
 

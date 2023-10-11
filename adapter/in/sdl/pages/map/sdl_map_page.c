@@ -9,29 +9,19 @@
 #include "sdl_map_page.h"
 #include "port/out/log/log_info.h"
 #include "in/sdl/components/color/sdl_color.h"
+#include "port/out/log/log_error.h"
 
 #define ZONE_CELL_SIZE 50
 
 SDL_IHM click_spawn(SDL_IHM ihm);
 
-SDL_IHM click_on_zone(SDL_IHM ihm);
+SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param);
 
 void draw_grid(SDL_Renderer *renderer,MapPage page);
 
 void draw_zone(SDL_Renderer *renderer,SdlZone zone);
 
 MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map);
-
-MapPage map_page(SDL_IHM ihm) {
-    MapPage map;
-
-    ButtonSize size = absolute_button_size(50, 50, (Padding){0,0});
-
-    map.spawn = create_button(ihm, "", (Point) {10, 200}, size, &click_spawn);
-    map.spawn = color_button(get_color(SDL_BLUE), get_color(SDL_WHITE), map.spawn);
-
-    return map;
-}
 
 MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
     page.map = map;
@@ -45,9 +35,10 @@ MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
         page.grid[row] = malloc(sizeof(SdlZone) * map.width);
         for(int col = 0; col < map.width; col++) {
             Point p = {.x = col * ZONE_CELL_SIZE, .y = row * ZONE_CELL_SIZE};
+            ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
             SdlZone z = {
                     .zone = get_zone_in_map_by_position(map, position(col, row)),
-                    .button = create_button(ihm, "", p, size, &click_on_zone),
+                    .button = create_button(ihm, "", p, size, on_click_zone),
             };
             z.button.is_visible = z.zone.status != ZONE_EMPTY;
             page.grid[row][col] = z;
@@ -74,11 +65,6 @@ MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map) {
     return map;
 }
 
-SDL_IHM click_spawn(SDL_IHM ihm) {
-    log_info("click spawn");
-    return ihm;
-}
-
 void draw_map_page(SDL_Renderer *renderer, MapPage map_page) {
     if(!map_page.is_displayed) return;
     draw_grid(renderer, map_page);
@@ -96,8 +82,14 @@ void draw_zone(SDL_Renderer *renderer, SdlZone zone) {
     draw_button(renderer, zone.button);
 }
 
-SDL_IHM click_on_zone(SDL_IHM ihm) {
-    log_info("clicked on zone");
+SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
+    if(param.param_type != POSITION) {
+        log_error("Illegal param type [%d]", param.param_type);
+        return ihm;
+    }
+    char* p = position_to_string(param.data.position);
+    log_info("clicked on zone %s", p);
+    free(p);
     return ihm;
 }
 

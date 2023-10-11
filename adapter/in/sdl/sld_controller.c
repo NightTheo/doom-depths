@@ -126,7 +126,6 @@ InitResult init() {
     ihm.renderer = renderer;
     ihm.font = font;
     ihm.town_window = town_window(ihm);
-    ihm.map_page = map_page(ihm);
     ihm.map_page.is_displayed = false;
 
     return (InitResult) {true, ihm};

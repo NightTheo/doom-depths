@@ -15,8 +15,8 @@
 #include "port/out/persistence/intern_game_state/game_state.h"
 #include "port/out/persistence/intern_game_state/get_map.h"
 
-SDL_IHM click_new_run(SDL_IHM ihm);
-SDL_IHM click_continue(SDL_IHM ihm);
+SDL_IHM click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
+SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
@@ -25,14 +25,16 @@ TownWindow town_window(SDL_IHM ihm) {
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
     ButtonSize size = window_relative_button_size(70, (Padding){0, 5});
-    w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, &click_new_run);
+    ButtonCallback on_click_new_run = no_callback_param(&click_new_run);
+    w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, on_click_new_run);
     w.newRunButton = color_button(
             buttons_background_color,
             buttons_hover_color,
             w.newRunButton
             );
 
-    w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, size, &click_continue);
+    ButtonCallback on_click_continue = no_callback_param(&click_continue);
+    w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, size, on_click_continue);
     w.continueButton = color_button(
             buttons_background_color,
             buttons_hover_color,
@@ -48,7 +50,8 @@ void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
     draw_button(renderer, town.continueButton);
 }
 
-SDL_IHM click_new_run(SDL_IHM ihm) {
+
+SDL_IHM click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on new run");
     new_run();
     ihm.town_window.is_displayed = false;
@@ -57,7 +60,7 @@ SDL_IHM click_new_run(SDL_IHM ihm) {
     return ihm;
 }
 
-SDL_IHM click_continue(SDL_IHM ihm) {
+SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on continue");
     continue_last_run();
     ihm.town_window.is_displayed = false;
