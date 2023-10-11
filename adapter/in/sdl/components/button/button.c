@@ -43,7 +43,6 @@ Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, bu
     button = padding_button(size.padding, button);
     button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
     button.callback = callback;
-    log_info("before size %d", size.window_percentage);
 
     button.size = size;
     button = size_button(ihm.window, button);
@@ -69,14 +68,12 @@ Button size_button_text_fit(Button button) {
 }
 
 Button size_button_window_relative(SDL_Window *window, Button button) {
-    log_info("button.size.window_percentage : %d", button.size.window_percentage);
     int window_width;
     SDL_GetWindowSize(window, &window_width, NULL);
     SDL_QueryTexture(button.text_texture, NULL, NULL, NULL, &button.rect.h);
     button.rect.h += 20;
     button.rect.w = (window_width * button.size.window_percentage) / 100;
     button.rect.x = (window_width - button.rect.w) / 2;
-    log_info("rect.w : %d", button.rect.w);
     return button;
 }
 
@@ -92,7 +89,6 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &button.rect);
 
-    log_info("rect: h: %d, w: %d.", button.rect.h, button.rect.w);
     int text_width, text_height;
     SDL_QueryTexture(button.text_texture, NULL, NULL, &text_width, &text_height);
     SDL_Rect textRect = {

@@ -9,11 +9,13 @@
 #include "stdbool.h"
 #include "in/sdl/components/button/button.h"
 #include "map/map.h"
+#include "in/sdl/pages/map/zone/sdl_zone.h"
 
 typedef struct  {
     bool is_displayed;
     Button spawn;
     Map map;
+    SdlZone **grid;
 } MapPage;
 
 MapPage map_page(SDL_IHM ihm);
@@ -21,5 +23,9 @@ MapPage map_page(SDL_IHM ihm);
 void draw_map_page(SDL_Renderer *renderer, MapPage map_page);
 
 SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm);
+
+MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map);
+
+bool can_display_position_in_sdl_map(Position p, Map m);
 
 #endif //DOOMDEPTHS_SDL_MAP_PAGE_H

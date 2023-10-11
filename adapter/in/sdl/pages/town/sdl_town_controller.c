@@ -25,7 +25,6 @@ TownWindow town_window(SDL_IHM ihm) {
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
     ButtonSize size = window_relative_button_size(70, (Padding){0, 5});
-    log_info("size percent: %d", size.window_percentage);
     w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, &click_new_run);
     w.newRunButton = color_button(
             buttons_background_color,
@@ -54,7 +53,7 @@ SDL_IHM click_new_run(SDL_IHM ihm) {
     new_run();
     ihm.town_window.is_displayed = false;
     ihm.map_page.is_displayed = true;
-    ihm.map_page.map = get_map();
+    ihm.map_page = fill_map_page(ihm, ihm.map_page, get_map());
     return ihm;
 }
 

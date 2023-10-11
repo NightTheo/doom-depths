@@ -47,7 +47,7 @@ void display_map(Map m) {
         for (int col = 0; col < m.width; col++) {
             Position p = position(col, row);
             Zone z = get_zone_in_map_by_position(m, p);
-            if (can_display_position_in_map(p, m) == false) {
+            if (!can_display_position_in_map(p, m)) {
                 fputc('\t', stdout);
                 continue;
             }

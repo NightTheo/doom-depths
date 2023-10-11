@@ -53,6 +53,7 @@ void start_ihm() {
 }
 
 void start_event_loop(SDL_IHM ihm) {
+    draw(ihm);
     SDL_Event e;
     bool app_is_up = true;
     while (app_is_up) {

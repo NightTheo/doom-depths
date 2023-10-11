@@ -32,7 +32,7 @@ Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {
     m.width = width;
     m.zones = zones;
 
-    if (position_is_in_map_and_not_empty(spawn, m) == false) {
+    if (!position_is_in_map_and_not_empty(spawn, m)) {
         log_error("Bad Spawn.");
         return empty_map();
     }
