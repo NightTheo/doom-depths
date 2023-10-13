@@ -11,7 +11,9 @@
 #include "sdl_controller.h"
 #include "port/out/log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
-
+#include "in/sdl/pages/fight/sdl_fight_page.h"
+#include "in/sdl/pages/pages.h"
+#include "port/out/log/log_info.h"
 
 typedef struct InitResult InitResult;
 struct InitResult {
@@ -88,8 +90,16 @@ void draw(SDL_IHM ihm) {
 
 void draw_pages(SDL_IHM ihm) {
     SDL_Renderer* renderer = ihm.renderer;
-    draw_town_window(renderer, ihm.town_window);
-    draw_map_page(renderer, ihm.map_page);
+    log_info("current page [%d]", ihm.current_page);
+    switch (ihm.current_page) {
+        case TOWN_PAGE: return draw_town_window(renderer, ihm.page.town);
+        case MAP_PAGE: return draw_map_page(renderer, ihm.page.map);
+        case FIGHT_PAGE: return draw_fight_page(renderer, ihm.page.fight);
+        default: {
+            log_error("Unknown page [%d]", ihm.current_page);
+            return;
+        }
+    }
 }
 
 InitResult init() {
@@ -126,16 +136,16 @@ InitResult init() {
     ihm.window = window;
     ihm.renderer = renderer;
     ihm.font = font;
-    ihm.town_window = town_window(ihm);
-    ihm.map_page.is_displayed = false;
+    ihm.current_page = TOWN_PAGE;
+    ihm.page.town = town_window(ihm);
 
     return (InitResult) {true, ihm};
 }
 
 
 void close_sdl(SDL_IHM ihm) {
-    SDL_DestroyTexture(ihm.town_window.newRunButton.text_texture);
-    SDL_DestroyTexture(ihm.town_window.continueButton.text_texture);
+    SDL_DestroyTexture(ihm.page.town.newRunButton.text_texture);
+    SDL_DestroyTexture(ihm.page.town.continueButton.text_texture);
     TTF_CloseFont(ihm.font);
     TTF_Quit();
     SDL_DestroyRenderer(ihm.renderer);
@@ -170,7 +180,13 @@ SDL_Surface *load_surface(const char *path) {
 }
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {
-    ihm = town_handle_event(e, ihm);
-    ihm = map_page_handle_event(e, ihm);
-    return ihm;
+    switch (ihm.current_page) {
+        case TOWN_PAGE: return town_handle_event(e, ihm);
+        case MAP_PAGE: return map_page_handle_event(e, ihm);
+        case FIGHT_PAGE: return fight_page_handle_event(e, ihm);
+        default: {
+            log_error("Unknown page [%d]", ihm.current_page);
+            return ihm;
+        }
+    }
 }

@@ -20,7 +20,6 @@ SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam 
 
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
-    w.is_displayed = true;
     SDL_Color buttons_background_color = get_color(SDL_RED);
     SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
 
@@ -44,8 +43,6 @@ TownWindow town_window(SDL_IHM ihm) {
 }
 
 void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
-    if(!town.is_displayed) return;
-
     draw_button(renderer, town.newRunButton);
     draw_button(renderer, town.continueButton);
 }
@@ -54,30 +51,28 @@ void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
 SDL_IHM click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on new run");
     new_run();
-    ihm.town_window.is_displayed = false;
-    ihm.map_page.is_displayed = true;
-    ihm.map_page = fill_map_page(ihm, ihm.map_page, get_map());
+    ihm.current_page = MAP_PAGE;
+    ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
     return ihm;
 }
 
 SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on continue");
     continue_last_run();
-    ihm.town_window.is_displayed = false;
-    ihm.map_page.is_displayed = true;
-    ihm.map_page = fill_map_page(ihm, ihm.map_page, get_map());
+    ihm.current_page = MAP_PAGE;
+    ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
     return ihm;
 }
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
-    TownWindow t = ihm.town_window;
-    ButtonClicked new_run_clicked = button_handle_event(ihm, event, ihm.town_window.newRunButton);
+    TownWindow t = ihm.page.town;
+    ButtonClicked new_run_clicked = button_handle_event(ihm, event, ihm.page.town.newRunButton);
     ihm = new_run_clicked.ihm;
-    ihm.town_window.newRunButton = new_run_clicked.button;
+    ihm.page.town.newRunButton = new_run_clicked.button;
 
-    ButtonClicked continue_clicked = button_handle_event(ihm, event, ihm.town_window.continueButton);
+    ButtonClicked continue_clicked = button_handle_event(ihm, event, ihm.page.town.continueButton);
     ihm = continue_clicked.ihm;
-    ihm.town_window.continueButton = continue_clicked.button;
+    ihm.page.town.continueButton = continue_clicked.button;
 
     return ihm;
 }

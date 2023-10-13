@@ -7,15 +7,14 @@
 #define DOOMDEPTHS_SDL_CONTROLLER_H
 
 #include "SDL_ttf.h"
-#include "in/sdl/pages/town/sdl_town_controller.h"
-#include "in/sdl/pages/map/sdl_map_page.h"
+#include "in/sdl/pages/pages.h"
 
 typedef struct SDL_IHM {
     SDL_Window *window;
     SDL_Renderer *renderer;
     TTF_Font *font;
-    TownWindow town_window;
-    MapPage map_page;
+    CurrentPage current_page;
+    Page page;
 } SDL_IHM;
 
 #endif //DOOMDEPTHS_SDL_CONTROLLER_H

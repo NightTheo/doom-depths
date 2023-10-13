@@ -12,7 +12,7 @@
 #include "port/out/log/log_error.h"
 #include "port/in/command/player_enter_zone.h"
 
-#define ZONE_CELL_SIZE 70
+const int ZONE_CELL_SIZE = 70;
 
 SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param);
 
@@ -20,9 +20,11 @@ void draw_grid(SDL_Renderer *renderer,MapPage page);
 
 void draw_zone(SDL_Renderer *renderer,SdlZone zone);
 
-MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map);
+SDL_IHM grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map);
 
 SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col);
+
+SDL_IHM enter_fight_page(SDL_IHM ihm);
 
 MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
     page.map = map;
@@ -55,26 +57,21 @@ SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
 }
 
 SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm) {
-    MapPage map = ihm.map_page;
-
-    map = grid_handle_event(ihm, event, map);
-
-    ihm.map_page = map;
-    return ihm;
+    return grid_handle_event(ihm, event, ihm.page.map);
 }
 
-MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map) {
+SDL_IHM grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map) {
     for(int row = 0; row < map.map.height; row++) {
         for(int col = 0; col < map.map.width; col++) {
             ButtonClicked clicked = button_handle_event(ihm, event, map.grid[row][col].button);
-            map.grid[row][col].button = clicked.button;
+            ihm = clicked.ihm;
+            if(ihm.current_page == MAP_PAGE) ihm.page.map.grid[row][col].button = clicked.button;
         }
     }
-    return map;
+    return ihm;
 }
 
 void draw_map_page(SDL_Renderer *renderer, MapPage map_page) {
-    if(!map_page.is_displayed) return;
     draw_grid(renderer, map_page);
 }
 
@@ -98,7 +95,13 @@ SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
     char* p = position_to_string(param.data.position);
     log_info("clicked on zone %s", p);
     free(p);
+
     player_enter_zone(param.data.position);
+    return enter_fight_page(ihm);
+}
+
+SDL_IHM enter_fight_page(SDL_IHM ihm) {
+    ihm.current_page = FIGHT_PAGE;
     return ihm;
 }
 

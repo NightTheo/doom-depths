@@ -12,7 +12,6 @@
 #include "in/sdl/pages/map/zone/sdl_zone.h"
 
 typedef struct  {
-    bool is_displayed;
     Button spawn;
     Map map;
     SdlZone **grid;

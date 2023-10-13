@@ -12,7 +12,6 @@
 
 typedef struct TownWindow TownWindow;
 struct TownWindow {
-    bool is_displayed;
     Button newRunButton;
     Button continueButton;
 };
