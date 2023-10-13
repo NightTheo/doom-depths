@@ -152,7 +152,11 @@ ButtonClicked button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
     if (!button_at_point(button, clicked_at)) return button_clicked(ihm, button);
 
     ButtonCallback callback = button.callback;
-    return button_clicked(callback.invoke(ihm, callback.param), button);
+    SDL_IHM ihm_after_callback = callback.invoke == NULL
+            ? ihm
+            : callback.invoke(ihm, callback.param);
+
+    return button_clicked(ihm_after_callback, button);
 }
 
 bool button_at_point(Button button, Point point) {

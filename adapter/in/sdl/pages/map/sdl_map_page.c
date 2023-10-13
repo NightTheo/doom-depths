@@ -10,10 +10,9 @@
 #include "port/out/log/log_info.h"
 #include "in/sdl/components/color/sdl_color.h"
 #include "port/out/log/log_error.h"
+#include "port/in/command/player_enter_zone.h"
 
-#define ZONE_CELL_SIZE 50
-
-SDL_IHM click_spawn(SDL_IHM ihm);
+#define ZONE_CELL_SIZE 70
 
 SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param);
 
@@ -23,28 +22,36 @@ void draw_zone(SDL_Renderer *renderer,SdlZone zone);
 
 MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map);
 
+SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col);
+
 MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
     page.map = map;
     page.grid = malloc(sizeof (SdlZone*) * map.height);
+    for(int row = 0; row < map.height; row++) {
+        page.grid[row] = malloc(sizeof(SdlZone) * map.width);
+        for(int col = 0; col < map.width; col++) {
+            page.grid[row][col] = zone_button_at(ihm, map, row, col);
+        }
+    }
+    return page;
+}
+
+SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
     ButtonSize size = absolute_button_size(
             ZONE_CELL_SIZE,
             ZONE_CELL_SIZE,
             (Padding){.horizontal = 0, .vertical = 0}
-            );
-    for(int row = 0; row < map.height; row++) {
-        page.grid[row] = malloc(sizeof(SdlZone) * map.width);
-        for(int col = 0; col < map.width; col++) {
-            Point p = {.x = col * ZONE_CELL_SIZE, .y = row * ZONE_CELL_SIZE};
-            ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
-            SdlZone z = {
-                    .zone = get_zone_in_map_by_position(map, position(col, row)),
-                    .button = create_button(ihm, "", p, size, on_click_zone),
-            };
-            z.button.is_visible = z.zone.status != ZONE_EMPTY;
-            page.grid[row][col] = z;
-        }
-    }
-    return page;
+    );
+    Point button_point = {.x = col * (ZONE_CELL_SIZE + 1), .y = row * (ZONE_CELL_SIZE + 1)};
+    ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
+    SdlZone z = {
+            .zone = get_zone_in_map_by_position(map, position(col, row)),
+            .button = create_button(ihm, "", button_point, size, on_click_zone),
+            .position = position(col, row),
+    };
+    z.button.is_visible = z.zone.status != ZONE_EMPTY;
+    z = style_zone(z, map);
+    return z;
 }
 
 SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm) {
@@ -60,6 +67,7 @@ MapPage grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map) {
     for(int row = 0; row < map.map.height; row++) {
         for(int col = 0; col < map.map.width; col++) {
             ButtonClicked clicked = button_handle_event(ihm, event, map.grid[row][col].button);
+            map.grid[row][col].button = clicked.button;
         }
     }
     return map;
@@ -90,6 +98,7 @@ SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
     char* p = position_to_string(param.data.position);
     log_info("clicked on zone %s", p);
     free(p);
+    player_enter_zone(param.data.position);
     return ihm;
 }
 

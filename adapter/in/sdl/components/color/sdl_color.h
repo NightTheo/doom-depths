@@ -15,6 +15,7 @@ typedef enum {
     SDL_DARK_RED,
     SDL_GREEN,
     SDL_BLUE,
+    SDL_GREY,
     SDL_TRANSPARENT,
 } SDL_COLOR;
 

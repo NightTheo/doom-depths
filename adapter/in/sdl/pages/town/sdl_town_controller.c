@@ -65,6 +65,7 @@ SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam 
     continue_last_run();
     ihm.town_window.is_displayed = false;
     ihm.map_page.is_displayed = true;
+    ihm.map_page = fill_map_page(ihm, ihm.map_page, get_map());
     return ihm;
 }
 

@@ -14,20 +14,20 @@ typedef struct SDL_IHM SDL_IHM;
 typedef enum {
     VOID,
     POSITION,
-} CallBackParamType;
+} CallbackParamType;
 
-typedef union callback_data {
+typedef union {
     Position position;
-} callback_data;
+} CallbackData;
 
-typedef struct button_callback_param{
-    CallBackParamType param_type;
-    callback_data data;
+typedef struct {
+    CallbackParamType param_type;
+    CallbackData data;
 } ButtonCallbackParam;
 
 typedef  SDL_IHM (*Invoke)(SDL_IHM ihm, ButtonCallbackParam);
 
-typedef struct ButtonCallback {
+typedef struct {
     Invoke invoke;
     ButtonCallbackParam param;
 } ButtonCallback;

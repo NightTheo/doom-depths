@@ -26,7 +26,7 @@ const int SCREEN_HEIGHT = 840;
 
 InitResult init();
 
-void start_event_loop(SDL_IHM ihm);
+void start_event_loop(SDL_IHM ihm, uint16_t FPS);
 
 void close_sdl(SDL_IHM ihm);
 
@@ -47,21 +47,22 @@ void start_ihm() {
     if (!init_result.is_success) return;
 
     SDL_IHM ihm = init_result.ihm;
-    start_event_loop(ihm);
+    start_event_loop(ihm, 16);
 
     close_sdl(ihm);
 }
 
-void start_event_loop(SDL_IHM ihm) {
+void start_event_loop(SDL_IHM ihm, uint16_t FPS) {
     draw(ihm);
     SDL_Event e;
-    bool app_is_up = true;
-    while (app_is_up) {
+    bool app_is_running = true;
+    while (app_is_running) {
         if (SDL_PollEvent(&e) == 0) continue; // no event
-        if (e.type == SDL_QUIT) app_is_up = false;
+        if (e.type == SDL_QUIT) app_is_running = false;
         if(!event_is_handled(e)) continue;
         ihm = handle_event(e, ihm);
         draw(ihm);
+        SDL_Delay(1000/FPS);
     }
 }
 

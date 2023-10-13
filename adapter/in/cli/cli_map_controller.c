@@ -21,7 +21,7 @@ Position enter_map(Map m) {
     do {
         display_map(m);
         p = ask_player_zone_position_to_go(m);
-    } while (player_can_move_to_position_in_map(p, m) == false);
+    } while (!player_can_move_to_position_in_map(p, m));
     return p;
 }
 

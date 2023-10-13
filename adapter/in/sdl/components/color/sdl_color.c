@@ -15,6 +15,7 @@ SDL_Color get_color(SDL_COLOR color) {
         case SDL_MIDDLE_RED: return (SDL_Color) {235, 0, 0, 255};
         case SDL_DARK_RED: return (SDL_Color) {200, 0, 0, 255};
         case SDL_BLUE: return (SDL_Color) {0, 0, 255, 255};
+        case SDL_GREY: return (SDL_Color) {40, 40, 40, 255};
         case SDL_TRANSPARENT: return (SDL_Color) {0, 0, 0, 0};
         default: {
             log_error("Unknown color [%d]", color);
