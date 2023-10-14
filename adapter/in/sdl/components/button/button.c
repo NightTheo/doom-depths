@@ -9,7 +9,6 @@
 
 #include "in/sdl/components/color/sdl_color.h"
 #include "button.h"
-#include "port/out/log/log_info.h"
 #include "button_clicked_event.h"
 #include "port/out/log/log_error.h"
 
@@ -28,7 +27,7 @@ Button size_button_window_relative(SDL_Window *window, Button button);
 Button size_button_text_fit(Button button);
 
 /**
- * By default padding to 0, background color to white
+ * By default padding to 0, background health_color to white
  */
 Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;

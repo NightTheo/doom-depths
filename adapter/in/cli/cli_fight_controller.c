@@ -47,7 +47,7 @@ void fight() {
         // TODO set intern state to KO !
         return;
     }
-    while (current_fight_is_finished() == false) {
+    while (!current_fight_is_finished()) {
         start_new_round();
         display_round();
     }
@@ -57,7 +57,7 @@ void display_round() {
     Fight f = get_current_fight();
     log_info("round %d", f.turn);
 
-    while (current_round_is_finished() == false) {
+    while (!current_round_is_finished()) {
         f = get_current_fight();
         log_player(f.player);
         log_grimoire(f.player.grimoire);

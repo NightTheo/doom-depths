@@ -7,13 +7,13 @@
 #include <application/port/in/command/start_ihm.h>
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_ttf.h>
+#include <SDL_image.h>
 
 #include "sdl_controller.h"
 #include "port/out/log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
 #include "in/sdl/pages/fight/sdl_fight_page.h"
 #include "in/sdl/pages/pages.h"
-#include "port/out/log/log_info.h"
 
 typedef struct InitResult InitResult;
 struct InitResult {
@@ -32,11 +32,7 @@ void start_event_loop(SDL_IHM ihm, uint16_t FPS);
 
 void close_sdl(SDL_IHM ihm);
 
-SDL_Texture *load_texture(const char *path, SDL_Renderer *renderer);
-
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm);
-
-SDL_Surface *load_surface(const char *path);
 
 void draw(SDL_IHM ihm);
 
@@ -90,11 +86,10 @@ void draw(SDL_IHM ihm) {
 
 void draw_pages(SDL_IHM ihm) {
     SDL_Renderer* renderer = ihm.renderer;
-    log_info("current page [%d]", ihm.current_page);
     switch (ihm.current_page) {
         case TOWN_PAGE: return draw_town_window(renderer, ihm.page.town);
         case MAP_PAGE: return draw_map_page(renderer, ihm.page.map);
-        case FIGHT_PAGE: return draw_fight_page(renderer, ihm.page.fight);
+        case FIGHT_PAGE: return draw_fight_page(renderer, ihm.page.fight, ihm);
         default: {
             log_error("Unknown page [%d]", ihm.current_page);
             return;
@@ -105,6 +100,11 @@ void draw_pages(SDL_IHM ihm) {
 InitResult init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         log_error("SDL_Init Error: %s", SDL_GetError());
+        return (InitResult) {false};
+    }
+
+    if(!(IMG_Init( IMG_INIT_PNG ) & IMG_INIT_PNG)) {
+        log_error("IMG_Init Error: %s", IMG_GetError());
         return (InitResult) {false};
     }
 
@@ -151,32 +151,6 @@ void close_sdl(SDL_IHM ihm) {
     SDL_DestroyRenderer(ihm.renderer);
     SDL_DestroyWindow(ihm.window);
     SDL_Quit();
-}
-
-SDL_Texture *load_texture(const char *path, SDL_Renderer *renderer) {
-    SDL_Surface *surface = load_surface(path);
-    if (surface == NULL) {
-        log_error("Cannot load media at [%s]", path);
-        return NULL;
-    }
-
-    SDL_Texture *media = SDL_CreateTextureFromSurface(renderer, surface);
-    if (media == NULL) {
-        log_error("SDL_CreateTextureFromSurface: %s", SDL_GetError());
-        return NULL;
-    }
-
-    return media;
-}
-
-// TODO load not only BMP
-SDL_Surface *load_surface(const char *path) {
-    SDL_Surface *surface = SDL_LoadBMP(path);
-    if (surface == NULL) {
-        log_error("SDL_LoadBMP: %s", "with path [%s]", SDL_GetError(), path);
-        return NULL;
-    }
-    return surface;
 }
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {

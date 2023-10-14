@@ -102,6 +102,7 @@ SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
 
 SDL_IHM enter_fight_page(SDL_IHM ihm) {
     ihm.current_page = FIGHT_PAGE;
+    ihm.page.fight = fill_fight_page(ihm);
     return ihm;
 }
 

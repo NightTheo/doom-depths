@@ -10,6 +10,7 @@ set(CMAKE_CXX_COMPILER_VERSION 15)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_image REQUIRED)
 
 include_directories(
         "${CMAKE_SOURCE_DIR}/domain"
@@ -133,11 +134,14 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/fight/sdl_fight_page.c
         adapter/in/sdl/pages/fight/sdl_fight_page.h
         adapter/in/sdl/pages/pages.h
+        adapter/in/sdl/pages/fight/health_bar/health_bar.c
+        adapter/in/sdl/pages/fight/health_bar/health_bar.h
         #adapter/in/cli/cli_controller.c
 )
 
 target_link_libraries(DoomDepths SDL2::SDL2main)
 target_link_libraries(DoomDepths sdl_ttf::sdl_ttf)
+target_link_libraries(DoomDepths SDL2_image::SDL2_image)
 
 target_include_directories(
         DoomDepths
