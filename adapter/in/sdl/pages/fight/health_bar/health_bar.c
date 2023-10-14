@@ -5,7 +5,6 @@
 
 #include <SDL_ttf.h>
 #include "health_bar.h"
-#include "port/out/log/log_info.h"
 
 void draw_health_text(SDL_Renderer *renderer, HealthBar health_bar, TTF_Font *font);
 
@@ -18,7 +17,6 @@ SDL_Texture *getTextTexture(SDL_Renderer *renderer, HealthBar health_bar, TTF_Fo
 SDL_Rect getTextRect(HealthBar health_bar, SDL_Texture *text_texture);
 
 void draw_health_bar(SDL_Renderer *renderer, HealthBar health_bar, TTF_Font *font) {
-    health_bar.current_health = 10;
     SDL_Rect rect = health_bar.rect;
 
     draw_border(renderer, health_bar, &rect);
