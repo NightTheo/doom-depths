@@ -11,37 +11,35 @@
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm);
 
+SdlPlayer fill_fight_player();
+
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
+    fight.player = fill_fight_player();
     fight.player.texture = IMG_LoadTexture(ihm.renderer, "resources/assets/player.png");
     if(fight.player.texture == NULL) {
         log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
         return fight;
     }
 
-    fight.player.source_sprites_rect = (SDL_Rect){
-            .w = 32,
-            .h = 32,
-            .x = 0,
-            .y = 0,
-    };
 
-    int size = 32;
-    fight.player.destination_sprite_rect = (SDL_Rect){
-            .w = size * 5,
-            .h = size * 5,
-            .x = 10,
-            .y = 100,
-    };
-    fight.player.current_sprite = 0;
-
-    fight.player.player = get_player();
-    fight.player.health_bar = (HealthBar){
-            .health_color = get_color(SDL_GREEN),
-            .max_health = fight.player.player.max_health,
-            .current_health = fight.player.player.max_health,
-    };
     return fight;
+}
+
+SdlPlayer fill_fight_player() {
+    int size = 32;
+    SdlPlayer player = {
+            .player = get_player(),
+            .source_sprites_rect = {.w = 32, .h = 32, .x = 0, .y = 0},
+            .destination_sprite_rect = {.w = size * 5, .h = size * 5, .x = 10, .y = 100},
+            .current_sprite = 0,
+            .health_bar = {
+                    .health_color = get_color(SDL_GREEN),
+                    .max_health = player.player.max_health,
+                    .current_health = player.player.max_health,
+            },
+    };
+    return player;
 }
 
 void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) {
