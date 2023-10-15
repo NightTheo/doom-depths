@@ -19,6 +19,7 @@ typedef struct {
     SDL_Color current;
     SDL_Color background;
     SDL_Color hover;
+    SDL_Color disabled;
 } ButtonColor;
 
 typedef struct Button Button;
@@ -31,9 +32,10 @@ struct Button{
     ButtonCallback callback;
     ButtonSize size;
     PositionInScreen position;
+    bool is_enabled;
 };
 
-ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover);
+ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover, SDL_Color disabled);
 
 void draw_button(SDL_Renderer *renderer, Button button);
 
@@ -43,10 +45,12 @@ Button create_text_button(SDL_IHM ihm, const char *text, Point p, ButtonSize siz
 
 Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize size, ButtonCallback callback);
 
-Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
+Button color_button(ButtonColor color, Button button);
 
 ButtonEvent button_handle_event(SDL_IHM ihm, SDL_Event event, Button button);
 
 bool button_at_point(Button button, Point point);
+
+Button disable_button(Button button);
 
 #endif //DOOMDEPTHS_BUTTON_H

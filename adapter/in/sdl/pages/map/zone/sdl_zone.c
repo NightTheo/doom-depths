@@ -32,13 +32,20 @@ Button style_button_in_zone(SdlZone zone, Map map) {
                           ? accessible_button(zone.button)
                           : not_accessible_button(zone.button);
             break;
-        case ZONE_FINISHED:
+        case ZONE_FINISHED: {
+            ButtonColor color = button_color(
+                    get_color(SDL_GREEN),
+                    get_color(SDL_GREEN),
+                    get_color(SDL_GREEN),
+                    get_color(SDL_GREEN)
+            );
             return color_button(
-                    get_color(SDL_GREEN),
-                    get_color(SDL_GREEN),
+                    color,
                     zone.button
             );
             break;
+        }
+
         default: {
             log_error("Unknown zone status [%d]", zone.zone.status);
             return zone.button;
@@ -47,17 +54,19 @@ Button style_button_in_zone(SdlZone zone, Map map) {
 }
 
 Button accessible_button(Button button) {
+    SDL_Color white = get_color(SDL_WHITE);
+    ButtonColor color = button_color(white,white,get_color(SDL_GREY),white);
     return color_button(
-            get_color(SDL_WHITE),
-            get_color(SDL_BLUE),
+            color,
             button
     );
 }
 
 Button not_accessible_button(Button button) {
+    SDL_Color grey = get_color(SDL_GREY);
+    ButtonColor color = button_color(grey,grey,grey,grey);
     return color_button(
-            get_color(SDL_GREY),
-            get_color(SDL_GREY),
+            color,
             button
     );
 }

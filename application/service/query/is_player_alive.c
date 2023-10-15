@@ -5,8 +5,8 @@
 
 #include <port/in/query/is_player_alive.h>
 #include <domain/fight/fight.h>
-#include <port/out/persistence/intern_game_state/get_current_player.h>
+#include "port/out/persistence/intern_game_state/get_player.h"
 
 bool current_player_is_alive() {
-    return get_current_player().current_health > 0;
+    return get_player().current_health > 0;
 }

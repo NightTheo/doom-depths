@@ -43,10 +43,6 @@ Fight get_current_fight() {
     return get_current_fight_in_game(get_intern_game_state());
 }
 
-Player get_current_player() {
-    return get_current_fight().player;
-}
-
 Player set_player(Player player) {
     Fight fight = get_current_fight();
     fight.player = player;

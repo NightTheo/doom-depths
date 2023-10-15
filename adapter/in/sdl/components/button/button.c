@@ -13,6 +13,7 @@
 #include "in/sdl/components/button/button_events/button_events.h"
 #include "port/out/log/log_error.h"
 #include "port/out/log/log_info.h"
+#include "in/sdl/components/button/button_events/button_events.h"
 
 ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button);
 
@@ -24,12 +25,18 @@ Button current_background_color_button(SDL_Color color, Button button);
 Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;
     button.is_visible = true;
+    button.is_enabled = true;
     button.button_rect = (SDL_Rect) {.x = p.x, .y = p.y};
 
     button.texture = NULL;
     button.texture_rect = button.button_rect;
 
-    button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
+    button.color = button_color(
+            get_color(SDL_WHITE),
+            get_color(SDL_WHITE),
+            get_color(SDL_WHITE),
+            get_color(SDL_WHITE)
+            );
     button.callback = callback;
 
     button.size = size;
@@ -78,10 +85,8 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     SDL_RenderCopy(renderer, button.texture, source_texture_rect, &button.texture_rect);
 }
 
-Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button) {
-    button.color.current = background_color;
-    button.color.background = background_color;
-    button.color.hover = hover_color;
+Button color_button(ButtonColor color, Button button) {
+    button.color = color;
     return button;
 }
 
@@ -95,6 +100,8 @@ ButtonEvent button_handle_event(SDL_IHM ihm, SDL_Event event, Button button) {
 
 ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button) {
     if (event.type != SDL_MOUSEMOTION) return event_not_handled(ihm, button);
+    if(!button.is_visible || !button.is_enabled) return event_not_handled(ihm, button);
+
     Point mouse_at = {event.button.x, event.button.y};
     if (button_at_point(button, mouse_at)) {
         return button_hovered(ihm, current_background_color_button(button.color.hover, button));
@@ -110,16 +117,16 @@ Button current_background_color_button(SDL_Color color, Button button) {
 
 ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
     if (event.type != SDL_MOUSEBUTTONUP) return event_not_handled(ihm, button);
+    if(!button.is_visible || !button.is_enabled) return event_not_handled(ihm, button);
     Point clicked_at = {event.button.x, event.button.y};
     if (!button_at_point(button, clicked_at)) return event_not_handled(ihm, button);
 
     ButtonCallback callback = button.callback;
-    if(callback.invoke == NULL) log_info("No callback for button, nothing to do");
-    SDL_IHM ihm_after_callback = callback.invoke == NULL
-            ? ihm
-            : callback.invoke(ihm, callback.param);
-
-    return button_clicked(ihm_after_callback, button);
+    if(callback.invoke == NULL) {
+        log_info("No callback for button, nothing to do");
+        return event_not_handled(ihm, button);
+    }
+    return callback.invoke(ihm, callback.param);
 }
 
 bool button_at_point(Button button, Point point) {
@@ -129,11 +136,18 @@ bool button_at_point(Button button, Point point) {
            && point.y >= button.button_rect.y && point.y <= button.button_rect.y + button.button_rect.h;
 }
 
-ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover) {
+ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover, SDL_Color disabled) {
     ButtonColor color = {
-            current,
-            background,
-            hover,
+            .current = current,
+            .background = background,
+            .hover = hover,
+            .disabled = disabled,
     };
     return color;
+}
+
+Button disable_button(Button button) {
+    button.is_enabled = false;
+    button.color.current = button.color.disabled;
+    return button;
 }

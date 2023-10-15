@@ -10,6 +10,9 @@
 #include "port/out/persistence/intern_game_state/get_player.h"
 #include "port/out/log/log_info.h"
 #include "in/sdl/components/button/button_events/button_events.h"
+#include "port/in/command/attack_with_weapon.h"
+#include "port/out/persistence/intern_game_state/get_current_fight.h"
+#include "port/out/log/log_player.h"
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm);
 
@@ -18,6 +21,14 @@ SdlPlayer fill_fight_player();
 void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm);
 
 FightPage fill_fight_buttons(SDL_IHM ihm);
+
+FightPage update_sld_fight_page(FightPage fight);
+
+SdlPlayer update_sld_fight_player(SdlPlayer player);
+
+Button update_attack_button(FightPage fight);
+
+ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
@@ -34,6 +45,28 @@ FightPage fill_fight_page(SDL_IHM ihm) {
     return fight;
 }
 
+FightPage update_sld_fight_page(FightPage fight) {
+    fight.fight = get_current_fight();
+    log_player(fight.fight.player);
+    fight.player = update_sld_fight_player(fight.player);
+    fight.attack_button = update_attack_button(fight);
+    return fight;
+}
+
+Button update_attack_button(FightPage fight) {
+    Button button = fight.attack_button;
+    if(fight.player.player.remaining_number_of_attacks == 0) {
+        button = disable_button(button);
+    }
+    return button;
+}
+
+SdlPlayer update_sld_fight_player(SdlPlayer player) {
+    player.player = get_player();
+    player.health_bar.current_health = player.player.current_health;
+    return player;
+}
+
 FightPage fill_fight_buttons(SDL_IHM ihm) {
     ButtonSize size = absolute_button_size(70, 70);
     FightPage fight = ihm.page.fight;
@@ -42,25 +75,32 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
             "resources/assets/attack.png",
             (Point){.x = 0, .y = 0},
             size,
-            no_callback_param(NULL));
-    fight.attack_button = color_button(
+            no_callback_param(&on_click_attack)
+            );
+
+    ButtonColor color = button_color(
+            get_color(SDL_RED),
             get_color(SDL_RED),
             get_color(SDL_MIDDLE_RED),
+            get_color(SDL_GREY)
+    );
+    fight.attack_button = color_button(
+            color,
             fight.attack_button
-            );
+    );
 
     Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
     fight.attack_button = padding_button(padding, fight.attack_button);
 
-    log_info("after padding rect.w = %d, rect.h = %d", fight.attack_button.texture_rect.w, fight.attack_button.texture_rect.h);
-
     PositionInScreen positionInScreen = {.vertical = POSITION_END, .horizontal = POSITION_CENTER};
     fight.attack_button.position = positionInScreen;
-    SDL_Rect zone = {.x = 0, .y = 0};
-    SDL_GetWindowSize(ihm.window, &zone.w, &zone.h);
-    fight.attack_button = position_button(positionInScreen, fight.attack_button, zone);
+    SDL_Rect window_zone = {.x = 0, .y = 0};
+    SDL_GetWindowSize(ihm.window, &window_zone.w, &window_zone.h);
 
-    log_info("after position rect.w = %d, rect.h = %d", fight.attack_button.texture_rect.w, fight.attack_button.texture_rect.h);
+    int safe_area_top = 40;
+    int safe_area_bottom = 30;
+    SDL_Rect safe_area = {.x = 0, .y = safe_area_top, .w = window_zone.w, .h = window_zone.h - (safe_area_top + safe_area_bottom)};
+    fight.attack_button = position_button(positionInScreen, fight.attack_button, safe_area);
 
     ihm.page.fight = fight;
     return ihm.page.fight;
@@ -117,4 +157,10 @@ SDL_IHM update_fight_page(SDL_IHM ihm) {
     ihm.page.fight.player.current_sprite += 1;
     if(ihm.page.fight.player.current_sprite > 1000 ) ihm.page.fight.player.current_sprite = 0;
     return ihm;
+}
+
+ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
+    attack_with_weapon();
+    ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    return button_clicked(ihm, ihm.page.fight.attack_button);
 }

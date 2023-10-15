@@ -18,7 +18,7 @@ Equipment empty_equipment() {
 
 Equipment default_equipment() {
     Equipment e = {
-            weapon(SWORD, 15, 20, 10),
+            weapon(SWORD, 15, 20, 2),
             armor(CHEST_PLATE, 3),
     };
     return e;

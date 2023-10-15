@@ -10,6 +10,7 @@
 #include "map/position/position.h"
 
 typedef struct SDL_IHM SDL_IHM;
+typedef struct ButtonEvent ButtonEvent;
 
 typedef enum {
     VOID,
@@ -25,7 +26,7 @@ typedef struct {
     CallbackData data;
 } ButtonCallbackParam;
 
-typedef  SDL_IHM (*Invoke)(SDL_IHM ihm, ButtonCallbackParam);
+typedef  ButtonEvent (*Invoke)(SDL_IHM ihm, ButtonCallbackParam);
 
 typedef struct {
     Invoke invoke;

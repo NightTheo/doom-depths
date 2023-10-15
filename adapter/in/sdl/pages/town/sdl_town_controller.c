@@ -15,30 +15,27 @@
 #include "port/out/persistence/intern_game_state/game_state.h"
 #include "port/out/persistence/intern_game_state/get_map.h"
 
-SDL_IHM click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
-SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
+ButtonEvent click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
+ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
-    SDL_Color buttons_background_color = get_color(SDL_RED);
-    SDL_Color buttons_hover_color = get_color(SDL_DARK_RED);
+    ButtonColor color = button_color(
+            get_color(SDL_RED),
+            get_color(SDL_RED),
+            get_color(SDL_DARK_RED),
+            get_color(SDL_GREY)
+    );
 
     ButtonSize size = window_relative_button_size(70);
     ButtonCallback on_click_new_run = no_callback_param(&click_new_run);
     w.newRunButton = create_text_button(ihm, "NEW RUN", (Point) {100, 200}, size, on_click_new_run);
-    w.newRunButton = color_button(
-            buttons_background_color,
-            buttons_hover_color,
-            w.newRunButton
-            );
+    w.newRunButton = color_button(color,w.newRunButton);
 
     ButtonCallback on_click_continue = no_callback_param(&click_continue);
     w.continueButton = create_text_button(ihm, "CONTINUE", (Point) {100, 300}, size, on_click_continue);
-    w.continueButton = color_button(
-            buttons_background_color,
-            buttons_hover_color,
-            w.continueButton
-            );
+    w.continueButton = color_button(color,w.continueButton);
+
     return w;
 }
 
@@ -48,20 +45,22 @@ void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
 }
 
 
-SDL_IHM click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
+ButtonEvent click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on new run");
     new_run();
+    Button b = ihm.page.town.newRunButton;
     ihm.current_page = MAP_PAGE;
     ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
-    return ihm;
+    return button_clicked(ihm, b);
 }
 
-SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
+ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("Clicked on continue");
     continue_last_run();
+    Button b = ihm.page.town.continueButton;
     ihm.current_page = MAP_PAGE;
     ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
-    return ihm;
+    return button_clicked(ihm, b);
 }
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {

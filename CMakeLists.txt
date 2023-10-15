@@ -95,7 +95,6 @@ add_executable(DoomDepths main.c
         application/port/out/persistence/intern_game_state/set_current_fight.h
         application/port/in/query/is_player_alive.h
         application/service/query/is_player_alive.c
-        application/port/out/persistence/intern_game_state/get_current_player.h
         application/service/command/finish_current_zone.c
         application/port/out/persistence/intern_game_state/get_current_zone.h
         application/port/out/persistence/intern_game_state/set_current_map.h

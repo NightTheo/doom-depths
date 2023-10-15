@@ -14,7 +14,7 @@
 
 const int ZONE_CELL_SIZE = 70;
 
-SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param);
+ButtonEvent click_zone(SDL_IHM ihm, ButtonCallbackParam param);
 
 void draw_grid(SDL_Renderer *renderer,MapPage page);
 
@@ -85,17 +85,18 @@ void draw_zone(SDL_Renderer *renderer, SdlZone zone) {
     draw_button(renderer, zone.button);
 }
 
-SDL_IHM click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
+ButtonEvent click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
     if(param.param_type != POSITION) {
         log_error("Illegal param type [%d]", param.param_type);
-        return ihm;
+        return event_not_handled(ihm, ihm.page.map.grid[0][0].button);
     }
     char* p = position_to_string(param.data.position);
     log_info("clicked on zone %s", p);
     free(p);
 
     player_enter_zone(param.data.position);
-    return enter_fight_page(ihm);
+    Button button = ihm.page.map.grid[param.data.position.zone_y][param.data.position.zone_x].button;
+    return button_clicked(enter_fight_page(ihm), button);
 }
 
 SDL_IHM enter_fight_page(SDL_IHM ihm) {
