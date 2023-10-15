@@ -74,8 +74,6 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &button.button_rect);
 
-    int texture_width, texture_height;
-    SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
     SDL_Rect *source_texture_rect = NULL;
     SDL_RenderCopy(renderer, button.texture, source_texture_rect, &button.texture_rect);
 }

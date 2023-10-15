@@ -48,12 +48,19 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
             get_color(SDL_MIDDLE_RED),
             fight.attack_button
             );
+
     Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
     fight.attack_button = padding_button(padding, fight.attack_button);
 
+    log_info("after padding rect.w = %d, rect.h = %d", fight.attack_button.texture_rect.w, fight.attack_button.texture_rect.h);
+
     PositionInScreen positionInScreen = {.vertical = POSITION_END, .horizontal = POSITION_CENTER};
     fight.attack_button.position = positionInScreen;
-    fight.attack_button = position_button(positionInScreen, fight.attack_button, ihm.window);
+    SDL_Rect zone = {.x = 0, .y = 0};
+    SDL_GetWindowSize(ihm.window, &zone.w, &zone.h);
+    fight.attack_button = position_button(positionInScreen, fight.attack_button, zone);
+
+    log_info("after position rect.w = %d, rect.h = %d", fight.attack_button.texture_rect.w, fight.attack_button.texture_rect.h);
 
     ihm.page.fight = fight;
     return ihm.page.fight;

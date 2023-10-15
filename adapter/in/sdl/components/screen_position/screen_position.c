@@ -8,37 +8,36 @@
 #include "port/out/log/log_error.h"
 #include "port/out/log/log_info.h"
 
-SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Window *window);
+SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Rect zone);
 
-int position_rect_x(HorizontalPosition position, SDL_Rect rect, int screen_width);
+int position_rect_x(HorizontalPosition position, SDL_Rect rect, SDL_Rect zone);
 
-int position_rect_y(VerticalPosition position, SDL_Rect rect, int screen_height);
+int position_rect_y(VerticalPosition position, SDL_Rect rect, SDL_Rect zone);
 
-Button position_button(PositionInScreen position, Button button, SDL_Window *window) {
+Button position_button(PositionInScreen position, Button button, SDL_Rect zone) {
     button.position = position;
-    button.button_rect = position_rect(position, button.button_rect, window);
+    log_info("zone_x = %d, zone_y = %d", zone.x, zone.y);
+    button.button_rect = position_rect(position, button.button_rect, zone);
+    button.texture_rect = position_rect(position, button.texture_rect, button.button_rect);
     return button;
 }
 
-SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Window *window) {
-    log_info("button_rect.w = %d, button_rect.h = %d", rect.w, rect.h);
-    int screen_width, screen_height;
-    SDL_GetWindowSize(window, &screen_width, &screen_height);
-    rect.x = position_rect_x(position.horizontal, rect, screen_width);
-    rect.y = position_rect_y(position.vertical, rect, screen_height);
+SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Rect zone) {
+    rect.x = position_rect_x(position.horizontal, rect, zone);
+    rect.y = position_rect_y(position.vertical, rect, zone);
     return rect;
 }
 
-int position_rect_x(HorizontalPosition position, SDL_Rect rect, int screen_width) {
+int position_rect_x(HorizontalPosition position, SDL_Rect rect, SDL_Rect zone) {
 
-    log_info("screen_width = %d", screen_width);
+    log_info("zone_width = %d", zone);
     switch (position) {
         case POSITION_START:
             return 0;
         case POSITION_END:
-            return screen_width - rect.w;
+            return zone.w - rect.w;
         case POSITION_CENTER:
-            return (screen_width - rect.w) / 2;
+            return (zone.w - rect.w) / 2;
         case NOT_POSITIONED: return rect.x;
         default: {
             log_error("Unknown horizontal position [%d]", position);
@@ -47,14 +46,14 @@ int position_rect_x(HorizontalPosition position, SDL_Rect rect, int screen_width
     }
 }
 
-int position_rect_y(VerticalPosition position, SDL_Rect rect, int screen_height) {
+int position_rect_y(VerticalPosition position, SDL_Rect rect, SDL_Rect zone) {
     switch (position) {
         case POSITION_START:
             return 0;
         case POSITION_END:
-            return screen_height - rect.h;
+            return zone.h - rect.h;
         case POSITION_CENTER:
-            return (screen_height - rect.h) / 2;
+            return (zone.h - rect.h) / 2;
         case NOT_POSITIONED: return rect.y;
         default: {
             log_error("Unknown vertical position [%d]", position);
