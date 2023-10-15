@@ -18,7 +18,8 @@ Button position_button(PositionInScreen position, Button button, SDL_Rect zone) 
     button.position = position;
     log_info("zone_x = %d, zone_y = %d", zone.x, zone.y);
     button.button_rect = position_rect(position, button.button_rect, zone);
-    button.texture_rect = position_rect(position, button.texture_rect, button.button_rect);
+    PositionInScreen centered = {.horizontal = POSITION_CENTER, .vertical = POSITION_CENTER};
+    button.texture_rect = position_rect(centered, button.texture_rect, button.button_rect);
     return button;
 }
 
@@ -33,11 +34,11 @@ int position_rect_x(HorizontalPosition position, SDL_Rect rect, SDL_Rect zone) {
     log_info("zone_width = %d", zone);
     switch (position) {
         case POSITION_START:
-            return 0;
+            return zone.x;
         case POSITION_END:
-            return zone.w - rect.w;
+            return zone.x + zone.w - rect.w;
         case POSITION_CENTER:
-            return (zone.w - rect.w) / 2;
+            return zone.x + ((zone.w - rect.w) / 2);
         case NOT_POSITIONED: return rect.x;
         default: {
             log_error("Unknown horizontal position [%d]", position);
@@ -49,11 +50,11 @@ int position_rect_x(HorizontalPosition position, SDL_Rect rect, SDL_Rect zone) {
 int position_rect_y(VerticalPosition position, SDL_Rect rect, SDL_Rect zone) {
     switch (position) {
         case POSITION_START:
-            return 0;
+            return zone.y;
         case POSITION_END:
-            return zone.h - rect.h;
+            return zone.y + zone.h - rect.h;
         case POSITION_CENTER:
-            return (zone.h - rect.h) / 2;
+            return zone.y + ((zone.h - rect.h) / 2);
         case NOT_POSITIONED: return rect.y;
         default: {
             log_error("Unknown vertical position [%d]", position);

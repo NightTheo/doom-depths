@@ -15,16 +15,10 @@ enum position_ {
     POSITION_CENTER,
 };
 
-typedef enum {
-    WINDOW,
-    PARENT,
-} PositionZone;
-
 typedef enum position_ VerticalPosition;
 typedef enum position_ HorizontalPosition;
 
 typedef struct {
-    PositionZone zone;
     VerticalPosition vertical;
     HorizontalPosition horizontal;
 } PositionInScreen;
