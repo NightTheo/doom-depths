@@ -24,12 +24,11 @@ Button current_background_color_button(SDL_Color color, Button button);
 Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;
     button.is_visible = true;
-    button.rect.x = p.x;
-    button.rect.y = p.y;
+    button.button_rect = (SDL_Rect) {.x = p.x, .y = p.y};
 
     button.texture = NULL;
+    button.texture_rect = button.button_rect;
 
-    button = padding_button(size.padding, button);
     button.color = button_color(get_color(SDL_WHITE), get_color(SDL_WHITE), get_color(SDL_WHITE));
     button.callback = callback;
 
@@ -66,7 +65,6 @@ Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize 
         return button;
     }
     log_info("Image loaded", img_path);
-
     return size_button(ihm.window, button);
 }
 
@@ -74,24 +72,12 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     if (!button.is_visible) return;
     SDL_Color color = button.color.current;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(renderer, &button.rect);
+    SDL_RenderFillRect(renderer, &button.button_rect);
 
     int texture_width, texture_height;
     SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
     SDL_Rect *source_texture_rect = NULL;
-    SDL_Rect *destination_texture_rect = &(SDL_Rect){
-            .x = button.rect.x + ((button.rect.w - texture_width) / 2),
-            .y = button.rect.y + ((button.rect.h - texture_height) / 2),
-            .w = texture_width,
-            .h = texture_height
-    };
-    SDL_RenderCopy(renderer, button.texture, source_texture_rect, destination_texture_rect);
-}
-
-Button padding_button(Padding padding, Button button) {
-    button.size.padding = padding;
-    padding_rect(&button.rect, button.size.padding);
-    return button;
+    SDL_RenderCopy(renderer, button.texture, source_texture_rect, &button.texture_rect);
 }
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button) {
@@ -141,8 +127,8 @@ ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
 bool button_at_point(Button button, Point point) {
     if (!button.is_visible) return false;
 
-    return point.x >= button.rect.x && point.x <= button.rect.x + button.rect.w
-           && point.y >= button.rect.y && point.y <= button.rect.y + button.rect.h;
+    return point.x >= button.button_rect.x && point.x <= button.button_rect.x + button.button_rect.w
+           && point.y >= button.button_rect.y && point.y <= button.button_rect.y + button.button_rect.h;
 }
 
 ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover) {

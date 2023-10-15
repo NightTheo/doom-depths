@@ -16,12 +16,12 @@ int position_rect_y(VerticalPosition position, SDL_Rect rect, int screen_height)
 
 Button position_button(PositionInScreen position, Button button, SDL_Window *window) {
     button.position = position;
-    button.rect = position_rect(position, button.rect, window);
+    button.button_rect = position_rect(position, button.button_rect, window);
     return button;
 }
 
 SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Window *window) {
-    log_info("rect.w = %d, rect.h = %d", rect.w, rect.h);
+    log_info("button_rect.w = %d, button_rect.h = %d", rect.w, rect.h);
     int screen_width, screen_height;
     SDL_GetWindowSize(window, &screen_width, &screen_height);
     rect.x = position_rect_x(position.horizontal, rect, screen_width);

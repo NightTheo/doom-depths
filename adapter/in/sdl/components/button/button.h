@@ -24,7 +24,8 @@ typedef struct {
 typedef struct Button Button;
 struct Button{
     bool is_visible;
-    SDL_Rect rect;
+    SDL_Rect button_rect;
+    SDL_Rect texture_rect;
     SDL_Texture* texture;
     ButtonColor color;
     ButtonCallback callback;
@@ -35,8 +36,6 @@ struct Button{
 ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover);
 
 void draw_button(SDL_Renderer *renderer, Button button);
-
-Button padding_button(Padding padding, Button button);
 
 Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback);
 

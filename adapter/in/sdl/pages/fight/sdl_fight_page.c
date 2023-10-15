@@ -35,9 +35,8 @@ FightPage fill_fight_page(SDL_IHM ihm) {
 }
 
 FightPage fill_fight_buttons(SDL_IHM ihm) {
-    ButtonSize size = absolute_button_size(70, 70, (Padding){.horizontal = 10, .vertical = 10});
+    ButtonSize size = absolute_button_size(70, 70);
     FightPage fight = ihm.page.fight;
-    log_info("attack button to create");
     fight.attack_button = create_img_button(
             ihm,
             "resources/assets/attack.png",
@@ -49,7 +48,8 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
             get_color(SDL_MIDDLE_RED),
             fight.attack_button
             );
-    log_info("attack button created");
+    Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
+    fight.attack_button = padding_button(padding, fight.attack_button);
 
     PositionInScreen positionInScreen = {.vertical = POSITION_END, .horizontal = POSITION_CENTER};
     fight.attack_button.position = positionInScreen;

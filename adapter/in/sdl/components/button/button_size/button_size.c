@@ -15,29 +15,27 @@ Button size_button_window_relative(SDL_Window *window, Button button);
 Button size_button_texture_fit(Button button);
 
 
-ButtonSize absolute_button_size(uint16_t height, uint16_t width, Padding padding) {
+Button size_button_texture(Button button);
+
+ButtonSize absolute_button_size(uint16_t height, uint16_t width) {
     ButtonSize size;
     size.size_type = ABSOLUTE;
     size.width = width;
     size.height = height;
-    size.padding = padding;
-
     return size;
 }
 
-ButtonSize window_relative_button_size(uint8_t window_percentage, Padding padding) {
+ButtonSize window_relative_button_size(uint8_t window_percentage) {
     ButtonSize size;
     size.size_type = WINDOW_RELATIVE;
     size.window_percentage = window_percentage;
-    size.padding = padding;
 
     return size;
 }
 
-ButtonSize texture_fit_relative_button_size(Padding padding) {
+ButtonSize texture_fit_relative_button_size() {
     ButtonSize size;
     size.size_type = TEXTURE_FIT;
-    size.padding = padding;
 
     return size;
 }
@@ -55,22 +53,40 @@ Button size_button(SDL_Window *window, Button button) {
 }
 
 Button size_button_texture_fit(Button button) {
-    SDL_QueryTexture(button.texture, NULL, NULL, &button.rect.w, &button.rect.h);
+    SDL_QueryTexture(button.texture, NULL, NULL, &button.button_rect.w, &button.button_rect.h);
+    button.texture_rect = button.button_rect;
     return button;
 }
 
 Button size_button_window_relative(SDL_Window *window, Button button) {
     int window_width;
     SDL_GetWindowSize(window, &window_width, NULL);
-    SDL_QueryTexture(button.texture, NULL, NULL, NULL, &button.rect.h);
-    button.rect.h += 20;
-    button.rect.w = (window_width * button.size.window_percentage) / 100;
-    button.rect.x = (window_width - button.rect.w) / 2;
+    SDL_QueryTexture(button.texture, NULL, NULL, NULL, &button.button_rect.h);
+    button.button_rect.h += 20;
+    button.button_rect.w = (window_width * button.size.window_percentage) / 100;
+    button.button_rect.x = (window_width - button.button_rect.w) / 2;
+
+    int texture_width, texture_height;
+    SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
+    button = size_button_texture(button);
     return button;
 }
 
 Button size_button_absolute(Button button) {
-    button.rect.h = button.size.height;
-    button.rect.w = button.size.width;
+    button.button_rect.h = button.size.height;
+    button.button_rect.w = button.size.width;
+    button = size_button_texture(button);
+    return button;
+}
+
+Button size_button_texture(Button button) {
+    int texture_width, texture_height;
+    SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
+    button.texture_rect = (SDL_Rect) {
+            .x = button.button_rect.x + ((button.button_rect.w - texture_width) / 2),
+            .y = button.button_rect.y + ((button.button_rect.h - texture_height) / 2),
+            .w = texture_width,
+            .h = texture_height
+    };
     return button;
 }

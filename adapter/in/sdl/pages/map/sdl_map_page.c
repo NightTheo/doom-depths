@@ -41,9 +41,7 @@ MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
 SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
     ButtonSize size = absolute_button_size(
             ZONE_CELL_SIZE,
-            ZONE_CELL_SIZE,
-            (Padding){.horizontal = 0, .vertical = 0}
-    );
+            ZONE_CELL_SIZE);
     Point button_point = {.x = col * (ZONE_CELL_SIZE + 1), .y = row * (ZONE_CELL_SIZE + 1)};
     ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
     SdlZone z = {
