@@ -137,6 +137,8 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/fight/health_bar/health_bar.c
         adapter/in/sdl/pages/fight/health_bar/health_bar.h
         adapter/in/sdl/components/button/button_events/button_events.c
+        adapter/in/sdl/components/screen_position/screen_position.c
+        adapter/in/sdl/components/screen_position/screen_position.h
         #adapter/in/cli/cli_controller.c
 )
 

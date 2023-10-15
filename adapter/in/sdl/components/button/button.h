@@ -12,6 +12,7 @@
 #include "in/sdl/components/button/button_size/button_size.h"
 #include "in/sdl/components/button/button_callback/button_callback.h"
 #include "in/sdl/components/point/point.h"
+#include "in/sdl/components/screen_position/screen_position.h"
 
 typedef struct ButtonEvent ButtonEvent;
 typedef struct {
@@ -28,6 +29,7 @@ struct Button{
     ButtonColor color;
     ButtonCallback callback;
     ButtonSize size;
+    PositionInScreen position;
 };
 
 ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover);
