@@ -21,7 +21,7 @@ void draw_map_page(SDL_Renderer *renderer, MapPage map_page);
 
 SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm);
 
-MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map);
+MapPage fill_map_page(SDL_IHM ihm, Map map);
 
 bool can_display_position_in_sdl_map(Position p, Map m);
 

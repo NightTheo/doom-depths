@@ -15,6 +15,10 @@
 #include "port/out/log/log_player.h"
 #include "port/in/command/end_round.h"
 #include "port/in/command/start_new_round.h"
+#include "port/in/query/is_current_fight_finished.h"
+#include "port/in/query/is_player_alive.h"
+#include "port/out/persistence/intern_game_state/get_map.h"
+#include "port/in/command/finish_current_zone.h"
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm);
 
@@ -30,6 +34,8 @@ SdlPlayer update_sld_fight_player(SdlPlayer player);
 
 Button update_attack_button(FightPage fight);
 
+Button update_end_turn_button(FightPage fight);
+
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
 ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
@@ -37,6 +43,8 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
 Button fill_attack_button(SDL_IHM ihm, ButtonSize size);
 
 Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size);
+
+ButtonEvent finish_fight(SDL_IHM ihm, Button button);
 
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
@@ -59,16 +67,22 @@ FightPage update_sld_fight_page(FightPage fight) {
     log_player(fight.fight.player);
     fight.player = update_sld_fight_player(fight.player);
     fight.attack_button = update_attack_button(fight);
+    fight.end_turn_button = update_end_turn_button(fight);
     return fight;
 }
 
 Button update_attack_button(FightPage fight) {
     Button button = fight.attack_button;
-    if(fight.player.player.remaining_number_of_attacks == 0) {
+    if(current_fight_is_finished() || fight.player.player.remaining_number_of_attacks == 0) {
         button = disable_button(button);
-    } else {
-        button = enable_button(button);
-    }
+    } else button = enable_button(button);
+    return button;
+}
+
+Button update_end_turn_button(FightPage fight) {
+    Button button = fight.end_turn_button;
+    if(current_fight_is_finished()) button = disable_button(button);
+    else button = enable_button(button);
     return button;
 }
 
@@ -223,6 +237,10 @@ ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackP
     log_info("clicked on attack");
     attack_with_weapon();
     ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    if (current_fight_is_finished()) {
+        return finish_fight(ihm, ihm.page.fight.attack_button);
+    }
+
     return button_clicked(ihm, ihm.page.fight.attack_button);
 }
 
@@ -231,5 +249,21 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
     end_round();
     start_new_round();
     ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+
+    if (current_fight_is_finished()) {
+        return finish_fight(ihm, ihm.page.fight.end_turn_button);
+    }
+
     return button_clicked(ihm, ihm.page.fight.end_turn_button);
+}
+
+ButtonEvent finish_fight(SDL_IHM ihm, Button button) {
+    if(current_player_is_alive()) {
+        finish_current_zone();
+        ihm.current_page = MAP_PAGE;
+        ihm.page.map = fill_map_page(ihm, get_map());
+        return button_clicked(ihm, button);
+    } else {
+        return button_clicked(ihm, button);
+    }
 }

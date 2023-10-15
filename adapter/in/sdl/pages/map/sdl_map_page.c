@@ -26,7 +26,8 @@ SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col);
 
 SDL_IHM enter_fight_page(SDL_IHM ihm);
 
-MapPage fill_map_page(SDL_IHM ihm, MapPage page, Map map) {
+MapPage fill_map_page(SDL_IHM ihm, Map map) {
+    MapPage page = ihm.page.map;
     page.map = map;
     page.grid = malloc(sizeof (SdlZone*) * map.height);
     for(int row = 0; row < map.height; row++) {

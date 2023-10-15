@@ -50,7 +50,7 @@ ButtonEvent click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPar
     new_run();
     Button b = ihm.page.town.newRunButton;
     ihm.current_page = MAP_PAGE;
-    ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
+    ihm.page.map = fill_map_page(ihm, get_map());
     return button_clicked(ihm, b);
 }
 
@@ -59,7 +59,7 @@ ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPa
     continue_last_run();
     Button b = ihm.page.town.continueButton;
     ihm.current_page = MAP_PAGE;
-    ihm.page.map = fill_map_page(ihm, ihm.page.map, get_map());
+    ihm.page.map = fill_map_page(ihm, get_map());
     return button_clicked(ihm, b);
 }
 

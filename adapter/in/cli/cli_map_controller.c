@@ -26,7 +26,7 @@ Position enter_map(Map m) {
 }
 
 bool can_display_position_in_map(Position p, Map m) {
-    if (position_is_in_map_and_not_empty(p, m) == false) return false;
+    if (!position_is_in_map_and_not_empty(p, m)) return false;
     if (positions_a_equals_b(m.spawn, p)) return true;
     if (position_is_finished(p, m)) return true;
 

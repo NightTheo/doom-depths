@@ -11,9 +11,16 @@
 #include <port/out/persistence/intern_game_state/get_current_fight.h>
 #include <port/out/ihm/display_loot.h>
 #include <domain/fight/event/player_killed_monster.h>
+#include "port/in/query/is_current_fight_finished.h"
+#include "port/out/log/log_info.h"
+#include "port/out/log/log_error.h"
 
 
 void attack_with_weapon() {
+    if (current_fight_is_finished()) {
+        log_error("fight is finished, cannot attack");
+        return;
+    }
     Fight fight = get_current_fight();
     AttackResult attackResult = player_attacks_monster(
             fight.player,
