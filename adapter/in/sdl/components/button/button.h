@@ -53,4 +53,6 @@ bool button_at_point(Button button, Point point);
 
 Button disable_button(Button button);
 
+Button enable_button(Button button);
+
 #endif //DOOMDEPTHS_BUTTON_H

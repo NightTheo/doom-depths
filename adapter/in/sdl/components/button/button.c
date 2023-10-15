@@ -67,6 +67,8 @@ Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize 
 
     log_info("Loading image %s", img_path);
     button.texture = IMG_LoadTexture(ihm.renderer, img_path);
+    button.button_rect.w = size.width;
+    button.button_rect.h = size.height;
     if(button.texture == NULL) {
         log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
         return button;
@@ -81,8 +83,7 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &button.button_rect);
 
-    SDL_Rect *source_texture_rect = NULL;
-    SDL_RenderCopy(renderer, button.texture, source_texture_rect, &button.texture_rect);
+    SDL_RenderCopy(renderer, button.texture, NULL, &button.texture_rect);
 }
 
 Button color_button(ButtonColor color, Button button) {
@@ -149,5 +150,11 @@ ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hove
 Button disable_button(Button button) {
     button.is_enabled = false;
     button.color.current = button.color.disabled;
+    return button;
+}
+
+Button enable_button(Button button) {
+    button.is_enabled = true;
+    button.color.current = button.color.background;
     return button;
 }

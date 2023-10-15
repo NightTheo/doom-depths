@@ -13,6 +13,8 @@
 #include "port/in/command/attack_with_weapon.h"
 #include "port/out/persistence/intern_game_state/get_current_fight.h"
 #include "port/out/log/log_player.h"
+#include "port/in/command/end_round.h"
+#include "port/in/command/start_new_round.h"
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm);
 
@@ -30,6 +32,12 @@ Button update_attack_button(FightPage fight);
 
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
+ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
+
+Button fill_attack_button(SDL_IHM ihm, ButtonSize size);
+
+Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size);
+
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
     fight.player = fill_fight_player();
@@ -42,6 +50,7 @@ FightPage fill_fight_page(SDL_IHM ihm) {
     fight = fill_fight_buttons(ihm);
 
     log_info("fight page filled");
+    start_new_round();
     return fight;
 }
 
@@ -57,6 +66,8 @@ Button update_attack_button(FightPage fight) {
     Button button = fight.attack_button;
     if(fight.player.player.remaining_number_of_attacks == 0) {
         button = disable_button(button);
+    } else {
+        button = enable_button(button);
     }
     return button;
 }
@@ -70,13 +81,21 @@ SdlPlayer update_sld_fight_player(SdlPlayer player) {
 FightPage fill_fight_buttons(SDL_IHM ihm) {
     ButtonSize size = absolute_button_size(70, 70);
     FightPage fight = ihm.page.fight;
-    fight.attack_button = create_img_button(
+    fight.attack_button = fill_attack_button(ihm, size);
+    fight.end_turn_button = fill_end_turn_button(ihm, size);
+
+    ihm.page.fight = fight;
+    return ihm.page.fight;
+}
+
+Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
+    Button attack_button = create_img_button(
             ihm,
             "resources/assets/attack.png",
             (Point){.x = 0, .y = 0},
             size,
             no_callback_param(&on_click_attack)
-            );
+    );
 
     ButtonColor color = button_color(
             get_color(SDL_RED),
@@ -84,26 +103,61 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
             get_color(SDL_MIDDLE_RED),
             get_color(SDL_GREY)
     );
-    fight.attack_button = color_button(
+    attack_button = color_button(
             color,
-            fight.attack_button
+            attack_button
     );
 
     Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
-    fight.attack_button = padding_button(padding, fight.attack_button);
+    attack_button = padding_button(padding, attack_button);
 
     PositionInScreen positionInScreen = {.vertical = POSITION_END, .horizontal = POSITION_CENTER};
-    fight.attack_button.position = positionInScreen;
+    attack_button.position = positionInScreen;
     SDL_Rect window_zone = {.x = 0, .y = 0};
     SDL_GetWindowSize(ihm.window, &window_zone.w, &window_zone.h);
 
     int safe_area_top = 40;
     int safe_area_bottom = 30;
     SDL_Rect safe_area = {.x = 0, .y = safe_area_top, .w = window_zone.w, .h = window_zone.h - (safe_area_top + safe_area_bottom)};
-    fight.attack_button = position_button(positionInScreen, fight.attack_button, safe_area);
+    attack_button = position_button(positionInScreen, attack_button, safe_area);
 
-    ihm.page.fight = fight;
-    return ihm.page.fight;
+    return attack_button;
+}
+
+Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
+    Button end_turn_button = create_img_button(
+            ihm,
+            "resources/assets/end_turn.png",
+            (Point){.x = 0, .y = 0},
+            size,
+            no_callback_param(&on_click_end_turn)
+    );
+
+    ButtonColor color = button_color(
+            get_color(SDL_RED),
+            get_color(SDL_RED),
+            get_color(SDL_MIDDLE_RED),
+            get_color(SDL_GREY)
+    );
+    end_turn_button = color_button(
+            color,
+            end_turn_button
+    );
+
+    Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
+    end_turn_button = padding_button(padding, end_turn_button);
+
+    PositionInScreen positionInScreen = {.vertical = POSITION_END, .horizontal = POSITION_END};
+    end_turn_button.position = positionInScreen;
+    SDL_Rect window_zone = {.x = 0, .y = 0};
+    SDL_GetWindowSize(ihm.window, &window_zone.w, &window_zone.h);
+
+    int safe_area_top = 40;
+    int safe_area_bottom = 30;
+    SDL_Rect safe_area = {.x = 0, .y = safe_area_top, .w = window_zone.w, .h = window_zone.h - (safe_area_top + safe_area_bottom)};
+    end_turn_button = position_button(positionInScreen, end_turn_button, safe_area);
+
+    return end_turn_button;
 }
 
 SdlPlayer fill_fight_player() {
@@ -131,6 +185,7 @@ void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) 
 
 void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm) {
     draw_button(renderer, ihm.page.fight.attack_button);
+    draw_button(renderer, ihm.page.fight.end_turn_button);
 }
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm) {
@@ -150,6 +205,11 @@ SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
     ButtonEvent attack_event = button_handle_event(ihm, event, ihm.page.fight.attack_button);
     ihm = attack_event.ihm;
     ihm.page.fight.attack_button = attack_event.button;
+
+    ButtonEvent end_turn_event = button_handle_event(ihm, event, ihm.page.fight.end_turn_button);
+    ihm = end_turn_event.ihm;
+    ihm.page.fight.end_turn_button = end_turn_event.button;
+
     return ihm;
 }
 
@@ -160,7 +220,16 @@ SDL_IHM update_fight_page(SDL_IHM ihm) {
 }
 
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
+    log_info("clicked on attack");
     attack_with_weapon();
     ihm.page.fight = update_sld_fight_page(ihm.page.fight);
     return button_clicked(ihm, ihm.page.fight.attack_button);
+}
+
+ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
+    log_info("clicked on end turn");
+    end_round();
+    start_new_round();
+    ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    return button_clicked(ihm, ihm.page.fight.end_turn_button);
 }

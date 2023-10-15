@@ -82,11 +82,12 @@ Button size_button_absolute(Button button) {
 Button size_button_texture(Button button) {
     int texture_width, texture_height;
     SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
+    SDL_SetTextureScaleMode(button.texture, SDL_ScaleModeBest);
     button.texture_rect = (SDL_Rect) {
             .x = button.button_rect.x + ((button.button_rect.w - texture_width) / 2),
             .y = button.button_rect.y + ((button.button_rect.h - texture_height) / 2),
-            .w = texture_width,
-            .h = texture_height
+            .w = texture_width > button.button_rect.w ? button.button_rect.w : texture_width,
+            .h = texture_height > button.button_rect.h ? button.button_rect.h : texture_height,
     };
     return button;
 }

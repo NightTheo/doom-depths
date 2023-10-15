@@ -25,6 +25,7 @@ typedef struct  {
     SdlPlayer player;
     Fight fight;
     Button attack_button;
+    Button end_turn_button;
 } FightPage;
 
 FightPage fill_fight_page(SDL_IHM ihm);
