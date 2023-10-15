@@ -4,7 +4,7 @@
 //
 
 #include "in/sdl/sdl_controller.h"
-#include "in/sdl/components/button/button_clicked_event.h"
+#include "in/sdl/components/button/button_events/button_events.h"
 #include "in/sdl/components/point/point.h"
 #include "sdl_map_page.h"
 #include "port/out/log/log_info.h"
@@ -48,7 +48,7 @@ SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
     ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
     SdlZone z = {
             .zone = get_zone_in_map_by_position(map, position(col, row)),
-            .button = create_button(ihm, "", button_point, size, on_click_zone),
+            .button = size_button(ihm.window, create_button(ihm, button_point, size, on_click_zone)),
             .position = position(col, row),
     };
     z.button.is_visible = z.zone.status != ZONE_EMPTY;
@@ -63,9 +63,9 @@ SDL_IHM map_page_handle_event(SDL_Event event, SDL_IHM ihm) {
 SDL_IHM grid_handle_event(SDL_IHM ihm, SDL_Event event, MapPage map) {
     for(int row = 0; row < map.map.height; row++) {
         for(int col = 0; col < map.map.width; col++) {
-            ButtonClicked clicked = button_handle_event(ihm, event, map.grid[row][col].button);
-            ihm = clicked.ihm;
-            if(ihm.current_page == MAP_PAGE) ihm.page.map.grid[row][col].button = clicked.button;
+            ButtonEvent handled_event = button_handle_event(ihm, event, map.grid[row][col].button);
+            ihm = handled_event.ihm;
+            if(ihm.current_page == MAP_PAGE) ihm.page.map.grid[row][col].button = handled_event.button;
         }
     }
     return ihm;

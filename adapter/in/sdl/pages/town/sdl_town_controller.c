@@ -9,7 +9,7 @@
 #include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/color/sdl_color.h"
 #include "port/out/log/log_info.h"
-#include "in/sdl/components/button/button_clicked_event.h"
+#include "in/sdl/components/button/button_events/button_events.h"
 #include "port/in/command/new_run.h"
 #include "port/in/command/continue_last_run.h"
 #include "port/out/persistence/intern_game_state/game_state.h"
@@ -25,7 +25,7 @@ TownWindow town_window(SDL_IHM ihm) {
 
     ButtonSize size = window_relative_button_size(70, (Padding){0, 5});
     ButtonCallback on_click_new_run = no_callback_param(&click_new_run);
-    w.newRunButton = create_button(ihm, "NEW RUN", (Point) {100, 200}, size, on_click_new_run);
+    w.newRunButton = create_text_button(ihm, "NEW RUN", (Point) {100, 200}, size, on_click_new_run);
     w.newRunButton = color_button(
             buttons_background_color,
             buttons_hover_color,
@@ -33,7 +33,7 @@ TownWindow town_window(SDL_IHM ihm) {
             );
 
     ButtonCallback on_click_continue = no_callback_param(&click_continue);
-    w.continueButton = create_button(ihm, "CONTINUE", (Point) {100, 300}, size, on_click_continue);
+    w.continueButton = create_text_button(ihm, "CONTINUE", (Point) {100, 300}, size, on_click_continue);
     w.continueButton = color_button(
             buttons_background_color,
             buttons_hover_color,
@@ -66,13 +66,19 @@ SDL_IHM click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam 
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
     TownWindow t = ihm.page.town;
-    ButtonClicked new_run_clicked = button_handle_event(ihm, event, ihm.page.town.newRunButton);
-    ihm = new_run_clicked.ihm;
-    ihm.page.town.newRunButton = new_run_clicked.button;
+    ButtonEvent new_run_event = button_handle_event(ihm, event, ihm.page.town.newRunButton);
+    ihm = new_run_event.ihm;
+    ihm.page.town.newRunButton = new_run_event.button;
 
-    ButtonClicked continue_clicked = button_handle_event(ihm, event, ihm.page.town.continueButton);
-    ihm = continue_clicked.ihm;
-    ihm.page.town.continueButton = continue_clicked.button;
+    ButtonEvent continue_event = button_handle_event(ihm, event, ihm.page.town.continueButton);
+    ihm = continue_event.ihm;
+    ihm.page.town.continueButton = continue_event.button;
 
+    return ihm;
+}
+
+SDL_IHM update_town_page(SDL_IHM ihm) {
+    ihm.page.town.newRunButton = size_button(ihm.window, ihm.page.town.newRunButton);
+    ihm.page.town.continueButton = size_button(ihm.window, ihm.page.town.continueButton);
     return ihm;
 }

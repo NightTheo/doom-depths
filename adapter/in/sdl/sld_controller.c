@@ -15,6 +15,8 @@
 #include "in/sdl/pages/fight/sdl_fight_page.h"
 #include "in/sdl/pages/pages.h"
 
+#define MILLISECONDS 1000
+
 typedef struct InitResult InitResult;
 struct InitResult {
     bool is_success;
@@ -62,7 +64,7 @@ void start_event_loop(SDL_IHM ihm, uint16_t FPS) {
         if (e.type == SDL_QUIT) app_is_running = false;
         ihm = update_ihm(ihm);
         draw(ihm);
-        SDL_Delay(1000/FPS);
+        SDL_Delay(MILLISECONDS / FPS);
     }
 }
 
@@ -88,7 +90,7 @@ void draw(SDL_IHM ihm) {
 
 SDL_IHM update_ihm(SDL_IHM ihm) {
     switch (ihm.current_page) {
-        case TOWN_PAGE: return ihm;
+        case TOWN_PAGE: return update_town_page(ihm);
         case MAP_PAGE: return ihm;
         case FIGHT_PAGE: return update_fight_page(ihm);
         default: {
@@ -135,6 +137,8 @@ InitResult init() {
     SDL_Window *window = SDL_CreateWindow("DoomDepths", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
                                           SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
+    SDL_SetWindowMinimumSize(window, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_SetWindowResizable(window, SDL_TRUE);
     if (window == NULL) {
         log_error("SDL_CreateWindow Error: %s", SDL_GetError());
         return (InitResult) {false};
@@ -158,8 +162,8 @@ InitResult init() {
 
 
 void close_sdl(SDL_IHM ihm) {
-    SDL_DestroyTexture(ihm.page.town.newRunButton.text_texture);
-    SDL_DestroyTexture(ihm.page.town.continueButton.text_texture);
+    SDL_DestroyTexture(ihm.page.town.newRunButton.texture);
+    SDL_DestroyTexture(ihm.page.town.continueButton.texture);
     TTF_CloseFont(ihm.font);
     TTF_Quit();
     SDL_DestroyRenderer(ihm.renderer);

@@ -8,10 +8,16 @@
 #include "sdl_fight_page.h"
 #include "port/out/log/log_error.h"
 #include "port/out/persistence/intern_game_state/get_player.h"
+#include "port/out/log/log_info.h"
+#include "in/sdl/components/button/button_events/button_events.h"
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm);
 
 SdlPlayer fill_fight_player();
+
+void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm);
+
+FightPage fill_fight_buttons(SDL_IHM ihm);
 
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
@@ -21,9 +27,32 @@ FightPage fill_fight_page(SDL_IHM ihm) {
         log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
         return fight;
     }
+    ihm.page.fight = fight;
+    fight = fill_fight_buttons(ihm);
 
-
+    log_info("fight page filled");
     return fight;
+}
+
+FightPage fill_fight_buttons(SDL_IHM ihm) {
+    ButtonSize size = absolute_button_size(70, 70, (Padding){.horizontal = 0, .vertical = 0});
+    FightPage fight = ihm.page.fight;
+    log_info("attack button to create");
+    fight.attack_button = create_img_button(
+            ihm,
+            "resources/assets/attack.png",
+            (Point){.x = 0, .y = 0},
+            size,
+            no_callback_param(NULL));
+    fight.attack_button = color_button(
+            get_color(SDL_RED),
+            get_color(SDL_MIDDLE_RED),
+            fight.attack_button
+            );
+    log_info("attack button created");
+
+    ihm.page.fight = fight;
+    return ihm.page.fight;
 }
 
 SdlPlayer fill_fight_player() {
@@ -44,13 +73,17 @@ SdlPlayer fill_fight_player() {
 
 void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) {
     draw_player(renderer, fight_page.player, ihm);
-    // draw buttons for actions (attack, defend, open grimoire, end turn)
-    // draw enemy and its health bar
+    draw_action_buttons(renderer, ihm);
 
+    // draw enemy and its health bar
+}
+
+void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm) {
+    draw_button(renderer, ihm.page.fight.attack_button);
 }
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm) {
-    player.source_sprites_rect.x = 32 * ((player.current_sprite / 12) % 10);
+    player.source_sprites_rect.x = 32 * ((player.current_sprite / 16) % 10);
     SDL_RenderCopy(renderer, player.texture, &player.source_sprites_rect, &player.destination_sprite_rect);
     player.health_bar.current_health = player.player.current_health;
     player.health_bar.rect = (SDL_Rect){
@@ -63,7 +96,9 @@ void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm) {
 }
 
 SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
-    // TODO
+    ButtonEvent attack_event = button_handle_event(ihm, event, ihm.page.fight.attack_button);
+    ihm = attack_event.ihm;
+    ihm.page.fight.attack_button = attack_event.button;
     return ihm;
 }
 

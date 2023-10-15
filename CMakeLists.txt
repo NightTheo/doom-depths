@@ -122,7 +122,7 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/components/point/point.h
         adapter/in/sdl/components/color/sdl_color.h
         adapter/in/sdl/components/color/sdl_color.c
-        adapter/in/sdl/components/button/button_clicked_event.h
+        adapter/in/sdl/components/button/button_events/button_events.h
         adapter/in/sdl/pages/map/sdl_map_page.c
         adapter/in/sdl/pages/map/sdl_map_page.h
         adapter/in/sdl/pages/map/zone/sdl_zone.c
@@ -136,6 +136,7 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/pages.h
         adapter/in/sdl/pages/fight/health_bar/health_bar.c
         adapter/in/sdl/pages/fight/health_bar/health_bar.h
+        adapter/in/sdl/components/button/button_events/button_events.c
         #adapter/in/cli/cli_controller.c
 )
 

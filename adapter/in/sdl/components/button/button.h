@@ -13,8 +13,7 @@
 #include "in/sdl/components/button/button_callback/button_callback.h"
 #include "in/sdl/components/point/point.h"
 
-typedef struct ButtonClicked ButtonClicked;
-
+typedef struct ButtonEvent ButtonEvent;
 typedef struct {
     SDL_Color current;
     SDL_Color background;
@@ -25,7 +24,7 @@ typedef struct Button Button;
 struct Button{
     bool is_visible;
     SDL_Rect rect;
-    SDL_Texture* text_texture;
+    SDL_Texture* texture;
     ButtonColor color;
     ButtonCallback callback;
     ButtonSize size;
@@ -37,11 +36,15 @@ void draw_button(SDL_Renderer *renderer, Button button);
 
 Button padding_button(Padding padding, Button button);
 
-Button create_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback);
+Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback);
+
+Button create_text_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback);
+
+Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize size, ButtonCallback callback);
 
 Button color_button(SDL_Color background_color, SDL_Color hover_color, Button button);
 
-ButtonClicked button_handle_event(SDL_IHM ihm, SDL_Event event, Button button);
+ButtonEvent button_handle_event(SDL_IHM ihm, SDL_Event event, Button button);
 
 bool button_at_point(Button button, Point point);
 
