@@ -22,8 +22,8 @@ TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
     ButtonColor color = button_color(
             get_color(SDL_RED),
-            get_color(SDL_RED),
             get_color(SDL_DARK_RED),
+            get_color(SDL_RED),
             get_color(SDL_GREY)
     );
 
@@ -31,10 +31,12 @@ TownWindow town_window(SDL_IHM ihm) {
     ButtonCallback on_click_new_run = no_callback_param(&click_new_run);
     w.newRunButton = create_text_button(ihm, "NEW RUN", (Point) {100, 200}, size, on_click_new_run);
     w.newRunButton = color_button(color,w.newRunButton);
+    w.newRunButton = border_radius_button(3, w.newRunButton);
 
     ButtonCallback on_click_continue = no_callback_param(&click_continue);
     w.continueButton = create_text_button(ihm, "CONTINUE", (Point) {100, 300}, size, on_click_continue);
     w.continueButton = color_button(color,w.continueButton);
+    w.continueButton = border_radius_button(3, w.continueButton);
 
     return w;
 }

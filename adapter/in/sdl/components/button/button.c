@@ -21,12 +21,20 @@ ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button);
 
 Button current_background_color_button(SDL_Color color, Button button);
 
+void draw_rounded_rect(SDL_Renderer *renderer, SDL_Rect rect, uint8_t radius);
+
+void draw_circle(SDL_Renderer *renderer, int x0, int y0, int radius);
+
+void draw_filled_circle(SDL_Renderer *renderer, int x, int y, int radius);
+
+void sdl_ellipse(SDL_Renderer *r, int x0, int y0, int radiusX, int radiusY, bool fill);
 
 Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;
     button.is_visible = true;
     button.is_enabled = true;
     button.button_rect = (SDL_Rect) {.x = p.x, .y = p.y};
+    button.border_radius = 0;
 
     button.texture = NULL;
     button.texture_rect = button.button_rect;
@@ -81,9 +89,47 @@ void draw_button(SDL_Renderer *renderer, Button button) {
     if (!button.is_visible) return;
     SDL_Color color = button.color.current;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(renderer, &button.button_rect);
+    if(button.border_radius == 0) SDL_RenderFillRect(renderer, &button.button_rect);
+    else draw_rounded_rect(renderer, button.button_rect, button.border_radius);
 
     SDL_RenderCopy(renderer, button.texture, NULL, &button.texture_rect);
+}
+
+void draw_rounded_rect(SDL_Renderer *renderer, SDL_Rect rect, uint8_t radius) {
+    int w = rect.w;
+    int h = rect.h;
+    int r = radius;
+
+    if (r > w / 2) r = w / 2;
+    if (r > h / 2) r = h / 2;
+
+    SDL_RenderDrawLine(renderer, rect.x + r, rect.y, rect.x + w - r, rect.y);
+    SDL_RenderDrawLine(renderer, rect.x + r, rect.y + h - 1, rect.x + w - r, rect.y + h - 1);
+    SDL_RenderDrawLine(renderer, rect.x, rect.y + r, rect.x, rect.y + h - r);
+    SDL_RenderDrawLine(renderer, rect.x + w - 1, rect.y + r, rect.x + w - 1, rect.y + h - r);
+
+    draw_filled_circle(renderer, rect.x + r, rect.y + r, r);
+    draw_filled_circle(renderer, rect.x + r, rect.y + h - r - 1, r);
+    draw_filled_circle(renderer, rect.x + w - r - 1, rect.y + r, r);
+    draw_filled_circle(renderer, rect.x + w - r - 1, rect.y + h - r - 1, r);
+
+    SDL_Rect fill_rect = {rect.x + r, rect.y, w - 2 * r, h};
+    SDL_RenderFillRect(renderer, &fill_rect);
+    fill_rect = (SDL_Rect) {rect.x, rect.y + r, w, h - 2 * r};
+    SDL_RenderFillRect(renderer, &fill_rect);
+}
+
+// https://stackoverflow.com/a/65745687
+void draw_filled_circle(SDL_Renderer *renderer, int x, int y, int radius) {
+    for (int w = 0; w < radius * 2; w++) {
+        for (int h = 0; h < radius * 2; h++) {
+            int dx = radius - w; // horizontal offset
+            int dy = radius - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (radius * radius)) {
+                SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+            }
+        }
+    }
 }
 
 Button color_button(ButtonColor color, Button button) {
@@ -156,5 +202,10 @@ Button disable_button(Button button) {
 Button enable_button(Button button) {
     button.is_enabled = true;
     button.color.current = button.color.background;
+    return button;
+}
+
+Button border_radius_button(uint8_t radius, Button button) {
+    button.border_radius = radius;
     return button;
 }

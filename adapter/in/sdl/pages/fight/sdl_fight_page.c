@@ -121,8 +121,8 @@ Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
 
     ButtonColor color = button_color(
             get_color(SDL_RED),
+            get_color(SDL_DARK_RED),
             get_color(SDL_RED),
-            get_color(SDL_MIDDLE_RED),
             get_color(SDL_GREY)
     );
     attack_button = color_button(
@@ -132,6 +132,7 @@ Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
 
     Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
     attack_button = padding_button(padding, attack_button);
+    attack_button = border_radius_button(5, attack_button);
 
     return attack_button;
 }
@@ -147,8 +148,8 @@ Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
 
     ButtonColor color = button_color(
             get_color(SDL_RED),
+            get_color(SDL_DARK_RED),
             get_color(SDL_RED),
-            get_color(SDL_MIDDLE_RED),
             get_color(SDL_GREY)
     );
     end_turn_button = color_button(
@@ -158,6 +159,7 @@ Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
 
     Padding padding = box_sizing(padding_symetric(10), BORDER_BOX);
     end_turn_button = padding_button(padding, end_turn_button);
+    end_turn_button = border_radius_button(5, end_turn_button);
 
     return end_turn_button;
 }

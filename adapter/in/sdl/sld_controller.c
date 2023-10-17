@@ -128,7 +128,7 @@ InitResult init() {
         log_error("TTF_Init Error : %s", TTF_GetError());
         return (InitResult) {false};
     }
-    TTF_Font *font = TTF_OpenFont("resources/font/OpenSans.ttf", 20);
+    TTF_Font *font = TTF_OpenFont("resources/font/OpenSans.ttf", 30);
     if (font == NULL) {
         log_error("TTF_OpenFont Error : %s", TTF_GetError());
         return (InitResult) {false};

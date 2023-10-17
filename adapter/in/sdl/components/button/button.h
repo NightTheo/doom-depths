@@ -32,6 +32,7 @@ struct Button{
     ButtonCallback callback;
     ButtonSize size;
     PositionInScreen position;
+    uint8_t border_radius;
     bool is_enabled;
 };
 
@@ -54,5 +55,7 @@ bool button_at_point(Button button, Point point);
 Button disable_button(Button button);
 
 Button enable_button(Button button);
+
+Button border_radius_button(uint8_t radius, Button button);
 
 #endif //DOOMDEPTHS_BUTTON_H
