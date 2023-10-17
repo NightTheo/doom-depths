@@ -46,7 +46,9 @@ RowCell cell_by_type(CellType cellType, Cell cell) {
 
 int get_cell_width(RowCell param) {
     switch (param.cellType) {
-        case BUTTON: return param.cell.button.size.width;
+        case BUTTON: {
+            return param.cell.button.button_rect.w;
+        }
         default: {
             log_error("get_cell_width: unknown cell type [%d]", param.cellType);
             return 0;

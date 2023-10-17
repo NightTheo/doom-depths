@@ -244,7 +244,7 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
     end_round();
     start_new_round();
     ihm.page.fight = update_sld_fight_page(ihm.page.fight);
-    Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, 0).cell.button;
+    Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, 1).cell.button;
 
     if (current_fight_is_finished()) {
         return finish_fight(ihm, end_turn_button);
