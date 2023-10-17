@@ -138,6 +138,8 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/components/button/button_events/button_events.c
         adapter/in/sdl/components/screen_position/screen_position.c
         adapter/in/sdl/components/screen_position/screen_position.h
+        adapter/in/sdl/components/row/row.c
+        adapter/in/sdl/components/row/row.h
         #adapter/in/cli/cli_controller.c
 )
 

@@ -9,6 +9,7 @@
 #include <SDL_render.h>
 #include <SDL_events.h>
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
+#include "in/sdl/components/row/row.h"
 
 typedef struct SDL_IHM SDL_IHM;
 
@@ -24,8 +25,7 @@ typedef struct SdlPlayer {
 typedef struct  {
     SdlPlayer player;
     Fight fight;
-    Button attack_button;
-    Button end_turn_button;
+    Row buttons;
 } FightPage;
 
 FightPage fill_fight_page(SDL_IHM ihm);

@@ -11,8 +11,6 @@
 #include "in/sdl/components/padding/padding.h"
 
 
-typedef struct Button Button;
-
 typedef enum {
     ABSOLUTE,
     WINDOW_RELATIVE,

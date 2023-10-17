@@ -16,7 +16,6 @@
  * [ ] inventory in Union, not allocated
  *
  * THEN
- * [ ] SDL
  * [ ] Tests
  *
  * [ ] multi language ? by factory
