@@ -137,3 +137,9 @@ RowCell get_button_in_row_at_index(Row row, uint16_t index) {
     return cell;
 }
 
+
+Row spacing_row(uint8_t spacing, Row row) {
+    row.spacing = spacing;
+    row.rect.w += (row.length - 1) * spacing;
+    return row;
+}

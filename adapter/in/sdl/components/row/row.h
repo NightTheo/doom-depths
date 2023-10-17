@@ -54,4 +54,6 @@ int get_cell_width(RowCell param);
 
 Row position_row(PositionInScreen position, Row row, SDL_Rect zone);
 
+Row spacing_row(uint8_t spacing, Row row);
+
 #endif //DOOMDEPTHS_ROW_H

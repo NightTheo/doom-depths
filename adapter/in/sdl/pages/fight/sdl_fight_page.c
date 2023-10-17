@@ -104,6 +104,7 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
 
     PositionInScreen buttons_position = (PositionInScreen){.vertical = POSITION_END, .horizontal = POSITION_CENTER};
     SDL_Rect safe_area = safe_area_of(window_rect(ihm.window), 40, 30);
+    fight.buttons = spacing_row(10, fight.buttons);
     fight.buttons = position_row(buttons_position, fight.buttons, safe_area);
     ihm.page.fight = fight;
     return ihm.page.fight;

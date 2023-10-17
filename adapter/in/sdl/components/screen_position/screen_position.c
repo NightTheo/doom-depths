@@ -95,6 +95,7 @@ RowCell position_row_cell_at_index(Row row, int index) {
     int x = row.rect.x;
     for(int i = 0; i < index; i++) {
         x += get_cell_width(row.cells[i]);
+        x += row.spacing;
     }
     UpdateRect update_rect = {.x = &x,.y = &row.rect.y, .w = NULL, .h = NULL};
     return set_row_cell_rect(row.cells[index], update_rect);
