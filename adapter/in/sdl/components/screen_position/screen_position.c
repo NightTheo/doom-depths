@@ -23,12 +23,10 @@ RowCell set_row_cell_rect(RowCell cell, UpdateRect rect);
 SDL_Rect update_rect(SDL_Rect rect, UpdateRect update);
 
 
-
-
 PositionInScreen position_in_screen(VerticalPosition v, HorizontalPosition h) {
     return (PositionInScreen) {
-        .vertical = v,
-        .horizontal = h,
+            .vertical = v,
+            .horizontal = h,
     };
 }
 
@@ -54,7 +52,8 @@ int position_rect_x(HorizontalPosition position, SDL_Rect rect, SDL_Rect zone) {
             return zone.x + zone.w - rect.w;
         case POSITION_CENTER:
             return zone.x + ((zone.w - rect.w) / 2);
-        case NOT_POSITIONED: return rect.x;
+        case NOT_POSITIONED:
+            return rect.x;
         default: {
             log_error("Unknown horizontal position [%d]", position);
             return rect.x;
@@ -70,7 +69,8 @@ int position_rect_y(VerticalPosition position, SDL_Rect rect, SDL_Rect zone) {
             return zone.y + zone.h - rect.h;
         case POSITION_CENTER:
             return zone.y + ((zone.h - rect.h) / 2);
-        case NOT_POSITIONED: return rect.y;
+        case NOT_POSITIONED:
+            return rect.y;
         default: {
             log_error("Unknown vertical position [%d]", position);
             return rect.y;
@@ -80,37 +80,39 @@ int position_rect_y(VerticalPosition position, SDL_Rect rect, SDL_Rect zone) {
 
 Row position_row(PositionInScreen position, Row row, SDL_Rect zone) {
     row.position = position;
+
     row.rect = position_rect(position, row.rect, zone);
-    for(int i = 0; i < row.length; i++) {
+    for (int i = 0; i < row.length; i++) {
         row.cells[i] = position_row_cell_at_index(row, i);
     }
     return row;
 }
 
 RowCell position_row_cell_at_index(Row row, int index) {
-    if(index >= row.length) {
+    if (index >= row.length) {
         log_error("Index out of bounds [%d] in row (length = %d)", index, row.length);
         return (RowCell) {.cellType = NO_CELL};
     }
     int x = row.rect.x;
-    for(int i = 0; i < index; i++) {
+    for (int i = 0; i < index; i++) {
         x += get_cell_width(row.cells[i]);
         x += row.spacing;
     }
-    UpdateRect update_rect = {.x = &x,.y = &row.rect.y, .w = NULL, .h = NULL};
+    UpdateRect update_rect = {.x = &x, .y = &row.rect.y, .w = NULL, .h = NULL};
     return set_row_cell_rect(row.cells[index], update_rect);
 }
 
 RowCell set_row_cell_rect(RowCell cell, UpdateRect rect) {
     switch (cell.cellType) {
-        case NO_CELL: return cell;
+        case NO_CELL:
+            return cell;
         case BUTTON: {
             cell.cell.button.button_rect = update_rect(cell.cell.button.button_rect, rect);
             cell.cell.button.texture_rect = position_rect(
-                    (PositionInScreen){.horizontal = POSITION_CENTER, .vertical = POSITION_CENTER},
+                    (PositionInScreen) {.horizontal = POSITION_CENTER, .vertical = POSITION_CENTER},
                     cell.cell.button.texture_rect,
                     cell.cell.button.button_rect
-                    );
+            );
             return cell;
         }
         default: {
@@ -122,10 +124,10 @@ RowCell set_row_cell_rect(RowCell cell, UpdateRect rect) {
 
 
 SDL_Rect update_rect(SDL_Rect rect, UpdateRect update) {
-    if(update.x != NULL) rect.x = *update.x;
-    if(update.y != NULL) rect.y = *update.y;
-    if(update.y != NULL) rect.y = *update.y;
-    if(update.y != NULL) rect.y = *update.y;
+    if (update.x != NULL) rect.x = *update.x;
+    if (update.y != NULL) rect.y = *update.y;
+    if (update.y != NULL) rect.y = *update.y;
+    if (update.y != NULL) rect.y = *update.y;
 
     return rect;
 }
@@ -137,5 +139,9 @@ SDL_Rect window_rect(SDL_Window *window) {
 }
 
 SDL_Rect safe_area_of(SDL_Rect rect, int top, int bottom) {
-    return (SDL_Rect ){.x = 0, .y = top, .w = rect.w, .h = rect.h - (top + bottom)};
+    return (SDL_Rect) {.x = 0, .y = top, .w = rect.w, .h = rect.h - (top + bottom)};
+}
+
+SDL_Rect default_safe_area(SDL_Rect rect) {
+    return safe_area_of(rect, 40, 40);
 }

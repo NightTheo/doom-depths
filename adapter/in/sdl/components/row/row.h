@@ -56,4 +56,6 @@ Row position_row(PositionInScreen position, Row row, SDL_Rect zone);
 
 Row spacing_row(uint8_t spacing, Row row);
 
+Row update_row_position_in_zone(Row row, SDL_Rect zone);
+
 #endif //DOOMDEPTHS_ROW_H

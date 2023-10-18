@@ -217,13 +217,18 @@ SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
     ButtonEvent end_turn_event = button_handle_event(ihm, event, end_turn_button);
     ihm = end_turn_event.ihm;
     ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, end_turn_event.button, 1);
-
     return ihm;
 }
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
-    ihm.page.fight.player.current_sprite += 1;
-    if(ihm.page.fight.player.current_sprite > 1000 ) ihm.page.fight.player.current_sprite = 0;
+    FightPage page = ihm.page.fight;
+    page.player.current_sprite += 1;
+    if(page.player.current_sprite > 1000 ) page.player.current_sprite = 0;
+    SDL_Rect safe_area = default_safe_area(window_rect(ihm.window));
+
+    page.buttons = update_row_position_in_zone(page.buttons, safe_area);
+
+    ihm.page.fight = page;
     return ihm;
 }
 

@@ -5,6 +5,7 @@
 
 #include "row.h"
 #include "port/out/log/log_error.h"
+#include "port/out/log/log_info.h"
 
 int get_cell_height(RowCell param);
 
@@ -123,6 +124,7 @@ RowCell button_row_cell(Button button) {
 }
 
 Row update_row_rect(Row row) {
+    row.rect.w = 0;
     for(int i = 0; i < row.length; i++) {
         int cell_height = get_cell_height(row.cells[i]);
         if(cell_height > row.rect.h) row.rect.h = cell_height;
@@ -144,4 +146,8 @@ Row spacing_row(uint8_t spacing, Row row) {
     row.spacing = spacing;
     row.rect.w += (row.length - 1) * spacing;
     return row;
+}
+
+Row update_row_position_in_zone(Row row, SDL_Rect zone) {
+    return position_row(row.position, row, zone);
 }
