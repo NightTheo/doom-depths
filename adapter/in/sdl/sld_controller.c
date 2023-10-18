@@ -14,6 +14,7 @@
 #include "in/sdl/pages/map/sdl_map_page.h"
 #include "in/sdl/pages/fight/sdl_fight_page.h"
 #include "in/sdl/pages/pages.h"
+#include "port/out/log/log_info.h"
 
 #define MILLISECONDS 1000
 
@@ -44,6 +45,8 @@ bool event_is_handled(SDL_Event event);
 
 SDL_IHM update_ihm(SDL_IHM ihm);
 
+static int resizing_event_watcher(void *data, SDL_Event *event);
+
 void start_ihm() {
     InitResult init_result = init();
     if (!init_result.is_success) return;
@@ -57,9 +60,10 @@ void start_ihm() {
 void start_event_loop(SDL_IHM ihm, uint16_t FPS) {
     SDL_Event e;
     bool app_is_running = true;
+    SDL_AddEventWatch(resizing_event_watcher, &ihm);
     while (app_is_running) {
         if (SDL_PollEvent(&e) != 0) {
-            if(event_is_handled(e)) ihm = handle_event(e, ihm);
+            if (event_is_handled(e)) ihm = handle_event(e, ihm);
         }
         if (e.type == SDL_QUIT) app_is_running = false;
         ihm = update_ihm(ihm);
@@ -73,7 +77,9 @@ bool event_is_handled(SDL_Event event) {
     switch (type) {
         case SDL_MOUSEMOTION:
         case SDL_MOUSEBUTTONDOWN:
-        case SDL_MOUSEBUTTONUP: return true;
+        case SDL_WINDOWEVENT:
+        case SDL_MOUSEBUTTONUP:
+            return true;
         default:
             return false;
     }
@@ -90,9 +96,12 @@ void draw(SDL_IHM ihm) {
 
 SDL_IHM update_ihm(SDL_IHM ihm) {
     switch (ihm.current_page) {
-        case TOWN_PAGE: return update_town_page(ihm);
-        case MAP_PAGE: return ihm;
-        case FIGHT_PAGE: return update_fight_page(ihm);
+        case TOWN_PAGE:
+            return update_town_page(ihm);
+        case MAP_PAGE:
+            return ihm;
+        case FIGHT_PAGE:
+            return update_fight_page(ihm);
         default: {
             log_error("Unknown page [%d]", ihm.current_page);
             return ihm;
@@ -101,11 +110,14 @@ SDL_IHM update_ihm(SDL_IHM ihm) {
 }
 
 void draw_pages(SDL_IHM ihm) {
-    SDL_Renderer* renderer = ihm.renderer;
+    SDL_Renderer *renderer = ihm.renderer;
     switch (ihm.current_page) {
-        case TOWN_PAGE: return draw_town_window(renderer, ihm.page.town);
-        case MAP_PAGE: return draw_map_page(renderer, ihm.page.map);
-        case FIGHT_PAGE: return draw_fight_page(renderer, ihm.page.fight, ihm);
+        case TOWN_PAGE:
+            return draw_town_window(renderer, ihm.page.town);
+        case MAP_PAGE:
+            return draw_map_page(renderer, ihm.page.map);
+        case FIGHT_PAGE:
+            return draw_fight_page(renderer, ihm.page.fight, ihm);
         default: {
             log_error("Unknown page [%d]", ihm.current_page);
             return;
@@ -119,7 +131,7 @@ InitResult init() {
         return (InitResult) {false};
     }
 
-    if(!(IMG_Init( IMG_INIT_PNG ) & IMG_INIT_PNG)) {
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         log_error("IMG_Init Error: %s", IMG_GetError());
         return (InitResult) {false};
     }
@@ -137,12 +149,12 @@ InitResult init() {
     SDL_Window *window = SDL_CreateWindow("DoomDepths", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
                                           SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
-    SDL_SetWindowMinimumSize(window, SCREEN_WIDTH, SCREEN_HEIGHT);
-    SDL_SetWindowResizable(window, SDL_TRUE);
     if (window == NULL) {
         log_error("SDL_CreateWindow Error: %s", SDL_GetError());
         return (InitResult) {false};
     }
+    SDL_SetWindowMinimumSize(window, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_SetWindowResizable(window, SDL_TRUE);
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == NULL) {
@@ -172,13 +184,27 @@ void close_sdl(SDL_IHM ihm) {
 }
 
 SDL_IHM handle_event(SDL_Event e, SDL_IHM ihm) {
+    if (e.type == SDL_WINDOWEVENT) {
+    }
     switch (ihm.current_page) {
-        case TOWN_PAGE: return town_handle_event(e, ihm);
-        case MAP_PAGE: return map_page_handle_event(e, ihm);
-        case FIGHT_PAGE: return fight_page_handle_event(e, ihm);
+        case TOWN_PAGE:
+            return town_handle_event(e, ihm);
+        case MAP_PAGE:
+            return map_page_handle_event(e, ihm);
+        case FIGHT_PAGE:
+            return fight_page_handle_event(e, ihm);
         default: {
             log_error("Unknown page [%d]", ihm.current_page);
             return ihm;
         }
     }
+}
+
+static int resizing_event_watcher(void *data, SDL_Event *event) {
+    SDL_IHM *ihm = (SDL_IHM *) data;
+    if (event->type == SDL_WINDOWEVENT && event->window.event == SDL_WINDOWEVENT_RESIZED) {
+        ihm->page = update_ihm(*ihm).page;
+        draw(*ihm);
+    }
+    return 0;
 }
