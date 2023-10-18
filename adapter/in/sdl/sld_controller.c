@@ -28,6 +28,8 @@ struct InitResult {
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 840;
 
+const int FPS = 32;
+
 
 InitResult init();
 
@@ -52,12 +54,12 @@ void start_ihm() {
     if (!init_result.is_success) return;
 
     SDL_IHM ihm = init_result.ihm;
-    start_event_loop(ihm, 32);
+    start_event_loop(ihm, FPS);
 
     close_sdl(ihm);
 }
 
-void start_event_loop(SDL_IHM ihm, uint16_t FPS) {
+void start_event_loop(SDL_IHM ihm, uint16_t fps) {
     SDL_Event e;
     bool app_is_running = true;
     SDL_AddEventWatch(resizing_event_watcher, &ihm);
@@ -68,7 +70,7 @@ void start_event_loop(SDL_IHM ihm, uint16_t FPS) {
         if (e.type == SDL_QUIT) app_is_running = false;
         ihm = update_ihm(ihm);
         draw(ihm);
-        SDL_Delay(MILLISECONDS / FPS);
+        SDL_Delay(MILLISECONDS / fps);
     }
 }
 
@@ -146,9 +148,14 @@ InitResult init() {
         return (InitResult) {false};
     }
 
-    SDL_Window *window = SDL_CreateWindow("DoomDepths", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
-                                          SCREEN_HEIGHT,
-                                          SDL_WINDOW_SHOWN);
+    SDL_Window *window = SDL_CreateWindow(
+            "DoomDepths",
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            SDL_WINDOW_SHOWN
+            );
     if (window == NULL) {
         log_error("SDL_CreateWindow Error: %s", SDL_GetError());
         return (InitResult) {false};

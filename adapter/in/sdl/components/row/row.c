@@ -35,6 +35,27 @@ Row create_row(int length, ...) {
     return row;
 }
 
+Row create_row_with_indexes(int length, ...) {
+    Row row;
+    row.length = length;
+    row.cells = malloc(sizeof(RowCell) * length);
+    row.spacing = 0;
+    row.rect = (SDL_Rect) {.x = 0, .y = 0, .w = 0, .h = 0};
+
+    va_list args;
+    va_start(args, length);
+    for (int i = 0; i < length; ++i) {
+        int index = va_arg(args, int);
+        row.cells[index] = cell_by_type(va_arg(args, CellType), (Cell){.button = va_arg(args, Button)});
+        int cell_height = get_cell_height(row.cells[index]);
+        if(cell_height > row.rect.h) row.rect.h = cell_height;
+        row.rect.w += get_cell_width(row.cells[index]);
+    }
+    va_end(args);
+
+    return row;
+}
+
 RowCell cell_by_type(CellType cellType, Cell cell) {
     switch (cellType) {
         case BUTTON: return (RowCell) {.cellType = BUTTON, .cell.button = cell.button};
@@ -65,45 +86,6 @@ int get_cell_height(RowCell param) {
             return 0;
         }
     }
-}
-
-Row push_cell(Row row, RowCell cell) {
-    Row new_row;
-    new_row.length = row.length + 1;
-    new_row.cells = malloc(sizeof(RowCell) * new_row.length);
-
-    for (int i = 0; i < row.length; ++i) {
-        new_row.cells[i] = row.cells[i];
-    }
-    new_row.cells[row.length] = cell;
-
-    int cell_height = get_cell_height(cell);
-    if(cell_height > new_row.rect.h) new_row.rect.h = cell_height;
-    new_row.rect.w += get_cell_width(cell);
-
-    return new_row;
-}
-
-Row push_n_cells(Row row, int n, ...) {
-    Row new_row;
-    new_row.length = row.length + n;
-    new_row.cells = malloc(sizeof(RowCell) * new_row.length);
-
-    for (int i = 0; i < row.length; ++i) {
-        new_row.cells[i] = row.cells[i];
-    }
-
-    va_list args;
-    va_start(args, n);
-    for (int i = 0; i < n; ++i) {
-        new_row.cells[row.length + i] = va_arg(args, RowCell);
-        int cell_height = get_cell_height(row.cells[i]);
-        if(cell_height > new_row.rect.h) new_row.rect.h = cell_height;
-        row.rect.w += get_cell_width(row.cells[i]);
-    }
-    va_end(args);
-
-    return new_row;
 }
 
 

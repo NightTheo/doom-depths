@@ -11,9 +11,12 @@
  * [ ] specials traits in each zone
  * [ ] Write beautiful readme
  * [ ] parser JSON ? yeah
- * [ ] display stuff without log
+ * [ ] cli: display stuff without log
  * [ ] Boosted CLI
  * [ ] inventory in Union, not allocated
+ *
+ * SDL
+ * [ ] navigate by TAB & ENTER
  *
  * THEN
  * [ ] Tests

@@ -21,7 +21,7 @@ ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPa
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
     ButtonColor color = button_color(
-            get_color(SDL_RED),
+            get_color(SDL_DARK_RED),
             get_color(SDL_DARK_RED),
             get_color(SDL_RED),
             get_color(SDL_GREY)

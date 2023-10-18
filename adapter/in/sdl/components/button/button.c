@@ -81,7 +81,7 @@ Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize 
         log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
         return button;
     }
-    log_info("Image loaded", img_path);
+    log_info("Image '%s' loaded", img_path);
     return size_button(ihm.window, button);
 }
 

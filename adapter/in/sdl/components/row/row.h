@@ -40,9 +40,7 @@ typedef struct {
 
 Row create_row(int length, ...);
 
-Row push_cell(Row row, RowCell cell);
-
-Row push_n_cells(Row row, int n, ...);
+Row create_row_with_indexes(int length, ...);
 
 Row row_with_row_button_at_index(Row row, Button button, uint16_t index);
 
