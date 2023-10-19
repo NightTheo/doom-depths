@@ -9,16 +9,14 @@
 #include <SDL_render.h>
 #include "player/player.h"
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
+#include "in/sdl/components/animation/animation.h"
 
 typedef struct SDL_IHM SDL_IHM;
 
 typedef struct SdlPlayer {
     Player player;
-    SDL_Texture *texture;
-    SDL_Rect source_sprites_rect;
-    SDL_Rect destination_sprite_rect;
+    Animation animation;
     HealthBar health_bar;
-    uint32_t current_sprite;
 } SdlPlayer;
 
 SdlPlayer update_sld_fight_player(SdlPlayer player);

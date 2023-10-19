@@ -36,7 +36,7 @@ struct Button{
     bool is_enabled;
 };
 
-ButtonColor button_color(SDL_Color current, SDL_Color background, SDL_Color hover, SDL_Color disabled);
+ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabled);
 
 void draw_button(SDL_Renderer *renderer, Button button);
 

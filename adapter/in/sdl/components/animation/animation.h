@@ -10,10 +10,13 @@
 
 typedef struct {
     SpriteSheet sprite_sheet;
-    SDL_Rect rect;
+    SDL_Rect sprite_rect;
+    SDL_Rect screen_rect;
     uint16_t start_frame;
     uint16_t number_of_frames;
     uint16_t current_frame;
 } Animation;
+
+Animation next_frame(Animation animation);
 
 #endif //DOOMDEPTHS_ANIMATION_H

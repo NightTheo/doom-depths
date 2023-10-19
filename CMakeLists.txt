@@ -148,6 +148,8 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/fight/sdl_player/sdl_player.h
         adapter/in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.c
         adapter/in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.h
+        adapter/in/sdl/components/event/event.c
+        adapter/in/sdl/components/event/event.h
         #adapter/in/cli/cli_controller.c
 )
 

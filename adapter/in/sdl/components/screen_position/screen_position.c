@@ -91,7 +91,7 @@ Row position_row(PositionInScreen position, Row row, SDL_Rect zone) {
 RowCell position_row_cell_at_index(Row row, int index) {
     if (index >= row.length) {
         log_error("Index out of bounds [%d] in row (length = %d)", index, row.length);
-        return (RowCell) {.cellType = NO_CELL};
+        return (RowCell) {.cellType = CELL_ERROR};
     }
     int x = row.rect.x;
     for (int i = 0; i < index; i++) {
@@ -104,7 +104,7 @@ RowCell position_row_cell_at_index(Row row, int index) {
 
 RowCell set_row_cell_rect(RowCell cell, UpdateRect rect) {
     switch (cell.cellType) {
-        case NO_CELL:
+        case CELL_ERROR:
             return cell;
         case BUTTON: {
             cell.cell.button.button_rect = update_rect(cell.cell.button.button_rect, rect);

@@ -7,8 +7,10 @@
 #ifndef DOOMDEPTHS_BUTTON_EVENTS_H
 #define DOOMDEPTHS_BUTTON_EVENTS_H
 
+#include "in/sdl/sdl_controller.h"
+
 typedef enum {
-    EVENT_NOT_HANDLED,
+    BUTTON_EVENT_NOT_HANDLED,
     BUTTON_CLICKED,
     BUTTON_HOVERED,
     BUTTON_UNHOVERED
@@ -23,7 +25,7 @@ typedef struct ButtonEvent {
 
 ButtonEvent button_clicked(SDL_IHM ihm, Button button);
 
-ButtonEvent event_not_handled(SDL_IHM ihm, Button button);
+ButtonEvent button_event_not_handled(SDL_IHM ihm, Button button);
 
 ButtonEvent button_hovered(SDL_IHM ihm, Button button);
 

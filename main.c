@@ -16,7 +16,8 @@
  * [ ] inventory in Union, not allocated
  *
  * SDL
- * [ ] navigate by TAB & ENTER
+ * [ ] navigate by TAB & ENTER (bool is_selected in button, selected_color)
+ * [ ] bug fight page : at first event (mouse move) buttons row shift to the right
  *
  * THEN
  * [ ] Tests

@@ -36,7 +36,6 @@ Button style_button_in_zone(SdlZone zone, Map map) {
             ButtonColor color = button_color(
                     get_color(SDL_GREEN),
                     get_color(SDL_GREEN),
-                    get_color(SDL_GREEN),
                     get_color(SDL_GREEN)
             );
             return color_button(
@@ -55,7 +54,7 @@ Button style_button_in_zone(SdlZone zone, Map map) {
 
 Button accessible_button(Button button) {
     SDL_Color white = get_color(SDL_WHITE);
-    ButtonColor color = button_color(white,white,get_color(SDL_GREY),white);
+    ButtonColor color = button_color(white, get_color(SDL_GREY), white);
     return color_button(
             color,
             button
@@ -64,7 +63,7 @@ Button accessible_button(Button button) {
 
 Button not_accessible_button(Button button) {
     SDL_Color grey = get_color(SDL_GREY);
-    ButtonColor color = button_color(grey,grey,grey,grey);
+    ButtonColor color = button_color(grey, grey, grey);
     return color_button(
             color,
             button

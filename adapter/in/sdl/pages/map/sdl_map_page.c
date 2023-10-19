@@ -3,7 +3,6 @@
 // Created by Theo OMNES on 10/10/2023.
 //
 
-#include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/button/button_events/button_events.h"
 #include "in/sdl/components/point/point.h"
 #include "sdl_map_page.h"
@@ -89,7 +88,7 @@ void draw_zone(SDL_Renderer *renderer, SdlZone zone) {
 ButtonEvent click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
     if(param.param_type != POSITION) {
         log_error("Illegal param type [%d]", param.param_type);
-        return event_not_handled(ihm, ihm.page.map.grid[0][0].button);
+        return button_event_not_handled(ihm, ihm.page.map.grid[0][0].button);
     }
     char* p = position_to_string(param.data.position);
     log_info("clicked on zone %s", p);
@@ -103,6 +102,7 @@ ButtonEvent click_zone(SDL_IHM ihm, ButtonCallbackParam param) {
 SDL_IHM enter_fight_page(SDL_IHM ihm) {
     ihm.current_page = FIGHT_PAGE;
     ihm.page.fight = fill_fight_page(ihm);
+    ihm = update_fight_page(ihm);
     return ihm;
 }
 

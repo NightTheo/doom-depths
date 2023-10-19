@@ -6,7 +6,6 @@
 #include "SDL2/SDL.h"
 #include "sdl_town_controller.h"
 #include "in/sdl/components/point/point.h"
-#include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/color/sdl_color.h"
 #include "port/out/log/log_info.h"
 #include "in/sdl/components/button/button_events/button_events.h"
@@ -21,7 +20,6 @@ ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPa
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow w;
     ButtonColor color = button_color(
-            get_color(SDL_DARK_RED),
             get_color(SDL_DARK_RED),
             get_color(SDL_RED),
             get_color(SDL_GREY)
@@ -78,7 +76,7 @@ SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
     return ihm;
 }
 
-SDL_IHM update_town_page(SDL_IHM ihm) {
+SDL_IHM update_style_town_page(SDL_IHM ihm) {
     ihm.page.town.newRunButton = size_button(ihm.window, ihm.page.town.newRunButton);
     ihm.page.town.continueButton = size_button(ihm.window, ihm.page.town.continueButton);
     return ihm;

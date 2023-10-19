@@ -33,11 +33,11 @@ ButtonEvent button_unhovered(SDL_IHM ihm, Button button) {
     return e;
 }
 
-ButtonEvent event_not_handled(SDL_IHM ihm, Button button) {
+ButtonEvent button_event_not_handled(SDL_IHM ihm, Button button) {
     ButtonEvent e = {
             .ihm = ihm,
             .button = button,
-            .type = EVENT_NOT_HANDLED,
+            .type = BUTTON_EVENT_NOT_HANDLED,
     };
     return e;
 }

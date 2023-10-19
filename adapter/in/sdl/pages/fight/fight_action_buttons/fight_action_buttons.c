@@ -69,7 +69,6 @@ Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
 
     ButtonColor color = button_color(
             get_color(SDL_DARK_RED),
-            get_color(SDL_DARK_RED),
             get_color(SDL_RED),
             get_color(SDL_GREY)
     );
@@ -95,7 +94,6 @@ Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
     );
 
     ButtonColor color = button_color(
-            get_color(SDL_DARK_RED),
             get_color(SDL_DARK_RED),
             get_color(SDL_RED),
             get_color(SDL_GREY)
@@ -123,7 +121,6 @@ Button fill_potion_button(SDL_IHM ihm, ButtonSize size) {
 
     ButtonColor color = button_color(
             get_color(SDL_DARK_RED),
-            get_color(SDL_DARK_RED),
             get_color(SDL_RED),
             get_color(SDL_GREY)
     );
@@ -137,16 +134,10 @@ Button fill_potion_button(SDL_IHM ihm, ButtonSize size) {
 }
 
 void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm) {
-    // TODO draw row !
-    Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
-    Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, END_TURN_BUTTON).cell.button;
-    Button potion_button = get_button_in_row_at_index(ihm.page.fight.buttons, POTION_BUTTON).cell.button;
-    draw_button(renderer, attack_button);
-    draw_button(renderer, end_turn_button);
-    draw_button(renderer, potion_button);
+    draw_row(renderer, ihm.page.fight.buttons);
 }
 
-Row update_fight_action_buttons(FightPage fight) {
+Row update_style_of_fight_action_buttons(FightPage fight) {
     fight.buttons = row_with_row_button_at_index(fight.buttons, update_attack_button(fight), ATTACK_BUTTON);
     fight.buttons = row_with_row_button_at_index(fight.buttons, update_end_turn_button(fight), END_TURN_BUTTON);
     fight.buttons = row_with_row_button_at_index(fight.buttons, update_potion_button(fight), POTION_BUTTON);
@@ -176,28 +167,14 @@ Button update_potion_button(FightPage fight) {
 }
 
 SDL_IHM fight_action_buttons_handle_event(SDL_Event event, SDL_IHM ihm) {
-    Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
-    ButtonEvent attack_event = button_handle_event(ihm, event, attack_button);
-    ihm = attack_event.ihm;
-    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, attack_event.button, ATTACK_BUTTON);
-
-    Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, END_TURN_BUTTON).cell.button;
-    ButtonEvent end_turn_event = button_handle_event(ihm, event, end_turn_button);
-    ihm = end_turn_event.ihm;
-    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, end_turn_event.button, END_TURN_BUTTON);
-
-    Button potion_button = get_button_in_row_at_index(ihm.page.fight.buttons, POTION_BUTTON).cell.button;
-    ButtonEvent potion_event = button_handle_event(ihm, event, potion_button);
-    ihm = potion_event.ihm;
-    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, potion_event.button, POTION_BUTTON);
-
+    ihm.page.fight.buttons = row_handle_event(event, ihm, ihm.page.fight.buttons);
     return ihm;
 }
 
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("clicked on attack");
     attack_with_weapon();
-    ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
     if (current_fight_is_finished()) {
         return finish_fight(ihm, attack_button);
@@ -210,7 +187,7 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
     log_info("clicked on end turn");
     end_round();
     start_new_round();
-    ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, END_TURN_BUTTON).cell.button;
 
     if (current_fight_is_finished()) {
@@ -223,7 +200,7 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
 ButtonEvent on_click_potion(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {
     log_info("clicked on potion");
 
-    ihm.page.fight = update_sld_fight_page(ihm.page.fight);
+    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     Button potion = get_button_in_row_at_index(ihm.page.fight.buttons, POTION_BUTTON).cell.button;
 
     return button_clicked(ihm, potion);

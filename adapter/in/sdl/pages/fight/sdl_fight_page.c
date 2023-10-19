@@ -23,10 +23,6 @@
 
 FightPage fill_fight_buttons(SDL_IHM ihm);
 
-FightPage update_sld_fight_page(FightPage fight);
-
-ButtonEvent finish_fight(SDL_IHM ihm, Button button);
-
 
 
 FightPage fill_fight_page(SDL_IHM ihm) {
@@ -40,11 +36,10 @@ FightPage fill_fight_page(SDL_IHM ihm) {
     return fight;
 }
 
-FightPage update_sld_fight_page(FightPage fight) {
+FightPage update_state_of_fight_page(FightPage fight) {
     fight.fight = get_current_fight();
-    log_player(fight.fight.player);
     fight.player = update_sld_fight_player(fight.player);
-    fight.buttons = update_fight_action_buttons(fight);
+    fight.buttons = update_style_of_fight_action_buttons(fight);
     return fight;
 }
 
@@ -60,8 +55,7 @@ SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
     FightPage page = ihm.page.fight;
-    page.player.current_sprite += 1;
-    if(page.player.current_sprite > 1000 ) page.player.current_sprite = 0;
+    page.player.animation = next_frame(page.player.animation);
 
     SDL_Rect safe_area = default_safe_area(window_rect(ihm.window));
     page.buttons = update_row_position_in_zone(page.buttons, safe_area);

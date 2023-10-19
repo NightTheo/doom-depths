@@ -10,12 +10,17 @@
 #include "in/sdl/components/button/button.h"
 
 typedef enum {
-    NO_CELL,
+    CELL_ERROR,
     BUTTON,
 } CellType;
 
+typedef struct {
+    const char *message;
+} CellError;
+
 typedef union {
     Button button;
+    CellError error;
 } Cell;
 
 typedef struct {
@@ -38,13 +43,11 @@ typedef struct {
     int *h;
 } UpdateRect;
 
-Row create_row(int length, ...);
-
 Row create_row_with_indexes(int length, ...);
 
 Row row_with_row_button_at_index(Row row, Button button, uint16_t index);
 
-RowCell cell_by_type(CellType cellType, Cell cell);
+RowCell row_cell_by_type(CellType cellType, Button cell);
 
 RowCell get_button_in_row_at_index(Row row, uint16_t index);
 
@@ -55,5 +58,9 @@ Row position_row(PositionInScreen position, Row row, SDL_Rect zone);
 Row spacing_row(uint8_t spacing, Row row);
 
 Row update_row_position_in_zone(Row row, SDL_Rect zone);
+
+void draw_row(SDL_Renderer *renderer, Row row);
+
+Row row_handle_event(SDL_Event event, SDL_IHM ihm, Row row);
 
 #endif //DOOMDEPTHS_ROW_H

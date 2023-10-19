@@ -3,18 +3,15 @@
 // Created by Theo OMNES on 05/10/2023.
 //
 
-
+#include "sdl_controller.h"
 #include <application/port/in/command/start_ihm.h>
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_ttf.h>
 #include <SDL_image.h>
 
-#include "sdl_controller.h"
 #include "port/out/log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
-#include "in/sdl/pages/fight/sdl_fight_page.h"
 #include "in/sdl/pages/pages.h"
-#include "port/out/log/log_info.h"
 
 #define MILLISECONDS 1000
 
@@ -99,7 +96,7 @@ void draw(SDL_IHM ihm) {
 SDL_IHM update_ihm(SDL_IHM ihm) {
     switch (ihm.current_page) {
         case TOWN_PAGE:
-            return update_town_page(ihm);
+            return update_style_town_page(ihm);
         case MAP_PAGE:
             return ihm;
         case FIGHT_PAGE:

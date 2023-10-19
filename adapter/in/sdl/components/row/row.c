@@ -7,33 +7,22 @@
 #include "port/out/log/log_error.h"
 #include "port/out/log/log_info.h"
 
+#include "in/sdl/sdl_controller.h"
+#include "in/sdl/components/event/event.h"
+
 int get_cell_height(RowCell param);
 
-RowCell cell_by_type(CellType cellType, Cell cell);
+RowCell row_cell_by_type(CellType cellType, Button cell);
 
 Row update_row_rect(Row row);
 
 RowCell button_row_cell(Button button);
 
-Row create_row(int length, ...) {
-    Row row;
-    row.length = length;
-    row.cells = malloc(sizeof(RowCell) * length);
-    row.spacing = 0;
-    row.rect = (SDL_Rect) {.x = 0, .y = 0, .w = 0, .h = 0};
+void draw_row_cell(RowCell cell, SDL_Renderer *renderer);
 
-    va_list args;
-    va_start(args, length);
-    for (int i = 0; i < length; ++i) {
-        row.cells[i] = cell_by_type(va_arg(args, CellType), (Cell){.button = va_arg(args, Button)});
-        int cell_height = get_cell_height(row.cells[i]);
-        if(cell_height > row.rect.h) row.rect.h = cell_height;
-        row.rect.w += get_cell_width(row.cells[i]);
-    }
-    va_end(args);
+ButtonEvent cell_handle_event(SDL_IHM ihm, SDL_Event event, RowCell cell);
 
-    return row;
-}
+Row row_with_cell_at_index(Row row, RowCell cell, int index);
 
 Row create_row_with_indexes(int length, ...) {
     Row row;
@@ -46,7 +35,7 @@ Row create_row_with_indexes(int length, ...) {
     va_start(args, length);
     for (int i = 0; i < length; ++i) {
         int index = va_arg(args, int);
-        row.cells[index] = cell_by_type(va_arg(args, CellType), (Cell){.button = va_arg(args, Button)});
+        row.cells[index] = row_cell_by_type(va_arg(args, CellType), va_arg(args, Button));
         int cell_height = get_cell_height(row.cells[index]);
         if(cell_height > row.rect.h) row.rect.h = cell_height;
         row.rect.w += get_cell_width(row.cells[index]);
@@ -56,11 +45,21 @@ Row create_row_with_indexes(int length, ...) {
     return row;
 }
 
-RowCell cell_by_type(CellType cellType, Cell cell) {
+Cell cell_by_type(CellType cellType, void* data) {
     switch (cellType) {
-        case BUTTON: return (RowCell) {.cellType = BUTTON, .cell.button = cell.button};
+        case BUTTON: return (Cell) {.button = *((Button*) data)};
         default: {
             log_error("cell_by_type: unknown cell type [%d]", cellType);
+            return (Cell) {.error = {.message = "Unknown cell type"}};
+        }
+    }
+}
+
+RowCell row_cell_by_type(CellType cellType, Button cell) {
+    switch (cellType) {
+        case BUTTON: return (RowCell) {.cellType = cellType, .cell.button = cell};
+        default: {
+            log_error("row_cell_by_type: unknown cell type [%d]", cellType);
             return (RowCell) {.cellType = BUTTON, .cell = cell};
         }
     }
@@ -118,7 +117,7 @@ Row update_row_rect(Row row) {
 RowCell get_button_in_row_at_index(Row row, uint16_t index) {
     RowCell cell = row.cells[index];
     if(cell.cellType != BUTTON) {
-        return (RowCell) {.cellType = NO_CELL};
+        return (RowCell) {.cellType = CELL_ERROR};
     }
     return cell;
 }
@@ -132,4 +131,54 @@ Row spacing_row(uint8_t spacing, Row row) {
 
 Row update_row_position_in_zone(Row row, SDL_Rect zone) {
     return position_row(row.position, row, zone);
+}
+
+void draw_row(SDL_Renderer *renderer, Row row) {
+    for(int i = 0; i < row.length; i++) {
+        draw_row_cell(get_button_in_row_at_index(row, i), renderer);
+    }
+}
+
+void draw_row_cell(RowCell cell, SDL_Renderer *renderer) {
+    switch (cell.cellType) {
+        case BUTTON: {
+            draw_button(renderer, cell.cell.button);
+            break;
+        }
+        default: {
+            log_error("draw_row: unknown cell type [%d]", cell.cellType);
+        }
+    }
+}
+
+Row row_handle_event(SDL_Event event, SDL_IHM ihm, Row row) {
+    for(int i = 0; i < ihm.page.fight.buttons.length; i++) {
+        RowCell row_cell = row.cells[i];
+        ButtonEvent e = cell_handle_event(ihm, event, row_cell);
+        ihm = e.ihm;
+        row_cell = row_cell_by_type(row_cell.cellType, e.button);
+        row = row_with_cell_at_index(row, row_cell, i);
+    }
+    return row;
+}
+
+Row row_with_cell_at_index(Row row, RowCell cell, int index) {
+    if(index >= row.length) {
+        log_error("row_with_row_button_at_index: index [%d] out of bounds", index);
+        return row;
+    }
+    row.cells[index] = cell;
+    return update_row_rect(row);
+}
+
+// TODO Generify events
+ButtonEvent cell_handle_event(SDL_IHM ihm, SDL_Event event, RowCell cell) {
+    switch (cell.cellType) {
+        case CELL_ERROR: return button_event_not_handled(ihm, cell.cell.button);
+        case BUTTON: return button_handle_event(ihm, event, cell.cell.button);
+        default: {
+            log_error("cell_handle_event: unknown cell type [%d]", cell.cellType);
+            return button_event_not_handled(ihm, cell.cell.button);
+        }
+    }
 }

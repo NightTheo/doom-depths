@@ -9,6 +9,8 @@
 #include "port/out/log/log_error.h"
 #include "in/sdl/sdl_controller.h"
 
+SpriteSheet player_sprite_sheet(SDL_Renderer *renderer);
+
 
 SdlPlayer update_sld_fight_player(SdlPlayer player) {
     player.player = get_player();
@@ -17,35 +19,55 @@ SdlPlayer update_sld_fight_player(SdlPlayer player) {
 }
 
 SdlPlayer fill_fight_player(SDL_Renderer *renderer) {
-    int size = 32;
+    int sprite_size = 32;
+    int sprite_size_in_screen = sprite_size * 5;
+    Animation animation = {
+            .sprite_rect = (SDL_Rect) {.w = sprite_size, .h = sprite_size, .x = 0, .y = 0},
+            .screen_rect = (SDL_Rect) {.w = sprite_size_in_screen, .h = sprite_size_in_screen, .x = 10, .y = 100},
+            .current_frame = 0,
+            .number_of_frames = 10,
+            .start_frame = 0,
+            .sprite_sheet = player_sprite_sheet(renderer),
+    };
     SdlPlayer player = {
             .player = get_player(),
-            .source_sprites_rect = {.w = 32, .h = 32, .x = 0, .y = 0},
-            .destination_sprite_rect = {.w = size * 5, .h = size * 5, .x = 10, .y = 100},
-            .current_sprite = 0,
+            .animation = animation,
             .health_bar = {
                     .health_color = get_color(SDL_GREEN),
                     .max_health = player.player.max_health,
                     .current_health = player.player.max_health,
             },
     };
-    player.texture = IMG_LoadTexture(renderer, "resources/assets/player.png");
-    if(player.texture == NULL) {
-        log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
-        return player;
-    }
     return player;
 }
 
 void draw_player(SDL_Renderer *renderer, SdlPlayer player, SDL_IHM ihm) {
-    player.source_sprites_rect.x = 32 * ((player.current_sprite / 16) % 10);
-    SDL_RenderCopy(renderer, player.texture, &player.source_sprites_rect, &player.destination_sprite_rect);
+    Animation animation = player.animation;
+    SDL_RenderCopy(
+            renderer,
+            animation.sprite_sheet.texture,
+            &animation.sprite_rect,
+            &animation.screen_rect
+            );
     player.health_bar.current_health = player.player.current_health;
     player.health_bar.rect = (SDL_Rect){
-            .w = player.destination_sprite_rect.w,
+            .w = player.animation.screen_rect.w,
             .h = 15,
-            .x = player.destination_sprite_rect.x,
-            .y = player.destination_sprite_rect.y - 20,
+            .x = player.animation.screen_rect.x,
+            .y = player.animation.screen_rect.y - 20,
     };
     draw_health_bar(renderer, player.health_bar, ihm.font);
+}
+
+SpriteSheet player_sprite_sheet(SDL_Renderer *renderer) {
+    SpriteSheet sprite_sheet = {
+            .texture = IMG_LoadTexture(renderer, "resources/assets/player.png"),
+            .rows = 1,
+            .columns = 10,
+    };
+    if(sprite_sheet.texture == NULL) {
+        log_error("IMG_LoadTexture Error: %s.", IMG_GetError());
+        return sprite_sheet;
+    }
+    return sprite_sheet;
 }

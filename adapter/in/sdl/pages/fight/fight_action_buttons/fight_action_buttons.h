@@ -18,7 +18,7 @@ Button fill_potion_button(SDL_IHM ihm, ButtonSize size);
 
 void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm);
 
-Row update_fight_action_buttons(FightPage fight);
+Row update_style_of_fight_action_buttons(FightPage fight);
 
 SDL_IHM fight_action_buttons_handle_event(SDL_Event event, SDL_IHM ihm);
 
