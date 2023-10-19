@@ -86,7 +86,7 @@ Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize 
 
 void draw_button(SDL_Renderer *renderer, Button button) {
     if (button.state == BUTTON_HIDEN) return;
-    SDL_Color color = button.color.current;
+    SDL_Color color = get_button_color_to_draw(button);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     if(button.border_radius == 0) SDL_RenderFillRect(renderer, &button.button_rect);
     else draw_rounded_rect(renderer, button.button_rect, button.border_radius);
@@ -151,19 +151,14 @@ ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button) {
 
     Point mouse_at = {event.button.x, event.button.y};
     if (button_at_point(button, mouse_at)) {
-        return button_hovered(ihm, current_background_color_button(button.color.hover, button));
+        return button_hovered(ihm, select_button(button));
     } else {
-        return button_unhovered(ihm, current_background_color_button(button.color.background, button));
+        return button_unhovered(ihm, select_button(button));
     }
 }
 
 bool state_can_handle_event(ButtonState state) {
     return state != BUTTON_DISABLED && state != BUTTON_HIDEN;
-}
-
-Button current_background_color_button(SDL_Color color, Button button) {
-    button.color.current = color;
-    return button;
 }
 
 ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
@@ -189,9 +184,8 @@ bool button_at_point(Button button, Point point) {
 
 ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabled) {
     ButtonColor color = {
-            .current = background,
             .background = background,
-            .hover = hover,
+            .selected = hover,
             .disabled = disabled,
     };
     return color;
@@ -199,17 +193,33 @@ ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabl
 
 Button disable_button(Button button) {
     button.state = BUTTON_DISABLED;
-    button.color.current = button.color.disabled;
     return button;
 }
 
 Button enable_button(Button button) {
     button.state = BUTTON_NORMAL;
-    button.color.current = button.color.background;
+    return button;
+}
+
+Button select_button(Button button) {
+    button.state = BUTTON_SELECTED;
     return button;
 }
 
 Button border_radius_button(uint8_t radius, Button button) {
     button.border_radius = radius;
     return button;
+}
+
+SDL_Color get_button_color_to_draw(Button button) {
+    switch (button.state) {
+        case BUTTON_NORMAL: return button.color.background;
+        case BUTTON_SELECTED: return button.color.selected;
+        case BUTTON_DISABLED: return button.color.disabled;
+        case BUTTON_HIDEN: return get_color(SDL_TRANSPARENT);
+        default: {
+            log_error("Unknown button state %d", button.state);
+            return button.color.background;
+        }
+    }
 }

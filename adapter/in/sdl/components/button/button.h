@@ -23,9 +23,8 @@ typedef enum {
 
 typedef struct ButtonEvent ButtonEvent;
 typedef struct {
-    SDL_Color current;
     SDL_Color background;
-    SDL_Color hover;
+    SDL_Color selected;
     SDL_Color disabled;
 } ButtonColor;
 
@@ -62,6 +61,10 @@ Button disable_button(Button button);
 
 Button enable_button(Button button);
 
+Button select_button(Button button);
+
 Button border_radius_button(uint8_t radius, Button button);
+
+SDL_Color get_button_color_to_draw(Button button);
 
 #endif //DOOMDEPTHS_BUTTON_H
