@@ -14,6 +14,13 @@
 #include "in/sdl/components/point/point.h"
 #include "in/sdl/components/screen_position/screen_position.h"
 
+typedef enum {
+    BUTTON_NORMAL,
+    BUTTON_SELECTED,
+    BUTTON_DISABLED,
+    BUTTON_HIDEN,
+} ButtonState;
+
 typedef struct ButtonEvent ButtonEvent;
 typedef struct {
     SDL_Color current;
@@ -24,7 +31,7 @@ typedef struct {
 
 typedef struct Button Button;
 struct Button{
-    bool is_visible;
+    ButtonState state;
     SDL_Rect button_rect;
     SDL_Rect texture_rect;
     SDL_Texture* texture;
@@ -33,7 +40,6 @@ struct Button{
     ButtonSize size;
     PositionInScreen position;
     uint8_t border_radius;
-    bool is_enabled;
 };
 
 ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabled);

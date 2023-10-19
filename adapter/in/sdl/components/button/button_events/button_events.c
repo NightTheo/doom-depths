@@ -16,6 +16,7 @@ ButtonEvent button_clicked(SDL_IHM ihm, Button button) {
 }
 
 ButtonEvent button_hovered(SDL_IHM ihm, Button button) {
+    button.state = BUTTON_SELECTED;
     ButtonEvent e = {
             .ihm = ihm,
             .button = button,
@@ -25,6 +26,7 @@ ButtonEvent button_hovered(SDL_IHM ihm, Button button) {
 }
 
 ButtonEvent button_unhovered(SDL_IHM ihm, Button button) {
+    button.state = BUTTON_NORMAL;
     ButtonEvent e = {
             .ihm = ihm,
             .button = button,

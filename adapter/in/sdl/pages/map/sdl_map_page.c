@@ -49,7 +49,10 @@ SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
             .button = size_button(ihm.window, create_button(ihm, button_point, size, on_click_zone)),
             .position = position(col, row),
     };
-    z.button.is_visible = z.zone.status != ZONE_EMPTY;
+    bool zone_is_visible = z.zone.status != ZONE_EMPTY;
+    z.button.state = zone_is_visible
+            ? BUTTON_NORMAL
+            : BUTTON_HIDEN;
     z = style_zone(z, map);
     return z;
 }

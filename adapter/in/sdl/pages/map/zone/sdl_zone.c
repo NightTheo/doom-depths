@@ -18,7 +18,7 @@ Button style_button_in_zone(SdlZone zone, Map map);
 SdlZone style_zone(SdlZone zone, Map map) {
     bool zone_is_visible = zone.zone.status != ZONE_EMPTY && can_display_position_in_sdl_map(zone.position, map);
     if (!zone_is_visible) {
-        zone.button.is_visible = false;
+        zone.button.state = BUTTON_HIDEN;
         return zone;
     }
     zone.button = style_button_in_zone(zone, map);

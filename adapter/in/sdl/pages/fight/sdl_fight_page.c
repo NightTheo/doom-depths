@@ -55,6 +55,7 @@ SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
     FightPage page = ihm.page.fight;
+
     page.player.animation = next_frame(page.player.animation);
 
     SDL_Rect safe_area = default_safe_area(window_rect(ihm.window));

@@ -64,7 +64,6 @@ ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPa
 }
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
-    TownWindow t = ihm.page.town;
     ButtonEvent new_run_event = button_handle_event(ihm, event, ihm.page.town.newRunButton);
     ihm = new_run_event.ihm;
     ihm.page.town.newRunButton = new_run_event.button;

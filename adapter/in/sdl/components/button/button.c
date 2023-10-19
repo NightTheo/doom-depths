@@ -28,10 +28,11 @@ void draw_filled_circle(SDL_Renderer *renderer, int x, int y, int radius);
 
 void sdl_ellipse(SDL_Renderer *r, int x0, int y0, int radiusX, int radiusY, bool fill);
 
+bool state_can_handle_event(ButtonState state);
+
 Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback) {
     Button button;
-    button.is_visible = true;
-    button.is_enabled = true;
+    button.state = BUTTON_NORMAL;
     button.button_rect = (SDL_Rect) {.x = p.x, .y = p.y};
     button.border_radius = 0;
 
@@ -84,7 +85,7 @@ Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize 
 }
 
 void draw_button(SDL_Renderer *renderer, Button button) {
-    if (!button.is_visible) return;
+    if (button.state == BUTTON_HIDEN) return;
     SDL_Color color = button.color.current;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     if(button.border_radius == 0) SDL_RenderFillRect(renderer, &button.button_rect);
@@ -145,7 +146,8 @@ ButtonEvent button_handle_event(SDL_IHM ihm, SDL_Event event, Button button) {
 
 ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button) {
     if (event.type != SDL_MOUSEMOTION) return button_event_not_handled(ihm, button);
-    if(!button.is_visible || !button.is_enabled) return button_event_not_handled(ihm, button);
+
+    if(!state_can_handle_event(button.state)) return button_event_not_handled(ihm, button);
 
     Point mouse_at = {event.button.x, event.button.y};
     if (button_at_point(button, mouse_at)) {
@@ -155,6 +157,10 @@ ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button) {
     }
 }
 
+bool state_can_handle_event(ButtonState state) {
+    return state != BUTTON_DISABLED && state != BUTTON_HIDEN;
+}
+
 Button current_background_color_button(SDL_Color color, Button button) {
     button.color.current = color;
     return button;
@@ -162,7 +168,7 @@ Button current_background_color_button(SDL_Color color, Button button) {
 
 ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
     if (event.type != SDL_MOUSEBUTTONUP) return button_event_not_handled(ihm, button);
-    if(!button.is_visible || !button.is_enabled) return button_event_not_handled(ihm, button);
+    if(!state_can_handle_event(button.state)) return button_event_not_handled(ihm, button);
     Point clicked_at = {event.button.x, event.button.y};
     if (!button_at_point(button, clicked_at)) return button_event_not_handled(ihm, button);
 
@@ -175,7 +181,7 @@ ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button) {
 }
 
 bool button_at_point(Button button, Point point) {
-    if (!button.is_visible) return false;
+    if (button.state == BUTTON_HIDEN) return false;
 
     return point.x >= button.button_rect.x && point.x <= button.button_rect.x + button.button_rect.w
            && point.y >= button.button_rect.y && point.y <= button.button_rect.y + button.button_rect.h;
@@ -192,13 +198,13 @@ ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabl
 }
 
 Button disable_button(Button button) {
-    button.is_enabled = false;
+    button.state = BUTTON_DISABLED;
     button.color.current = button.color.disabled;
     return button;
 }
 
 Button enable_button(Button button) {
-    button.is_enabled = true;
+    button.state = BUTTON_NORMAL;
     button.color.current = button.color.background;
     return button;
 }
