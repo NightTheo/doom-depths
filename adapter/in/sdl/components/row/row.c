@@ -12,8 +12,6 @@
 
 int get_cell_height(RowCell param);
 
-RowCell row_cell_by_type(CellType cellType, Button cell);
-
 Row update_row_rect(Row row);
 
 RowCell button_row_cell(Button button);

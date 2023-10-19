@@ -167,7 +167,21 @@ Button update_potion_button(FightPage fight) {
 }
 
 SDL_IHM fight_action_buttons_handle_event(SDL_Event event, SDL_IHM ihm) {
-    ihm.page.fight.buttons = row_handle_event(event, ihm, ihm.page.fight.buttons);
+    Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
+    ButtonEvent attack_event = button_handle_event(ihm, event, attack_button);
+    ihm = attack_event.ihm;
+    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, attack_event.button, ATTACK_BUTTON);
+
+    Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, END_TURN_BUTTON).cell.button;
+    ButtonEvent end_turn_event = button_handle_event(ihm, event, end_turn_button);
+    ihm = end_turn_event.ihm;
+    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, end_turn_event.button, END_TURN_BUTTON);
+
+    Button potion_button = get_button_in_row_at_index(ihm.page.fight.buttons, POTION_BUTTON).cell.button;
+    ButtonEvent potion_event = button_handle_event(ihm, event, potion_button);
+    ihm = potion_event.ihm;
+    ihm.page.fight.buttons = row_with_row_button_at_index(ihm.page.fight.buttons, potion_event.button, POTION_BUTTON);
+
     return ihm;
 }
 
