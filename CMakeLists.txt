@@ -140,6 +140,14 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/components/screen_position/screen_position.h
         adapter/in/sdl/components/row/row.c
         adapter/in/sdl/components/row/row.h
+        adapter/in/sdl/components/sprite_sheet/sprite_sheet.c
+        adapter/in/sdl/components/sprite_sheet/sprite_sheet.h
+        adapter/in/sdl/components/animation/animation.c
+        adapter/in/sdl/components/animation/animation.h
+        adapter/in/sdl/pages/fight/sdl_player/sdl_player.c
+        adapter/in/sdl/pages/fight/sdl_player/sdl_player.h
+        adapter/in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.c
+        adapter/in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.h
         #adapter/in/cli/cli_controller.c
 )
 

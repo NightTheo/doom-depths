@@ -93,14 +93,14 @@ char *player_to_save_string(Player p) {
 
     snprintf(s, WRITE_BUFFER_SIZE,
              "\n@PLAYER@\n"
-             "player.is_empty=%d\n"
-             "player.current_health=%d\n"
-             "player.max_health=%d\n"
-             "player.remaining_number_of_attacks=%d\n"
+             "sdl_player.is_empty=%d\n"
+             "sdl_player.current_health=%d\n"
+             "sdl_player.max_health=%d\n"
+             "sdl_player.remaining_number_of_attacks=%d\n"
              "%s\n"
              "%s\n"
-             "player.max_mana=%d\n"
-             "player.current_mana=%d",
+             "sdl_player.max_mana=%d\n"
+             "sdl_player.current_mana=%d",
              p.is_empty,
              p.current_health,
              p.max_health,
@@ -117,8 +117,8 @@ char *player_to_save_string(Player p) {
 }
 
 char *equipment_to_save_string(Equipment e) {
-    char *weapon_str = weapon_to_save_string_with_prefix(e.weapon, "player.equipment.weapon");
-    char *armor_str = armor_to_save_string_with_prefix(e.armor, "player.equipment.armor");
+    char *weapon_str = weapon_to_save_string_with_prefix(e.weapon, "sdl_player.equipment.weapon");
+    char *armor_str = armor_to_save_string_with_prefix(e.armor, "sdl_player.equipment.armor");
     char *s = malloc(WRITE_BUFFER_SIZE);
     snprintf(s, WRITE_BUFFER_SIZE,
              "%s\n"
@@ -134,9 +134,9 @@ char *equipment_to_save_string(Equipment e) {
 char *inventory_to_save_string(Inventory inventory) {
     char *s = malloc(WRITE_BUFFER_SIZE);
     snprintf(s, WRITE_BUFFER_SIZE,
-             "player.inventory.items_count=%d\n"
-             "player.inventory.capacity=%d\n"
-             "player.inventory.golds=%d\n",
+             "sdl_player.inventory.items_count=%d\n"
+             "sdl_player.inventory.capacity=%d\n"
+             "sdl_player.inventory.golds=%d\n",
              inventory.items_count,
              inventory.capacity,
              inventory.golds
@@ -157,7 +157,7 @@ char *item_to_save_string(InventoryItem item, uint8_t index) {
     const char *type_str = item_type_to_string(item.type);
     char *item_str = item_to_save_string_by_type(item, index);
     snprintf(s, item_buffer_size,
-             "player.inventory.items.%d.type=%s\n"
+             "sdl_player.inventory.items.%d.type=%s\n"
              "%s\n",
              index, type_str,
              item_str);
@@ -183,7 +183,7 @@ const char *item_type_to_string(InventoryItemType type) {
 
 char *item_to_save_string_by_type(InventoryItem item, uint8_t index) {
     char prefix[MAX_LINE_SIZE];
-    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    snprintf(prefix, MAX_LINE_SIZE, "sdl_player.inventory.items.%d.item", index);
     switch (item.type) {
         case EMPTY_ITEM:
             return NULL;

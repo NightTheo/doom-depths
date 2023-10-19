@@ -179,14 +179,14 @@ Position restore_player_position() {
 
 Player restore_player() {
     Player p;
-    p.is_empty = restore_int_by_key("player.is_empty");
-    p.current_health = restore_int_by_key("player.current_health");
-    p.max_health = restore_int_by_key("player.max_health");
-    p.remaining_number_of_attacks = restore_int_by_key("player.remaining_number_of_attacks");
+    p.is_empty = restore_int_by_key("sdl_player.is_empty");
+    p.current_health = restore_int_by_key("sdl_player.current_health");
+    p.max_health = restore_int_by_key("sdl_player.max_health");
+    p.remaining_number_of_attacks = restore_int_by_key("sdl_player.remaining_number_of_attacks");
     p.equipment = restore_equipment();
     p.inventory = restore_inventory();
-    p.max_mana = restore_int_by_key("player.max_mana");
-    p.current_mana = restore_int_by_key("player.current_mana");
+    p.max_mana = restore_int_by_key("sdl_player.max_mana");
+    p.current_mana = restore_int_by_key("sdl_player.current_mana");
     p.grimoire = start_grimoire();
 
     return p;
@@ -201,7 +201,7 @@ Equipment restore_equipment() {
 }
 
 Weapon restore_equipment_weapon() {
-    return restore_weapon_by_prefix_key("player.equipment.weapon");
+    return restore_weapon_by_prefix_key("sdl_player.equipment.weapon");
 }
 
 /**
@@ -221,7 +221,7 @@ Weapon restore_weapon_by_prefix_key(const char *prefix) {
 }
 
 Armor restore_equipment_armor() {
-    return restore_armor_by_prefix_key("player.equipment.armor");
+    return restore_armor_by_prefix_key("sdl_player.equipment.armor");
 }
 
 Armor restore_armor_by_prefix_key(const char *prefix) {
@@ -236,9 +236,9 @@ Armor restore_armor_by_prefix_key(const char *prefix) {
 
 Inventory restore_inventory() {
     Inventory inventory;
-    inventory.items_count = restore_int_by_key("player.inventory.items_count");
-    inventory.capacity = restore_int_by_key("player.inventory.capacity");
-    inventory.golds = restore_int_by_key("player.inventory.golds");
+    inventory.items_count = restore_int_by_key("sdl_player.inventory.items_count");
+    inventory.capacity = restore_int_by_key("sdl_player.inventory.capacity");
+    inventory.golds = restore_int_by_key("sdl_player.inventory.golds");
     inventory.items = malloc(sizeof(InventoryItem) * inventory.capacity);
 
     for (int i = 0; i < inventory.capacity; i++) {
@@ -250,7 +250,7 @@ Inventory restore_inventory() {
 
 InventoryItem restore_inventory_item(uint8_t index) {
     char key[MAX_LINE_SIZE];
-    snprintf(key, MAX_LINE_SIZE, "player.inventory.items.%d.type", index);
+    snprintf(key, MAX_LINE_SIZE, "sdl_player.inventory.items.%d.type", index);
     char *type_str = restore_string_by_key(key);
     if (type_str == NULL) {
         free(type_str);
@@ -283,19 +283,19 @@ void *restore_inventory_item_by_type(InventoryItemType type, uint8_t index) {
 
 Weapon *restore_inventory_weapon_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
-    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    snprintf(prefix, MAX_LINE_SIZE, "sdl_player.inventory.items.%d.item", index);
     return weapon_alloc(restore_weapon_by_prefix_key(prefix));
 }
 
 Armor *restore_inventory_armor_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
-    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    snprintf(prefix, MAX_LINE_SIZE, "sdl_player.inventory.items.%d.item", index);
     return armor_alloc(restore_armor_by_prefix_key(prefix));
 }
 
 ManaPotion *restore_inventory_potion_by_index(uint8_t index) {
     char prefix[MAX_LINE_SIZE];
-    snprintf(prefix, MAX_LINE_SIZE, "player.inventory.items.%d.item", index);
+    snprintf(prefix, MAX_LINE_SIZE, "sdl_player.inventory.items.%d.item", index);
     return mana_potion_alloc(restore_potion_by_prefix_key(prefix));
 }
 

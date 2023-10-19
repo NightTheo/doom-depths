@@ -10,17 +10,10 @@
 #include <SDL_events.h>
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
 #include "in/sdl/components/row/row.h"
+#include "in/sdl/pages/fight/sdl_player/sdl_player.h"
+#include "domain/fight/fight.h"
 
 typedef struct SDL_IHM SDL_IHM;
-
-typedef struct SdlPlayer {
-    Player player;
-    SDL_Texture *texture;
-    SDL_Rect source_sprites_rect;
-    SDL_Rect destination_sprite_rect;
-    HealthBar health_bar;
-    uint32_t current_sprite;
-} SdlPlayer;
 
 typedef struct  {
     SdlPlayer player;
@@ -36,6 +29,8 @@ SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm);
 
 SDL_IHM update_fight_page(SDL_IHM ihm);
 
+FightPage update_sld_fight_page(FightPage fight);
 
+ButtonEvent finish_fight(SDL_IHM ihm, Button button);
 
 #endif //DOOMDEPTHS_SDL_FIGHT_PAGE_H

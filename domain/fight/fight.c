@@ -41,10 +41,10 @@ AttackResult player_attacks_monster(Player p, Monster m) {
         return res;
     }
     if (p.remaining_number_of_attacks <= 0) {
-        log_info("player has no remaining attack count");
+        log_info("sdl_player has no remaining attack count");
         return res;
     }
-    log_info("player attacks monsters");
+    log_info("sdl_player attacks monsters");
     res.player = decrement_player_remaining_attacks(p);
     uint8_t damages = random_between_included(p.equipment.weapon.min_damages, p.equipment.weapon.max_damages);
     res.monster = monster_takes_damages(m, damages);
@@ -71,7 +71,7 @@ Player monsters_attack_player(MonstersList monsters, Player p) {
 
 AttackResult monster_attacks_player(Monster m, Player p) {
     int8_t damages = random_between_included(m.min_attack_power, m.max_attack_power);
-    log_info("monsters attack player with %d damages.", damages);
+    log_info("monsters attack sdl_player with %d damages.", damages);
     AttackResult res = {
             player_takes_damages(p, damages),
             m,
