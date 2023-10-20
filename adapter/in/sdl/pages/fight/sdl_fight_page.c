@@ -39,7 +39,7 @@ FightPage fill_fight_page(SDL_IHM ihm) {
 FightPage update_state_of_fight_page(FightPage fight) {
     fight.fight = get_current_fight();
     fight.player = update_sld_fight_player(fight.player);
-    fight.buttons = update_style_of_fight_action_buttons(fight);
+    fight.buttons = update_state_of_fight_action_buttons(fight);
     return fight;
 }
 
@@ -50,11 +50,14 @@ void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) 
 }
 
 SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
-    return fight_action_buttons_handle_event(event, ihm);;
+    ihm = fight_action_buttons_handle_event(event, ihm);
+    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
+    return ihm;
 }
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
     FightPage page = ihm.page.fight;
+    // TODO select fps of the animation
 
     page.player.animation = next_frame(page.player.animation);
 

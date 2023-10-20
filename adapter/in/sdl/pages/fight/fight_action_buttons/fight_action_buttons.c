@@ -20,11 +20,11 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
 
 ButtonEvent on_click_potion(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
-Button update_attack_button(FightPage fight);
+Button update_attack_button_state(FightPage fight);
 
-Button update_end_turn_button(FightPage fight);
+Button update_end_turn_button_state(FightPage fight);
 
-Button update_potion_button(FightPage fight);
+Button update_potion_button_state(FightPage fight);
 
 
 // NB: Change the order of the enum values to change the order of the buttons
@@ -137,15 +137,15 @@ void draw_action_buttons(SDL_Renderer *renderer, SDL_IHM ihm) {
     draw_row(renderer, ihm.page.fight.buttons);
 }
 
-Row update_style_of_fight_action_buttons(FightPage fight) {
-    fight.buttons = row_with_row_button_at_index(fight.buttons, update_attack_button(fight), ATTACK_BUTTON);
-    fight.buttons = row_with_row_button_at_index(fight.buttons, update_end_turn_button(fight), END_TURN_BUTTON);
-    fight.buttons = row_with_row_button_at_index(fight.buttons, update_potion_button(fight), POTION_BUTTON);
+Row update_state_of_fight_action_buttons(FightPage fight) {
+    fight.buttons = row_with_row_button_at_index(fight.buttons, update_attack_button_state(fight), ATTACK_BUTTON);
+    fight.buttons = row_with_row_button_at_index(fight.buttons, update_end_turn_button_state(fight), END_TURN_BUTTON);
+    fight.buttons = row_with_row_button_at_index(fight.buttons, update_potion_button_state(fight), POTION_BUTTON);
     return fight.buttons;
 }
 
 
-Button update_attack_button(FightPage fight) {
+Button update_attack_button_state(FightPage fight) {
     Button button = get_button_in_row_at_index(fight.buttons, ATTACK_BUTTON).cell.button;
     if(current_fight_is_finished() || fight.player.player.remaining_number_of_attacks == 0) {
         button = disable_button(button);
@@ -153,14 +153,14 @@ Button update_attack_button(FightPage fight) {
     return button;
 }
 
-Button update_end_turn_button(FightPage fight) {
-    Button button = get_button_in_row_at_index(fight.buttons, END_TURN_BUTTON).cell.button;;
+Button update_end_turn_button_state(FightPage fight) {
+    Button button = get_button_in_row_at_index(fight.buttons, END_TURN_BUTTON).cell.button;
     if(current_fight_is_finished()) button = disable_button(button);
     else button = enable_button(button);
     return button;
 }
 
-Button update_potion_button(FightPage fight) {
+Button update_potion_button_state(FightPage fight) {
     Button button = get_button_in_row_at_index(fight.buttons, POTION_BUTTON).cell.button;
     // TODO if no more potions, disable button
     return button;
@@ -168,7 +168,6 @@ Button update_potion_button(FightPage fight) {
 
 SDL_IHM fight_action_buttons_handle_event(SDL_Event event, SDL_IHM ihm) {
     ihm.page.fight.buttons = row_handle_event(event, ihm, ihm.page.fight.buttons);
-    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     return ihm;
 }
 
@@ -192,9 +191,6 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
     if (current_fight_is_finished()) {
         return finish_fight(ihm, end_turn_button);
     }
-
-    // that the problem
-    ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     return button_clicked(ihm, end_turn_button);
 }
 

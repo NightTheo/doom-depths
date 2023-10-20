@@ -191,7 +191,7 @@ Button disable_button(Button button) {
 }
 
 Button enable_button(Button button) {
-    button.state = BUTTON_NORMAL;
+    if(button.state == BUTTON_DISABLED) button.state = BUTTON_NORMAL;
     return button;
 }
 
