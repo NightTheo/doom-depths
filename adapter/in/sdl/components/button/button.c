@@ -18,15 +18,9 @@ ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button);
 
 ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button);
 
-Button current_background_color_button(SDL_Color color, Button button);
-
 void draw_rounded_rect(SDL_Renderer *renderer, SDL_Rect rect, uint8_t radius);
 
-void draw_circle(SDL_Renderer *renderer, int x0, int y0, int radius);
-
 void draw_filled_circle(SDL_Renderer *renderer, int x, int y, int radius);
-
-void sdl_ellipse(SDL_Renderer *r, int x0, int y0, int radiusX, int radiusY, bool fill);
 
 bool state_can_handle_event(ButtonState state);
 
