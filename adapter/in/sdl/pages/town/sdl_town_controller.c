@@ -75,7 +75,7 @@ SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
     return ihm;
 }
 
-SDL_IHM update_style_town_page(SDL_IHM ihm) {
+SDL_IHM update_town_page(SDL_IHM ihm) {
     ihm.page.town.newRunButton = size_button(ihm.window, ihm.page.town.newRunButton);
     ihm.page.town.continueButton = size_button(ihm.window, ihm.page.town.continueButton);
     return ihm;
