@@ -31,6 +31,4 @@ SDL_IHM update_fight_page(SDL_IHM ihm);
 
 FightPage update_state_of_fight_page(FightPage fight);
 
-ButtonEvent finish_fight(SDL_IHM ihm, Button button);
-
 #endif //DOOMDEPTHS_SDL_FIGHT_PAGE_H

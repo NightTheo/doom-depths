@@ -175,10 +175,6 @@ ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackP
     log_info("clicked on attack");
     attack_with_weapon();
     Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
-    if (current_fight_is_finished()) {
-        return finish_fight(ihm, attack_button);
-    }
-
     return button_clicked(ihm, attack_button);
 }
 
@@ -187,10 +183,6 @@ ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbac
     end_round();
     start_new_round();
     Button end_turn_button = get_button_in_row_at_index(ihm.page.fight.buttons, END_TURN_BUTTON).cell.button;
-
-    if (current_fight_is_finished()) {
-        return finish_fight(ihm, end_turn_button);
-    }
     return button_clicked(ihm, end_turn_button);
 }
 

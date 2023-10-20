@@ -14,9 +14,12 @@
 #include "port/out/persistence/intern_game_state/get_map.h"
 #include "port/in/command/finish_current_zone.h"
 #include "in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.h"
+#include "port/in/query/is_current_fight_finished.h"
 
 FightPage fill_fight_buttons(SDL_IHM ihm);
 
+
+SDL_IHM ihm_after_fight_is_finished(SDL_IHM ihm);
 
 FightPage fill_fight_page(SDL_IHM ihm) {
     FightPage fight = ihm.page.fight;
@@ -44,8 +47,26 @@ void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) 
 
 SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
     ihm = fight_action_buttons_handle_event(event, ihm);
+    log_info("fight_page_handle_event: current page = %d", ihm.current_page);
     ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
+    if(current_fight_is_finished()) {
+        ihm = ihm_after_fight_is_finished(ihm);
+    }
+    log_info("fight_page_handle_event: current page = %d", ihm.current_page);
     return ihm;
+}
+
+SDL_IHM ihm_after_fight_is_finished(SDL_IHM ihm) {
+    if(current_player_is_alive()) {
+        finish_current_zone();
+        ihm.current_page = MAP_PAGE;
+        ihm.page.map = fill_map_page(ihm, get_map());
+        return ihm;
+    } else {
+        // TODO: display game over
+        ihm.current_page = TOWN_PAGE;
+        return ihm;
+    }
 }
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
@@ -59,18 +80,4 @@ SDL_IHM update_fight_page(SDL_IHM ihm) {
 
     ihm.page.fight = page;
     return ihm;
-}
-
-
-ButtonEvent finish_fight(SDL_IHM ihm, Button button) {
-    if(current_player_is_alive()) {
-        finish_current_zone();
-        ihm.current_page = MAP_PAGE;
-        ihm.page.map = fill_map_page(ihm, get_map());
-        return button_clicked(ihm, button);
-    } else {
-        // TODO: display game over
-        ihm.current_page = TOWN_PAGE;
-        return button_clicked(ihm, button);
-    }
 }
