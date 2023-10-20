@@ -59,12 +59,12 @@ FightPage fill_fight_buttons(SDL_IHM ihm) {
 }
 
 Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
-    Button attack_button = create_img_button(
-            ihm,
-            "resources/assets/attack.png",
-            (Point){.x = 0, .y = 0},
-            size,
-            no_callback_param(&on_click_attack)
+    Button attack_button = create_img_button("attack_button",
+                                             ihm,
+                                             "resources/assets/attack.png",
+                                             (Point) {.x = 0, .y = 0},
+                                             size,
+                                             no_callback_param(&on_click_attack)
     );
 
     ButtonColor color = button_color(
@@ -85,12 +85,12 @@ Button fill_attack_button(SDL_IHM ihm, ButtonSize size) {
 }
 
 Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
-    Button end_turn_button = create_img_button(
-            ihm,
-            "resources/assets/end_turn.png",
-            (Point){.x = 0, .y = 0},
-            size,
-            no_callback_param(&on_click_end_turn)
+    Button end_turn_button = create_img_button("end_turn_button",
+                                               ihm,
+                                               "resources/assets/end_turn.png",
+                                               (Point) {.x = 0, .y = 0},
+                                               size,
+                                               no_callback_param(&on_click_end_turn)
     );
 
     ButtonColor color = button_color(
@@ -111,12 +111,12 @@ Button fill_end_turn_button(SDL_IHM ihm, ButtonSize size) {
 }
 
 Button fill_potion_button(SDL_IHM ihm, ButtonSize size) {
-    Button potion_button = create_img_button(
-            ihm,
-            "resources/assets/potion.png",
-            (Point){.x = 0, .y = 0},
-            size,
-            no_callback_param(&on_click_potion)
+    Button potion_button = create_img_button("potion_button",
+                                             ihm,
+                                             "resources/assets/potion.png",
+                                             (Point) {.x = 0, .y = 0},
+                                             size,
+                                             no_callback_param(&on_click_potion)
     );
 
     ButtonColor color = button_color(

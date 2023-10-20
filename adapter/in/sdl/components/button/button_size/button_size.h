@@ -28,8 +28,6 @@ ButtonSize absolute_button_size(uint16_t height, uint16_t width);
 
 ButtonSize window_relative_button_size(uint8_t window_percentage);
 
-ButtonSize texture_fit_relative_button_size();
-
 Button size_button(SDL_Window *window, Button button);
 
 

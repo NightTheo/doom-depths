@@ -12,6 +12,7 @@
 #include "port/out/log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
 #include "in/sdl/pages/pages.h"
+#include "port/out/log/log_info.h"
 
 #define MILLISECONDS 1000
 
@@ -95,7 +96,7 @@ InitResult init() {
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == NULL) {
         log_error("SDL_CreateRenderer : %s", SDL_GetError());
-        return (InitResult) {false};;
+        return (InitResult) {false};
     }
 
     SDL_IHM ihm;
@@ -206,8 +207,8 @@ void draw_pages(SDL_IHM ihm) {
 }
 
 void close_sdl(SDL_IHM ihm) {
-    SDL_DestroyTexture(ihm.page.town.newRunButton.texture);
-    SDL_DestroyTexture(ihm.page.town.continueButton.texture);
+    SDL_DestroyTexture(ihm.page.town.new_run_button.texture);
+    SDL_DestroyTexture(ihm.page.town.continue_button.texture);
     TTF_CloseFont(ihm.font);
     TTF_Quit();
     SDL_DestroyRenderer(ihm.renderer);

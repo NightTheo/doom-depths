@@ -16,7 +16,7 @@
 
 typedef enum {
     BUTTON_NORMAL,
-    BUTTON_SELECTED,
+    BUTTON_SELECTED, // hover and create_aria selection not separated here (https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA)
     BUTTON_DISABLED,
     BUTTON_HIDEN,
 } ButtonState;
@@ -30,6 +30,7 @@ typedef struct {
 
 typedef struct Button Button;
 struct Button{
+    const char* id;
     ButtonState state;
     SDL_Rect button_rect;
     SDL_Rect texture_rect;
@@ -45,11 +46,13 @@ ButtonColor button_color(SDL_Color background, SDL_Color hover, SDL_Color disabl
 
 void draw_button(SDL_Renderer *renderer, Button button);
 
-Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback);
+Button create_button(const char *id, Point p, ButtonSize size, ButtonCallback callback);
 
-Button create_text_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback);
+Button
+create_text_button(const char *id, SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback);
 
-Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize size, ButtonCallback callback);
+Button
+create_img_button(const char *id, SDL_IHM ihm, const char *img_path, Point p, ButtonSize size, ButtonCallback callback);
 
 Button color_button(ButtonColor color, Button button);
 
@@ -62,6 +65,8 @@ Button disable_button(Button button);
 Button enable_button(Button button);
 
 Button select_button(Button button);
+
+Button unselect_button(Button button);
 
 Button border_radius_button(uint8_t radius, Button button);
 

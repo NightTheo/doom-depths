@@ -44,9 +44,11 @@ SdlZone zone_button_at(SDL_IHM ihm, Map map, int row, int col) {
             ZONE_CELL_SIZE);
     Point button_point = {.x = col * (ZONE_CELL_SIZE + 1), .y = row * (ZONE_CELL_SIZE + 1)};
     ButtonCallback on_click_zone = position_callback_param(position(col, row), &click_zone);
+    char* id = malloc(sizeof(char) * 20);
+    snprintf(id, 20, "zone_button_%d_%d", row, col);
     SdlZone z = {
             .zone = get_zone_in_map_by_position(map, position(col, row)),
-            .button = size_button(ihm.window, create_button(ihm, button_point, size, on_click_zone)),
+            .button = size_button(ihm.window, create_button(id, button_point, size, on_click_zone)),
             .position = position(col, row),
     };
     bool zone_is_visible = z.zone.status != ZONE_EMPTY;

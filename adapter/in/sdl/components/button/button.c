@@ -24,28 +24,36 @@ void draw_filled_circle(SDL_Renderer *renderer, int x, int y, int radius);
 
 bool state_can_handle_event(ButtonState state);
 
-Button create_button(SDL_IHM ihm, Point p, ButtonSize size, ButtonCallback callback) {
-    Button button;
-    button.state = BUTTON_NORMAL;
-    button.button_rect = (SDL_Rect) {.x = p.x, .y = p.y};
-    button.border_radius = 0;
+ButtonEvent button_handle_aria(SDL_IHM ihm, SDL_Event event, Button button);
 
-    button.texture = NULL;
-    button.texture_rect = button.button_rect;
 
-    button.color = button_color(
-            get_color(SDL_WHITE),
-            get_color(SDL_WHITE),
-            get_color(SDL_WHITE)
-    );
-    button.callback = callback;
 
-    button.size = size;
+Button create_button(const char *id, Point p, ButtonSize size, ButtonCallback callback) {
+    char* button_id = malloc(sizeof(char) * strlen(id));
+    strcpy((char*)button_id, id);
+    Button button = {
+            .id = button_id,
+            .state = BUTTON_NORMAL,
+            .button_rect = (SDL_Rect) {.x = p.x, .y = p.y},
+            .border_radius = 0,
+            .texture = NULL,
+            .texture_rect = button.button_rect,
+            .color = button_color(
+                    get_color(SDL_WHITE),
+                    get_color(SDL_WHITE),
+                    get_color(SDL_WHITE)
+            ),
+            .callback = callback,
+            .size = size,
+    };
+
+    log_info("button created: %s", button.id);
     return button;
 }
 
-Button create_text_button(SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback) {
-    Button button = create_button(ihm, p, size, callback);
+Button
+create_text_button(const char *id, SDL_IHM ihm, const char *text, Point p, ButtonSize size, ButtonCallback callback) {
+    Button button = create_button(id, p, size, callback);
 
     SDL_Surface *textSurface = TTF_RenderText_Solid(ihm.font, text, get_color(SDL_WHITE));
     if (textSurface == NULL) {
@@ -63,8 +71,9 @@ Button create_text_button(SDL_IHM ihm, const char *text, Point p, ButtonSize siz
 }
 
 
-Button create_img_button(SDL_IHM ihm, const char *img_path, Point p, ButtonSize size, ButtonCallback callback) {
-    Button button = create_button(ihm, p, size, callback);
+Button create_img_button(const char *id, SDL_IHM ihm, const char *img_path, Point p, ButtonSize size,
+                         ButtonCallback callback) {
+    Button button = create_button(id, p, size, callback);
 
     log_info("Loading image %s", img_path);
     button.texture = IMG_LoadTexture(ihm.renderer, img_path);
@@ -134,6 +143,7 @@ ButtonEvent button_handle_event(SDL_IHM ihm, SDL_Event event, Button button) {
     switch (event.type) {
         case SDL_MOUSEBUTTONUP: return button_handle_click(ihm, event, button);
         case SDL_MOUSEMOTION: return button_handle_hover(ihm, event, button);
+        case SDL_KEYDOWN: return button_handle_aria(ihm, event, button);
         default: return button_event_not_handled(ihm, button);
     }
 }
@@ -147,7 +157,7 @@ ButtonEvent button_handle_hover(SDL_IHM ihm, SDL_Event event, Button button) {
     if (button_at_point(button, mouse_at)) {
         return button_hovered(ihm, select_button(button));
     } else {
-        return button_unhovered(ihm, select_button(button));
+        return button_unhovered(ihm, unselect_button(button));
     }
 }
 
@@ -200,6 +210,11 @@ Button select_button(Button button) {
     return button;
 }
 
+Button unselect_button(Button button) {
+    button.state = BUTTON_NORMAL;
+    return button;
+}
+
 Button border_radius_button(uint8_t radius, Button button) {
     button.border_radius = radius;
     return button;
@@ -216,4 +231,16 @@ SDL_Color get_button_color_to_draw(Button button) {
             return button.color.background;
         }
     }
+}
+
+ButtonEvent button_handle_aria(SDL_IHM ihm, SDL_Event event, Button button) {
+    if(event.key.keysym.sym != SDLK_RETURN || button.state != BUTTON_SELECTED) {
+        return button_event_not_handled(ihm, button);
+    }
+    ButtonCallback callback = button.callback;
+    if(callback.invoke == NULL) {
+        log_info("No callback for button");
+        return button_event_not_handled(ihm, button);
+    }
+    return callback.invoke(ihm, callback.param);
 }

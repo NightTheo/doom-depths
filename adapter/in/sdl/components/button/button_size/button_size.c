@@ -34,13 +34,6 @@ ButtonSize window_relative_button_size(uint8_t window_percentage) {
     return size;
 }
 
-ButtonSize texture_fit_relative_button_size() {
-    ButtonSize size;
-    size.size_type = TEXTURE_FIT;
-
-    return size;
-}
-
 Button size_button(SDL_Window *window, Button button) {
     switch (button.size.size_type) {
         case ABSOLUTE: return size_button_absolute(button);
@@ -53,9 +46,10 @@ Button size_button(SDL_Window *window, Button button) {
     }
 }
 
-Button size_button_texture_fit(Button button) {
-    SDL_QueryTexture(button.texture, NULL, NULL, &button.button_rect.w, &button.button_rect.h);
-    button.texture_rect = button.button_rect;
+Button size_button_absolute(Button button) {
+    button.button_rect.h = button.size.height;
+    button.button_rect.w = button.size.width;
+    button = size_button_texture(button);
     return button;
 }
 
@@ -73,13 +67,6 @@ Button size_button_window_relative(SDL_Window *window, Button button) {
     return button;
 }
 
-Button size_button_absolute(Button button) {
-    button.button_rect.h = button.size.height;
-    button.button_rect.w = button.size.width;
-    button = size_button_texture(button);
-    return button;
-}
-
 Button size_button_texture(Button button) {
     int texture_width, texture_height;
     SDL_QueryTexture(button.texture, NULL, NULL, &texture_width, &texture_height);
@@ -90,5 +77,11 @@ Button size_button_texture(Button button) {
             .w = texture_width > button.button_rect.w ? button.button_rect.w : texture_width,
             .h = texture_height > button.button_rect.h ? button.button_rect.h : texture_height,
     };
+    return button;
+}
+
+Button size_button_texture_fit(Button button) {
+    SDL_QueryTexture(button.texture, NULL, NULL, &button.button_rect.w, &button.button_rect.h);
+    button.texture_rect = button.button_rect;
     return button;
 }
