@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include "in/sdl/components/button/button.h"
+#include "in/sdl/components/aria/aria.h"
 
 typedef enum {
     CELL_ERROR,
@@ -34,6 +35,7 @@ typedef struct {
     SDL_Rect rect;
     PositionInScreen position;
     uint8_t spacing;
+    Aria aria;
 } Row;
 
 typedef struct {

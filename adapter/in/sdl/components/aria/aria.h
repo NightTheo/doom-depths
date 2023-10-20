@@ -20,7 +20,7 @@ typedef struct {
 } Aria;
 
 
-Aria create_aria(uint8_t size);
+Aria create_aria(uint8_t nb_elements);
 
 AriaNode * aria_node(const char* id, AriaNode *next);
 

@@ -10,9 +10,9 @@
 
 AriaNode *start_aria_node();
 
-Aria create_aria(uint8_t size) {
+Aria create_aria(uint8_t nb_elements) {
     Aria aria;
-    aria.size = size;
+    aria.size = nb_elements + 1; // +1 for the non selected node
     aria.selected = start_aria_node();
     return aria;
 }

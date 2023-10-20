@@ -18,9 +18,9 @@
 ButtonEvent click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 
-TownWindow town_handle_aria(SDL_IHM ihm, SDL_Event event, TownWindow town);
+TownWindow town_handle_aria_next(SDL_IHM ihm, SDL_Event event);
 
-TownWindow select_button_by_id(const char *id, SDL_IHM ihm);
+TownWindow select_town_button_by_id(const char *id, SDL_IHM ihm);
 
 TownWindow town_window(SDL_IHM ihm) {
     TownWindow town;
@@ -41,7 +41,7 @@ TownWindow town_window(SDL_IHM ihm) {
     town.continue_button = color_button(color, town.continue_button);
     town.continue_button = border_radius_button(3, town.continue_button);
 
-    Aria aria = create_aria(3);
+    Aria aria = create_aria(2);
     aria_add(aria, town.new_run_button.id);
     aria_add(aria, town.continue_button.id);
     town.aria = aria;
@@ -74,7 +74,7 @@ ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackPa
 }
 
 SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
-    ihm.page.town = town_handle_aria(ihm, event, ihm.page.town);
+    ihm.page.town = town_handle_aria_next(ihm, event);
 
     ButtonEvent new_run_event = button_handle_event(ihm, event, ihm.page.town.new_run_button);
     ihm = new_run_event.ihm;
@@ -86,17 +86,17 @@ SDL_IHM town_handle_event(SDL_Event event, SDL_IHM ihm) {
     return ihm;
 }
 
-TownWindow town_handle_aria(SDL_IHM ihm, SDL_Event event, TownWindow town) {
+TownWindow town_handle_aria_next(SDL_IHM ihm, SDL_Event event) {
     if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
         ihm.page.town.aria = aria_next(ihm.page.town.aria);
     }
     const char *selected_id = ihm.page.town.aria.selected->id;
-    if(selected_id == NULL) return town;
+    if(selected_id == NULL) return ihm.page.town;
 
-    return select_button_by_id(selected_id, ihm);
+    return select_town_button_by_id(selected_id, ihm);
 }
 
-TownWindow select_button_by_id(const char *id, SDL_IHM ihm) {
+TownWindow select_town_button_by_id(const char *id, SDL_IHM ihm) {
     if(strcmp(id, ihm.page.town.new_run_button.id) == 0) {
         ihm.page.town.new_run_button = select_button(ihm.page.town.new_run_button);
         ihm.page.town.continue_button = unselect_button(ihm.page.town.continue_button);

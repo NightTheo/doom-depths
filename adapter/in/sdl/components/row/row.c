@@ -22,12 +22,17 @@ ButtonEvent cell_handle_event(SDL_IHM ihm, SDL_Event event, RowCell cell);
 
 Row row_with_cell_at_index(Row row, RowCell cell, int index);
 
+Row row_handle_aria_next(SDL_IHM ihm, SDL_Event event, Row row);
+
+Row select_button_by_id(const char *id, Row row);
+
 Row create_row_with_indexes(int length, ...) {
     Row row;
     row.length = length;
     row.cells = malloc(sizeof(RowCell) * length);
     row.spacing = 0;
     row.rect = (SDL_Rect) {.x = 0, .y = 0, .w = 0, .h = 0};
+    row.aria = create_aria(length);
 
     va_list args;
     va_start(args, length);
@@ -40,6 +45,9 @@ Row create_row_with_indexes(int length, ...) {
     }
     va_end(args);
 
+    for(int i = 0; i < length; i++) {
+        aria_add(row.aria, row.cells[i].cell.button.id);
+    }
     return row;
 }
 
@@ -150,12 +158,35 @@ void draw_row_cell(RowCell cell, SDL_Renderer *renderer) {
 }
 
 Row row_handle_event(SDL_Event event, SDL_IHM ihm, Row row) {
+    row = row_handle_aria_next(ihm, event, row);
+
     for(int i = 0; i < ihm.page.fight.buttons.length; i++) {
         RowCell row_cell = row.cells[i];
         ButtonEvent e = cell_handle_event(ihm, event, row_cell);
         ihm = e.ihm;
         row_cell = row_cell_by_type(row_cell.cellType, e.button);
         row = row_with_cell_at_index(row, row_cell, i);
+    }
+    return row;
+}
+
+Row row_handle_aria_next(SDL_IHM ihm, SDL_Event event, Row row) {
+    if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
+        row.aria = aria_next(row.aria);
+    }
+    const char *selected_id = row.aria.selected->id;
+    if(selected_id == NULL) return row;
+
+    return select_button_by_id(selected_id, row);
+}
+
+Row select_button_by_id(const char *id, Row row) {
+    for(int i = 0; i < row.length; i++) {
+        if(strcmp(id, row.cells[i].cell.button.id) == 0) {
+            row.cells[i].cell.button = select_button(row.cells[i].cell.button);
+        } else {
+            row.cells[i].cell.button = unselect_button(row.cells[i].cell.button);
+        }
     }
     return row;
 }
