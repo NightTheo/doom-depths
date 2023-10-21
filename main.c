@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <time.h>
-#include <stdbool.h>
 
 #include <application/port/in/command/start_ihm.h>
 

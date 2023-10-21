@@ -31,7 +31,7 @@ const int FPS = 32;
 
 InitResult init();
 
-void start_event_loop(SDL_IHM ihm, uint16_t FPS);
+void start_event_loop(SDL_IHM ihm);
 
 void close_sdl(SDL_IHM ihm);
 
@@ -52,7 +52,7 @@ void start_ihm() {
     if (!init_result.is_success) return;
 
     SDL_IHM ihm = init_result.ihm;
-    start_event_loop(ihm, FPS);
+    start_event_loop(ihm);
 
     close_sdl(ihm);
 }
@@ -105,12 +105,14 @@ InitResult init() {
     ihm.font = font;
     ihm.current_page = TOWN_PAGE;
     ihm.page.town = town_window(ihm);
+    ihm.fps = FPS;
+    ihm.number_of_frames_from_start = 0;
 
     return (InitResult) {true, ihm};
 }
 
 
-void start_event_loop(SDL_IHM ihm, uint16_t fps) {
+void start_event_loop(SDL_IHM ihm) {
     SDL_Event e;
     bool app_is_running = true;
     SDL_AddEventWatch(resizing_event_watcher, &ihm);
@@ -119,9 +121,10 @@ void start_event_loop(SDL_IHM ihm, uint16_t fps) {
             if (event_is_handled(e)) ihm = handle_event(e, ihm);
         }
         if (e.type == SDL_QUIT) app_is_running = false;
+        ihm.number_of_frames_from_start += 1;
         ihm = update_ihm(ihm);
         draw(ihm);
-        SDL_Delay(MILLISECONDS / fps);
+        SDL_Delay(MILLISECONDS / ihm.fps);
     }
 }
 

@@ -15,6 +15,7 @@ typedef struct {
     uint16_t start_frame;
     uint16_t number_of_frames;
     uint16_t current_frame;
+    uint8_t fps;
 } Animation;
 
 Animation next_frame(Animation animation);

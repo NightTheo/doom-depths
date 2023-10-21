@@ -47,12 +47,10 @@ void draw_fight_page(SDL_Renderer *renderer, FightPage fight_page, SDL_IHM ihm) 
 
 SDL_IHM fight_page_handle_event(SDL_Event event, SDL_IHM ihm) {
     ihm = fight_action_buttons_handle_event(event, ihm);
-    log_info("fight_page_handle_event: current page = %d", ihm.current_page);
     ihm.page.fight = update_state_of_fight_page(ihm.page.fight);
     if(current_fight_is_finished()) {
         ihm = ihm_after_fight_is_finished(ihm);
     }
-    log_info("fight_page_handle_event: current page = %d", ihm.current_page);
     return ihm;
 }
 
@@ -71,9 +69,13 @@ SDL_IHM ihm_after_fight_is_finished(SDL_IHM ihm) {
 
 SDL_IHM update_fight_page(SDL_IHM ihm) {
     FightPage page = ihm.page.fight;
-    // TODO select fps of the animation
-
-    page.player.animation = next_frame(page.player.animation);
+    Animation animation = page.player.animation;
+    uint8_t number_of_frames_passed_since_last_second = ihm.number_of_frames_from_start % ihm.fps;
+    uint8_t ratio = ihm.fps / animation.fps;
+    if(number_of_frames_passed_since_last_second % ratio == 0) {
+        animation = next_frame(page.player.animation);
+        page.player.animation = animation;
+    }
 
     SDL_Rect safe_area = default_safe_area(window_rect(ihm.window));
     page.buttons = update_row_position_in_zone(page.buttons, safe_area);

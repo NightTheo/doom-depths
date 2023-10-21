@@ -15,6 +15,8 @@ typedef struct SDL_IHM {
     TTF_Font *font;
     CurrentPage current_page;
     Page page;
+    uint8_t fps;
+    size_t number_of_frames_from_start;
 } SDL_IHM;
 
 #endif //DOOMDEPTHS_SDL_CONTROLLER_H

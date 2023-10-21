@@ -28,6 +28,7 @@ SdlPlayer fill_fight_player(SDL_Renderer *renderer) {
             .number_of_frames = 10,
             .start_frame = 0,
             .sprite_sheet = player_sprite_sheet(renderer),
+            .fps = 5,
     };
     SdlPlayer player = {
             .player = get_player(),

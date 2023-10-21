@@ -167,7 +167,6 @@ Row row_handle_event(SDL_Event event, SDL_IHM ihm, Row row) {
         row_cell = row_cell_by_type(row_cell.cellType, e.button);
         row = row_with_cell_at_index(row, row_cell, i);
     }
-    log_info("row_handle_event: current page = %d", ihm.current_page);
     return row;
 }
 
