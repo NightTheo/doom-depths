@@ -10,12 +10,15 @@
 #include "stdbool.h"
 #include "in/sdl/components/button/button.h"
 #include "in/sdl/components/aria/aria.h"
+#include "in/sdl/components/background/background.h"
 
 typedef struct TownWindow TownWindow;
 struct TownWindow {
     Button new_run_button;
     Button continue_button;
     Aria aria;
+    Background background;
+    SDL_Window *window;
 };
 
 TownWindow town_window(SDL_IHM ihm);

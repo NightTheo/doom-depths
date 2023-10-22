@@ -152,6 +152,8 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/components/event/event.h
         adapter/in/sdl/components/aria/aria.c
         adapter/in/sdl/components/aria/aria.h
+        adapter/in/sdl/components/background/background.c
+        adapter/in/sdl/components/background/background.h
         #adapter/in/cli/cli_controller.c
 )
 

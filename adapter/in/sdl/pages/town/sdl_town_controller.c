@@ -46,10 +46,15 @@ TownWindow town_window(SDL_IHM ihm) {
     aria_add(aria, town.continue_button.id);
     town.aria = aria;
 
+    town.window = ihm.window;
+    BackgroundResult background_result = create_background(ihm.renderer, "resources/assets/backgrounds/town.jpg");
+    if(background_result.success) town.background = background_result.background;
+
     return town;
 }
 
 void draw_town_window(SDL_Renderer *renderer, TownWindow town) {
+    draw_background(renderer, window_rect(town.window), town.background);
     draw_button(renderer, town.new_run_button);
     draw_button(renderer, town.continue_button);
 }
