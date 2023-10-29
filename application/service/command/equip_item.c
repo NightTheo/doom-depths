@@ -12,7 +12,7 @@
 #include <port/out/log/log_error.h>
 #include <port/out/log/log_info.h>
 
-#include <infrastructure/utils/utils.h>
+#include "utils.h"
 #include <port/out/persistence/intern_game_state/set_player.h>
 #include <port/out/persistence/intern_game_state/get_player.h>
 

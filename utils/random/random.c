@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 #include "random.h"
-#include "../utils.h"
+#include "utils.h"
 
 int8_t random_between_included(int8_t a, int8_t b) {
     if (a == b) return a;

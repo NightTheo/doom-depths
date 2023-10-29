@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "time_util.h"
-#include <log_error.h>
+#include "log_error.h"
 
 
 char *now_to_str() {
