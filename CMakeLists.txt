@@ -110,7 +110,6 @@ add_executable(DoomDepths main.c
         domain/fight/event/player_killed_monster.h
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
-        adapter/in/sdl/sld_controller.c
         adapter/in/sdl/pages/town/sdl_town_controller.c
         adapter/in/sdl/sdl_controller.h
         adapter/in/sdl/pages/town/sdl_town_controller.h
@@ -157,6 +156,7 @@ add_executable(DoomDepths main.c
         adapter/in/sdl/pages/fight/sdl_monsters/sdl_monster.c
         adapter/in/sdl/pages/fight/sdl_monsters/sdl_monster.h
         #adapter/in/cli/cli_controller.c
+        adapter/in/sdl/sld_controller.c
 )
 
 target_link_libraries(DoomDepths SDL2::SDL2main)

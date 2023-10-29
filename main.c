@@ -13,9 +13,10 @@
  * [ ] cli: display stuff without log
  * [ ] Boosted CLI
  * [ ] inventory in Union, not allocated
+ * [ ] display map on drag (with mouse)
  *
  * SDL
- * [ ] navigate by TAB & ENTER (bool is_selected in button, selected_color)
+ * [ ] ARIA : navigate by TAB & ENTER
  * [ ] bug fight page : at first event (mouse move) buttons row shift to the right
  *
  * THEN
