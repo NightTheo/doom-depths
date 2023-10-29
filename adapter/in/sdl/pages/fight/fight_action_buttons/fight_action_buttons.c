@@ -12,6 +12,7 @@
 #include "port/in/command/attack_with_weapon.h"
 #include "port/in/command/end_round.h"
 #include "port/in/command/start_new_round.h"
+#include "port/out/persistence/intern_game_state/get_current_fight.h"
 
 
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
@@ -26,6 +27,8 @@ Button update_end_turn_button_state(FightPage fight);
 
 Button update_potion_button_state(FightPage fight);
 
+
+SdlMonsters remove_dead_monster(SdlMonsters monsters);
 
 // NB: Change the order of the enum values to change the order of the buttons
 typedef enum {
@@ -175,7 +178,20 @@ ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackP
     log_info("clicked on attack");
     attack_with_weapon();
     Button attack_button = get_button_in_row_at_index(ihm.page.fight.buttons, ATTACK_BUTTON).cell.button;
+    ihm.page.fight.monsters = remove_dead_monster(ihm.page.fight.monsters);
     return button_clicked(ihm, attack_button);
+}
+
+SdlMonsters remove_dead_monster(SdlMonsters monsters) {
+    Fight f = get_current_fight();
+    if(f.monsters_list.size < monsters.monsters_list.size) {
+        log_info("monster died, shift monsters");
+        for(int i = 1; i < f.monsters_list.size; i++) {
+            monsters.monsters[i-1] = monsters.monsters[i];
+        }
+    }
+    monsters.monsters_list = f.monsters_list;
+    return monsters;
 }
 
 ButtonEvent on_click_end_turn(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param) {

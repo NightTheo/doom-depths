@@ -9,6 +9,7 @@
 #include "domain/monsters/monsters.h"
 #include "in/sdl/components/animation/animation.h"
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
+#include "in/sdl/components/row/row.h"
 
 typedef struct {
     Animation animation;
@@ -18,7 +19,7 @@ typedef struct {
 typedef struct {
     MonstersList monsters_list;
     SdlMonster *monsters;
-
+    Row row_monsters;
 } SdlMonsters;
 
 SdlMonsters fill_fight_monsters(SDL_Renderer *renderer, MonstersList monsters_list);
