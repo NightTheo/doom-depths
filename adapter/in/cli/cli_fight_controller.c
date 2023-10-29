@@ -117,5 +117,4 @@ void player_makes_action(PlayerFightAction action) {
 void save_game_in_fight() {
     DoomDepths current_state = get_intern_game_state();
     RepositoryStatus status = save_game_state(current_state);
-    log_repository_status(status);
 }

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "loot.h"
-#include <infrastructure/utils/random/random.h>
+#include <random/random.h>
 
 Loot empty_loot() {
     Loot l = {

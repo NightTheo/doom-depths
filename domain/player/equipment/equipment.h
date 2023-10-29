@@ -6,8 +6,8 @@
 #ifndef DOOMDEPTHS_EQUIPMENT_H
 #define DOOMDEPTHS_EQUIPMENT_H
 
-#include <fight/weapon/weapon.h>
-#include <fight/armor/armor.h>
+#include "weapon/weapon.h"
+#include "armor/armor.h"
 
 typedef struct Equipment {
     Weapon weapon;

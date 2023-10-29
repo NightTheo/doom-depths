@@ -7,9 +7,9 @@
 #define DOOMDEPTHS_MAP_H
 
 #include "stdbool.h"
-#include <domain/map/zone/zone.h>
+#include <zone/zone.h>
 #include "stdint.h"
-#include <domain/map/position/position.h>
+#include <position/position.h>
 
 typedef struct Map Map;
 struct Map {

@@ -6,10 +6,10 @@
 #ifndef DOOMDEPTHS_FIGHT_H
 #define DOOMDEPTHS_FIGHT_H
 
-#include <domain/monsters/monsters.h>
-#include <domain/player/player.h>
-#include <domain/fight/loot/loot.h>
-#include <domain/fight/player_fight_action/player_fight_actions.h>
+#include "monsters.h"
+#include "player.h"
+#include "loot/loot.h"
+#include "player_fight_action/player_fight_actions.h"
 
 typedef struct DoomDepths DoomDepths;
 

@@ -24,7 +24,6 @@ bool leave_town(LeaveTownAction action) {
             return true;
         case RESTORE_LAST_GAME: {
             GameState status = continue_last_run();
-            log_repository_status(status.repository_status);
             return status.repository_status == RESTORE_LAST_GAME_SUCCEEDED;
         }
         default: {

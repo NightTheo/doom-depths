@@ -1,5 +1,20 @@
 project(DoomDepthsDomain C)
 
+include_directories(
+        "doom_depths"
+        "fight"
+        "magic"
+        "map"
+        "monsters"
+        "player"
+)
+
+get_filename_component(PARENT_DIR ../ ABSOLUTE)
+include_directories(
+        "${PARENT_DIR}/infrastructure/utils"
+        "${PARENT_DIR}/application/port/out/log"
+)
+
 add_executable(DOMAIN
         monsters/monsters.c
         player/player.c
@@ -18,4 +33,9 @@ add_executable(DOMAIN
         map/zone/zone.c
         map/position/position.c
         doom_depths/doom_depths.c
+        "${PARENT_DIR}/infrastructure/utils/utils.c"
+        "${PARENT_DIR}/infrastructure/utils/random/random.c"
+        "${PARENT_DIR}/infrastructure/utils/time/time_util.c"
+        "${PARENT_DIR}/adapter/out/log/cli_log.c"
 )
+

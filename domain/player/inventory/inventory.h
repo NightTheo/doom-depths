@@ -7,9 +7,9 @@
 #define DOOMDEPTHS_INVENTORY_H
 
 #include "stdint.h"
-#include <fight/weapon/weapon.h>
+#include "weapon/weapon.h"
 #include "stdlib.h"
-#include <fight/loot/loot.h>
+#include "loot/loot.h"
 
 #define INVENTORY_CAPACITY 10
 

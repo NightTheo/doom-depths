@@ -8,7 +8,7 @@
 
 #include "stdbool.h"
 #include "stdint.h"
-#include <domain/fight/fight.h>
+#include <fight.h>
 
 typedef enum ZoneStatus ZoneStatus;
 enum ZoneStatus {

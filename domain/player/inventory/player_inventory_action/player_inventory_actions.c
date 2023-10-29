@@ -4,7 +4,7 @@
 //
 
 #include "player_inventory_actions.h"
-#include <application/port/out/log/log_error.h>
+#include <log_error.h>
 
 const char *inventory_action_to_string(PlayerInventoryAction action) {
     char log[32];

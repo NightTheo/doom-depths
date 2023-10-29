@@ -9,8 +9,8 @@
 #include "stdint.h"
 #include "stdbool.h"
 
-#include <magic/grimoire/grimoire.h>
-#include <fight/weapon/weapon.h>
+#include "grimoire/grimoire.h"
+#include "weapon/weapon.h"
 #include "inventory/inventory.h"
 #include "equipment/equipment.h"
 

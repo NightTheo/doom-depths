@@ -8,20 +8,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <infrastructure/utils/time/time_util.h>
+#include <time/time_util.h>
 
-#include <application/port/out/log/log_info.h>
-#include <application/port/out/log/log_error.h>
-#include <application/port/out/log/log_player.h>
-#include <application/port/out/log/log_monster.h>
-#include <application/port/out/log/log_grimoire.h>
-#include <application/port/out/persistence/storage/respository_status.h>
-#include <application/port/out/log/log_repository_status.h>
+#include <log_info.h>
+#include <log_error.h>
+#include <log_player.h>
+#include <log_monster.h>
+#include <log_grimoire.h>
 
-#include <domain/player/player.h>
-#include <domain/monsters/monsters.h>
+#include <player.h>
+#include <monsters.h>
 
 #define MAX_LOG_SIZE 4096
+
 
 
 /**
@@ -85,18 +84,4 @@ void log_grimoire(Grimoire g) {
     char *s = grimoire_to_string(g);
     log_info(s);
     free(s);
-}
-
-void log_repository_status(RepositoryStatus status) {
-    char log[64];
-    const char *status_str = repository_status_to_string(status);
-    snprintf(log, 64, "Repository status: [%s]\\n", status_str);
-
-    bool is_failure = status == SAVE_LAST_GAME_FAILED || status == RESTORE_LAST_GAME_FAILED;
-
-    if(is_failure) {
-        log_error(status_str);
-    } else {
-        log_info(status_str);
-    }
 }

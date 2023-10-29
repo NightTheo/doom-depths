@@ -5,7 +5,7 @@
 
 #include "doom_depths.h"
 #include "stdbool.h"
-#include <application/port/out/log/log_error.h>
+#include <log_error.h>
 
 DoomDepths empty_game();
 

@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include "grimoire.h"
 
-#include <domain/player/player.h>
-#include <domain/monsters/monsters.h>
+#include "player.h"
+#include "monsters.h"
 
-#include <infrastructure/utils/utils.h>
-#include <application/port/out/log/log_info.h>
+#include "utils.h"
+#include <log_info.h>
 
 #define GRIMOIRE_STRING_SIZE 1024
 

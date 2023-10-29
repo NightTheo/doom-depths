@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_DOOM_DEPTHS_H
 #define DOOMDEPTHS_DOOM_DEPTHS_H
 
-#include <domain/map/map.h>
+#include <map.h>
 #include "stdbool.h"
 
 typedef struct DoomDepths DoomDepths;

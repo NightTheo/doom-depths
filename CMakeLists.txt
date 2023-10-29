@@ -12,10 +12,12 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_image REQUIRED)
 
+
+add_subdirectory("domain")
 include_directories(
-        "${CMAKE_SOURCE_DIR}/domain"
-        "${CMAKE_SOURCE_DIR}/application"
-        "${CMAKE_SOURCE_DIR}/adapter"
+        "${PROJECT_SOURCE_DIR}/domain"
+        "${PROJECT_SOURCE_DIR}/application"
+        "${PROJECT_SOURCE_DIR}/adapter"
 )
 
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
@@ -23,30 +25,9 @@ file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
 add_executable(DoomDepths main.c
         adapter/out/log/cli_log.c
         infrastructure/utils/utils.c
-        domain/monsters/monsters.c
         infrastructure/utils/random/random.c
-        domain/player/player.c
-        domain/fight/fight.c
-        domain/fight/player_fight_action/player_fight_action.c
-        domain/fight/loot/loot.c
-        domain/fight/weapon/weapon.c
-        domain/player/inventory/inventory.c
-        domain/player/inventory/player_inventory_action/player_inventory_actions.c
-        domain/player/equipment/equipment.c
-        domain/fight/armor/armor.c
-        domain/magic/spell/spell.c
-        domain/magic/mana_potion/mana_potion.c
-        domain/magic/grimoire/grimoire.c
         adapter/in/cli/cli_grimoire_controller.c
-        domain/map/map.c
-        domain/map/map.h
-        domain/map/zone/zone.c
-        domain/map/zone/zone.h
-        domain/map/position/position.c
-        domain/map/position/position.h
         adapter/in/cli/cli_map_controller.c
-        domain/doom_depths/doom_depths.c
-        domain/doom_depths/doom_depths.h
         infrastructure/utils/time/time_util.c
         infrastructure/utils/time/time_util.h
         application/port/in/command/new_run.h
@@ -107,7 +88,6 @@ add_executable(DoomDepths main.c
         adapter/in/cli/cli_controllers.h
         application/port/out/persistence/intern_game_state/set_player.h
         adapter/in/cli/cli_town_controller.c
-        domain/fight/event/player_killed_monster.h
         application/service/event/player_killed_monster.c
         application/port/out/persistence/intern_game_state/get_player.h
         adapter/in/sdl/pages/town/sdl_town_controller.c
