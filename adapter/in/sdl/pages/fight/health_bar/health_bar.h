@@ -20,4 +20,6 @@ typedef struct {
 
 void draw_health_bar(SDL_Renderer *renderer, HealthBar health_bar, TTF_Font *font);
 
+HealthBar create_health_bar(uint16_t max_health, SDL_Color health_color, SDL_Rect rect);
+
 #endif //DOOMDEPTHS_HEALTH_BAR_H

@@ -7,6 +7,10 @@
 
 Animation next_frame(Animation animation) {
     animation.current_frame = (animation.current_frame + 1) % animation.number_of_frames;
-    animation.sprite_rect.x = animation.start_frame + animation.current_frame * animation.sprite_rect.w;
+    uint8_t row = animation.current_frame / animation.sprite_sheet.columns;
+    uint8_t column = animation.current_frame % animation.sprite_sheet.columns;
+    animation.sprite_rect.x = animation.start_frame + column * animation.sprite_rect.w;
+    animation.sprite_rect.y = animation.start_frame + row * animation.sprite_rect.h;
     return animation;
 }
+

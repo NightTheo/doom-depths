@@ -89,3 +89,13 @@ SDL_Texture *getTextTexture(SDL_Renderer *renderer, HealthBar health_bar, TTF_Fo
     SDL_FreeSurface(text_surface);
     return text_texture;
 }
+
+
+HealthBar create_health_bar(uint16_t max_health, SDL_Color health_color, SDL_Rect rect) {
+    return (HealthBar) {
+            .max_health = max_health,
+            .current_health = max_health,
+            .health_color = health_color,
+            .rect = rect,
+    };
+}

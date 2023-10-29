@@ -12,11 +12,13 @@
 #include "in/sdl/components/row/row.h"
 #include "in/sdl/pages/fight/sdl_player/sdl_player.h"
 #include "domain/fight/fight.h"
+#include "in/sdl/pages/fight/sdl_monsters/sdl_monster.h"
 
 typedef struct SDL_IHM SDL_IHM;
 
 typedef struct  {
     SdlPlayer player;
+    SdlMonsters monsters;
     Fight fight;
     Row buttons;
 } FightPage;
