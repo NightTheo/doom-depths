@@ -15,7 +15,7 @@ include_directories(
         "${PARENT_DIR}/application/port/out/log"
 )
 
-add_executable(DOMAIN
+add_library(DOMAIN
         monsters/monsters.c
         player/player.c
         fight/fight.c
@@ -39,3 +39,11 @@ add_executable(DOMAIN
         "${PARENT_DIR}/adapter/out/log/cli_log.c"
 )
 
+target_include_directories(DOMAIN PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/doom_depths"
+        "${CMAKE_CURRENT_SOURCE_DIR}/fight"
+        "${CMAKE_CURRENT_SOURCE_DIR}/magic"
+        "${CMAKE_CURRENT_SOURCE_DIR}/map"
+        "${CMAKE_CURRENT_SOURCE_DIR}/monsters"
+        "${CMAKE_CURRENT_SOURCE_DIR}/player"
+)

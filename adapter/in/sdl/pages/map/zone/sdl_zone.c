@@ -6,7 +6,7 @@
 #include "sdl_zone.h"
 #include "port/out/log/log_error.h"
 #include "in/sdl/components/color/sdl_color.h"
-#include "map/map.h"
+#include "domain/map/map.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
 
 Button accessible_button(Button button);

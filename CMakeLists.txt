@@ -15,9 +15,10 @@ find_package(SDL2_image REQUIRED)
 
 add_subdirectory("domain")
 include_directories(
-        "${PROJECT_SOURCE_DIR}/domain"
         "${PROJECT_SOURCE_DIR}/application"
         "${PROJECT_SOURCE_DIR}/adapter"
+        "${PROJECT_SOURCE_DIR}/application/port/out/log"
+        "${PROJECT_SOURCE_DIR}/infrastructure/utils"
 )
 
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
@@ -147,4 +148,8 @@ target_include_directories(
         DoomDepths
         PUBLIC
         "${CMAKE_SOURCE_DIR}"
+)
+
+target_link_libraries(DoomDepths
+        DOMAIN
 )

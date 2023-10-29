@@ -8,7 +8,7 @@
 
 #include "stdbool.h"
 #include "in/sdl/components/button/button.h"
-#include "map/map.h"
+#include "domain/map/map.h"
 #include "in/sdl/pages/map/zone/sdl_zone.h"
 
 typedef struct  {
