@@ -9,12 +9,6 @@ include_directories(
         "player"
 )
 
-get_filename_component(PARENT_DIR ../ ABSOLUTE)
-include_directories(
-        "${PARENT_DIR}/utils"
-        "${PARENT_DIR}/application/port/out/log"
-)
-
 add_library(DOMAIN
         monsters/monsters.c
         player/player.c
@@ -33,10 +27,6 @@ add_library(DOMAIN
         map/zone/zone.c
         map/position/position.c
         doom_depths/doom_depths.c
-        "${PARENT_DIR}/utils/utils.c"
-        "${PARENT_DIR}/utils/random/random.c"
-        "${PARENT_DIR}/utils/time/time_util.c"
-        "${PARENT_DIR}/utils/log/cli_log.c"
 )
 
 target_include_directories(DOMAIN PUBLIC
@@ -47,3 +37,5 @@ target_include_directories(DOMAIN PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/monsters"
         "${CMAKE_CURRENT_SOURCE_DIR}/player"
 )
+
+target_link_libraries(DOMAIN UTILS)

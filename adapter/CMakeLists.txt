@@ -1,7 +1,6 @@
 project(DoomDepthsAdapter C)
 
 add_library(ADAPTER
-        ../utils/log/cli_log.c
         in/cli/cli_grimoire_controller.c
         in/cli/cli_map_controller.c
         out/custom_file_repository/restore_last_game.c
