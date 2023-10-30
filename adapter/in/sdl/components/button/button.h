@@ -7,12 +7,12 @@
 #define DOOMDEPTHS_BUTTON_H
 
 #include "SDL2/SDL.h"
-#include "in/sdl/components/padding/padding.h"
+#include "components/padding/padding.h"
 #include "stdbool.h"
-#include "in/sdl/components/button/button_size/button_size.h"
-#include "in/sdl/components/button/button_callback/button_callback.h"
-#include "in/sdl/components/point/point.h"
-#include "in/sdl/components/screen_position/screen_position.h"
+#include "components/button/button_size/button_size.h"
+#include "components/button/button_callback/button_callback.h"
+#include "components/point/point.h"
+#include "components/screen_position/screen_position.h"
 
 typedef enum {
     BUTTON_NORMAL,

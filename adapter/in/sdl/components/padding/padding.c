@@ -5,7 +5,7 @@
 
 #include "SDL2/SDL.h"
 #include "padding.h"
-#include "in/sdl/components/button/button.h"
+#include "components/button/button.h"
 #include "log/log_error.h"
 #include "log/log_info.h"
 

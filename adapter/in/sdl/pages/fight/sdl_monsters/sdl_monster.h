@@ -7,9 +7,9 @@
 #define DOOMDEPTHS_SDL_MONSTER_H
 
 #include "monsters.h"
-#include "in/sdl/components/animation/animation.h"
-#include "in/sdl/pages/fight/health_bar/health_bar.h"
-#include "in/sdl/components/row/row.h"
+#include "components/animation/animation.h"
+#include "pages/fight/health_bar/health_bar.h"
+#include "components/row/row.h"
 
 typedef struct {
     Animation animation;

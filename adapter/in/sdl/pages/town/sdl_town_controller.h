@@ -8,9 +8,9 @@
 
 
 #include "stdbool.h"
-#include "in/sdl/components/button/button.h"
-#include "in/sdl/components/aria/aria.h"
-#include "in/sdl/components/background/background.h"
+#include "components/button/button.h"
+#include "components/aria/aria.h"
+#include "components/background/background.h"
 
 typedef struct TownWindow TownWindow;
 struct TownWindow {

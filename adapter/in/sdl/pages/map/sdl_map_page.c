@@ -3,11 +3,11 @@
 // Created by Theo OMNES on 10/10/2023.
 //
 
-#include "in/sdl/components/button/button_events/button_events.h"
-#include "in/sdl/components/point/point.h"
+#include "components/button/button_events/button_events.h"
+#include "components/point/point.h"
 #include "sdl_map_page.h"
 #include "log/log_info.h"
-#include "in/sdl/components/color/sdl_color.h"
+#include "components/color/sdl_color.h"
 #include "log/log_error.h"
 #include "port/in/command/player_enter_zone.h"
 

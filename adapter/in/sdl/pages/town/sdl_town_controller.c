@@ -5,8 +5,8 @@
 
 #include "SDL2/SDL.h"
 #include "sdl_town_controller.h"
-#include "in/sdl/components/color/sdl_color.h"
-#include "in/sdl/components/button/button_events/button_events.h"
+#include "components/color/sdl_color.h"
+#include "components/button/button_events/button_events.h"
 #include "log/log_info.h"
 #include "port/in/command/new_run.h"
 #include "port/in/command/continue_last_run.h"

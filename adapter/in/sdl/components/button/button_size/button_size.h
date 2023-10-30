@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <SDL_video.h>
-#include "in/sdl/components/padding/padding.h"
+#include "components/padding/padding.h"
 
 
 typedef enum {

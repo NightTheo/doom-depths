@@ -3,7 +3,7 @@
 // Created by Theo OMNES on 15/10/2023.
 //
 
-#include "in/sdl/sdl_controller.h"
+#include "sdl_controller.h"
 #include "button_events.h"
 
 ButtonEvent button_clicked(SDL_IHM ihm, Button button) {

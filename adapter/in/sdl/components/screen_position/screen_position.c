@@ -7,8 +7,8 @@
 #include "screen_position.h"
 #include "log/log_error.h"
 #include "log/log_info.h"
-#include "in/sdl/components/button/button.h"
-#include "in/sdl/components/row/row.h"
+#include "components/button/button.h"
+#include "components/row/row.h"
 
 SDL_Rect position_rect(PositionInScreen position, SDL_Rect rect, SDL_Rect zone);
 

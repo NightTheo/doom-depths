@@ -7,8 +7,8 @@
 #define DOOMDEPTHS_ROW_H
 
 #include <stdint.h>
-#include "in/sdl/components/button/button.h"
-#include "in/sdl/components/aria/aria.h"
+#include "components/button/button.h"
+#include "components/aria/aria.h"
 
 typedef enum {
     CELL_ERROR,

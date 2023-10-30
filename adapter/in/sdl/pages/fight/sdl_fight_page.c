@@ -4,16 +4,16 @@
 //
 
 #include <SDL_image.h>
-#include "in/sdl/sdl_controller.h"
+#include "sdl_controller.h"
 #include "sdl_fight_page.h"
 #include "log/log_info.h"
-#include "in/sdl/components/button/button_events/button_events.h"
+#include "components/button/button_events/button_events.h"
 #include "port/out/persistence/intern_game_state/get_current_fight.h"
 #include "port/in/command/start_new_round.h"
 #include "port/in/query/is_player_alive.h"
 #include "port/out/persistence/intern_game_state/get_map.h"
 #include "port/in/command/finish_current_zone.h"
-#include "in/sdl/pages/fight/fight_action_buttons/fight_action_buttons.h"
+#include "pages/fight/fight_action_buttons/fight_action_buttons.h"
 #include "port/in/query/is_current_fight_finished.h"
 
 FightPage fill_fight_buttons(SDL_IHM ihm);

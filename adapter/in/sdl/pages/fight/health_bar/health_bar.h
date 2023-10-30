@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <SDL_render.h>
 #include "SDL_ttf.h"
-#include "in/sdl/components/color/sdl_color.h"
+#include "components/color/sdl_color.h"
 
 typedef struct {
     uint16_t max_health;

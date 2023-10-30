@@ -7,7 +7,7 @@
 #define DOOMDEPTHS_SDL_CONTROLLER_H
 
 #include "SDL_ttf.h"
-#include "in/sdl/pages/pages.h"
+#include "pages/pages.h"
 
 typedef struct SDL_IHM {
     SDL_Window *window;

@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_ANIMATION_H
 #define DOOMDEPTHS_ANIMATION_H
 
-#include "in/sdl/components/sprite_sheet/sprite_sheet.h"
+#include "components/sprite_sheet/sprite_sheet.h"
 
 typedef struct {
     SpriteSheet sprite_sheet;

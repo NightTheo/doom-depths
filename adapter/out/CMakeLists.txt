@@ -1,9 +1,6 @@
-project(DoomDepthsAdapter C)
+project(DoomDepthsInfrastructure C)
 
-add_subdirectory("in/cli")
-add_subdirectory("in/sdl")
-
-add_library(ADAPTER
+add_library(INFRASTRUCTURE
         out/custom_file_repository/restore_last_game.c
         out/custom_file_repository/save_game_state.c
         out/ihm/cli/cli_display_loot.c
@@ -11,8 +8,4 @@ add_library(ADAPTER
         out/ihm/cli/cli_display_game_over.c
 )
 
-
-target_include_directories(ADAPTER PRIVATE ".")
-
-target_link_libraries(ADAPTER BASIC_CLI)
-target_link_libraries(ADAPTER SDL)
+target_include_directories(ADAPTER PUBLIC ".")

@@ -1,7 +1,7 @@
 project(DoomDepthsBasicCli C)
 
 add_library(BASIC_CLI
-        cli_controller.c
+        #cli_controller.c
         cli_grimoire_controller.c
         cli_map_controller.c
         cli_inventory_controller.c

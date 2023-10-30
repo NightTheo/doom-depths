@@ -6,9 +6,9 @@
 #ifndef DOOMDEPTHS_FIGHT_ACTION_BUTTONS_H
 #define DOOMDEPTHS_FIGHT_ACTION_BUTTONS_H
 
-#include "in/sdl/components/button/button.h"
-#include "in/sdl/components/row/row.h"
-#include "in/sdl/pages/fight/sdl_fight_page.h"
+#include "components/button/button.h"
+#include "components/row/row.h"
+#include "pages/fight/sdl_fight_page.h"
 
 Button fill_attack_button(SDL_IHM ihm, ButtonSize size);
 

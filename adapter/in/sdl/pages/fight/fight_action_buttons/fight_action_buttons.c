@@ -4,9 +4,9 @@
 //
 
 #include "fight_action_buttons.h"
-#include "in/sdl/sdl_controller.h"
-#include "in/sdl/pages/fight/sdl_fight_page.h"
-#include "in/sdl/components/button/button_events/button_events.h"
+#include "sdl_controller.h"
+#include "pages/fight/sdl_fight_page.h"
+#include "components/button/button_events/button_events.h"
 #include "port/in/query/is_current_fight_finished.h"
 #include "log/log_info.h"
 #include "port/in/command/attack_with_weapon.h"

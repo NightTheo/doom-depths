@@ -8,8 +8,8 @@
 
 #include <SDL_render.h>
 #include "player.h"
-#include "in/sdl/pages/fight/health_bar/health_bar.h"
-#include "in/sdl/components/animation/animation.h"
+#include "pages/fight/health_bar/health_bar.h"
+#include "components/animation/animation.h"
 
 typedef struct SDL_IHM SDL_IHM;
 

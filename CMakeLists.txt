@@ -25,15 +25,7 @@ file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(DoomDepths main.c)
 
-target_link_libraries(DoomDepths SDL2::SDL2main)
-target_link_libraries(DoomDepths sdl_ttf::sdl_ttf)
-target_link_libraries(DoomDepths SDL2_image::SDL2_image)
-
-target_include_directories(
-        DoomDepths
-        PUBLIC
-        "${CMAKE_SOURCE_DIR}"
-)
+target_include_directories(DoomDepths PUBLIC "${CMAKE_SOURCE_DIR}")
 
 target_link_libraries(DoomDepths DOMAIN)
 target_link_libraries(DoomDepths APPLICATION)

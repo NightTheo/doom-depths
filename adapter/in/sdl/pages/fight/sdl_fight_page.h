@@ -8,11 +8,11 @@
 
 #include <SDL_render.h>
 #include <SDL_events.h>
-#include "in/sdl/pages/fight/health_bar/health_bar.h"
-#include "in/sdl/components/row/row.h"
-#include "in/sdl/pages/fight/sdl_player/sdl_player.h"
+#include "pages/fight/health_bar/health_bar.h"
+#include "components/row/row.h"
+#include "pages/fight/sdl_player/sdl_player.h"
 #include "fight.h"
-#include "in/sdl/pages/fight/sdl_monsters/sdl_monster.h"
+#include "pages/fight/sdl_monsters/sdl_monster.h"
 
 typedef struct SDL_IHM SDL_IHM;
 

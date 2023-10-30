@@ -7,8 +7,8 @@
 #include "log/log_error.h"
 #include "log/log_info.h"
 
-#include "in/sdl/sdl_controller.h"
-#include "in/sdl/components/event/event.h"
+#include "sdl_controller.h"
+#include "components/event/event.h"
 
 int get_cell_height(RowCell param);
 

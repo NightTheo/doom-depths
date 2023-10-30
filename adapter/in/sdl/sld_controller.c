@@ -10,8 +10,8 @@
 #include <SDL_image.h>
 
 #include "log/log_error.h"
-#include "in/sdl/pages/map/sdl_map_page.h"
-#include "in/sdl/pages/pages.h"
+#include "pages/map/sdl_map_page.h"
+#include "pages/pages.h"
 #include "log/log_info.h"
 
 #define MILLISECONDS 1000

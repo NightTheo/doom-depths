@@ -5,14 +5,14 @@
 
 #include <SDL_image.h>
 #include "SDL2/SDL_ttf.h"
-#include "in/sdl/components/point/point.h"
+#include "components/point/point.h"
 
-#include "in/sdl/components/color/sdl_color.h"
+#include "components/color/sdl_color.h"
 #include "button.h"
 #include "log/log_error.h"
 #include "log/log_info.h"
-#include "in/sdl/sdl_controller.h"
-#include "in/sdl/components/button/button_events/button_events.h"
+#include "sdl_controller.h"
+#include "components/button/button_events/button_events.h"
 
 ButtonEvent button_handle_click(SDL_IHM ihm, SDL_Event event, Button button);
 

@@ -7,7 +7,7 @@
 #include "sdl_player.h"
 #include "port/out/persistence/intern_game_state/get_player.h"
 #include "log/log_error.h"
-#include "in/sdl/sdl_controller.h"
+#include "sdl_controller.h"
 
 SpriteSheet player_sprite_sheet(SDL_Renderer *renderer);
 

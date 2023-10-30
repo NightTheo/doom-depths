@@ -7,7 +7,7 @@
 #ifndef DOOMDEPTHS_BUTTON_EVENTS_H
 #define DOOMDEPTHS_BUTTON_EVENTS_H
 
-#include "in/sdl/sdl_controller.h"
+#include "sdl_controller.h"
 
 typedef enum {
     BUTTON_EVENT_NOT_HANDLED,

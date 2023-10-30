@@ -7,9 +7,9 @@
 #define DOOMDEPTHS_SDL_MAP_PAGE_H
 
 #include "stdbool.h"
-#include "in/sdl/components/button/button.h"
+#include "components/button/button.h"
 #include "map.h"
-#include "in/sdl/pages/map/zone/sdl_zone.h"
+#include "pages/map/zone/sdl_zone.h"
 
 typedef struct  {
     Button spawn;
