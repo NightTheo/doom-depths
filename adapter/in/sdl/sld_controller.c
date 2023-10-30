@@ -9,10 +9,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL_image.h>
 
-#include "port/out/log/log_error.h"
+#include "application/port/out/log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
 #include "in/sdl/pages/pages.h"
-#include "port/out/log/log_info.h"
+#include "application/port/out/log/log_info.h"
 
 #define MILLISECONDS 1000
 

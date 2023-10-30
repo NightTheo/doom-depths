@@ -6,13 +6,13 @@
 #include "fight_action_buttons.h"
 #include "in/sdl/sdl_controller.h"
 #include "in/sdl/pages/fight/sdl_fight_page.h"
-#include "port/in/query/is_current_fight_finished.h"
+#include "application/port/in/query/is_current_fight_finished.h"
 #include "in/sdl/components/button/button_events/button_events.h"
-#include "port/out/log/log_info.h"
-#include "port/in/command/attack_with_weapon.h"
-#include "port/in/command/end_round.h"
-#include "port/in/command/start_new_round.h"
-#include "port/out/persistence/intern_game_state/get_current_fight.h"
+#include "application/port/out/log/log_info.h"
+#include "application/port/in/command/attack_with_weapon.h"
+#include "application/port/in/command/end_round.h"
+#include "application/port/in/command/start_new_round.h"
+#include "application/port/out/persistence/intern_game_state/get_current_fight.h"
 
 
 ButtonEvent on_click_attack(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);

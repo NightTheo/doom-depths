@@ -3,7 +3,7 @@
 // Created by Theo OMNES on 01/10/2023.
 //
 
-#include <domain/fight/fight.h>
+#include <fight.h>
 
 #include <port/in/command/cast_spell.h>
 

@@ -7,7 +7,7 @@
 
 #include <port/in/command/equip_item.h>
 
-#include <domain/player/player.h>
+#include <player.h>
 
 #include <port/out/log/log_error.h>
 #include <port/out/log/log_info.h>

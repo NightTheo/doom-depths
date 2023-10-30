@@ -7,13 +7,13 @@
 #include "sdl_town_controller.h"
 #include "in/sdl/components/point/point.h"
 #include "in/sdl/components/color/sdl_color.h"
-#include "port/out/log/log_info.h"
+#include "application/port/out/log/log_info.h"
 #include "in/sdl/components/button/button_events/button_events.h"
-#include "port/in/command/new_run.h"
-#include "port/in/command/continue_last_run.h"
-#include "port/out/persistence/intern_game_state/game_state.h"
-#include "port/out/persistence/intern_game_state/get_map.h"
-#include "port/out/log/log_error.h"
+#include "application/port/in/command/new_run.h"
+#include "application/port/in/command/continue_last_run.h"
+#include "application/port/out/persistence/intern_game_state/game_state.h"
+#include "application/port/out/persistence/intern_game_state/get_map.h"
+#include "application/port/out/log/log_error.h"
 
 ButtonEvent click_new_run(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);
 ButtonEvent click_continue(SDL_IHM ihm, __attribute__((unused)) ButtonCallbackParam param);

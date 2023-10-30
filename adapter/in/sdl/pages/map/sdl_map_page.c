@@ -6,10 +6,10 @@
 #include "in/sdl/components/button/button_events/button_events.h"
 #include "in/sdl/components/point/point.h"
 #include "sdl_map_page.h"
-#include "port/out/log/log_info.h"
+#include "application/port/out/log/log_info.h"
 #include "in/sdl/components/color/sdl_color.h"
-#include "port/out/log/log_error.h"
-#include "port/in/command/player_enter_zone.h"
+#include "application/port/out/log/log_error.h"
+#include "application/port/in/command/player_enter_zone.h"
 
 const int ZONE_CELL_SIZE = 70;
 

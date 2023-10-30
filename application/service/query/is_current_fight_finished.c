@@ -3,7 +3,7 @@
 // Created by Theo OMNES on 02/10/2023.
 //
 
-#include <domain/doom_depths/doom_depths.h>
+#include <doom_depths.h>
 #include <port/out/persistence/intern_game_state/get_intern_game_state.h>
 #include "port/out/log/log_info.h"
 

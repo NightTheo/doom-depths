@@ -4,9 +4,9 @@
 //
 
 
-#include <domain/fight/loot/loot.h>
-#include <domain/fight/fight.h>
-#include <domain/fight/event/player_killed_monster.h>
+#include <loot/loot.h>
+#include <fight.h>
+#include <event/player_killed_monster.h>
 #include <port/out/persistence/intern_game_state/get_current_fight.h>
 #include <port/out/ihm/display_loot.h>
 #include <port/out/persistence/intern_game_state/set_current_fight.h>
