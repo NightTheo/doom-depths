@@ -9,8 +9,8 @@
 
 #include "in/sdl/components/color/sdl_color.h"
 #include "button.h"
-#include "application/port/out/log/log_error.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_error.h"
+#include "log/log_info.h"
 #include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/button/button_events/button_events.h"
 

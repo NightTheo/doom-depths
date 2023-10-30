@@ -5,8 +5,8 @@
 
 #include <string.h>
 #include "map.h"
-#include <log_error.h>
-#include <log_info.h>
+#include "log/log_error.h"
+#include "log/log_info.h"
 #include <random/random.h>
 
 Map _map(uint16_t height, uint16_t width, Position spawn, Zone **zones) {

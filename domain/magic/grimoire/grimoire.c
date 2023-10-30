@@ -11,7 +11,7 @@
 #include "monsters.h"
 
 #include "utils.h"
-#include <log_info.h>
+#include "log/log_info.h"
 
 #define GRIMOIRE_STRING_SIZE 1024
 

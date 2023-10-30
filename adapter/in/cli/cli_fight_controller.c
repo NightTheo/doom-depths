@@ -7,26 +7,27 @@
 
 #include <stdio.h>
 
-#include <domain/player/player.h>
-#include <domain/fight/player_fight_action/player_fight_actions.h>
+#include <player.h>
+#include <player_fight_action/player_fight_actions.h>
 
-#include <application/port/out/log/log_info.h>
-#include <domain/doom_depths/doom_depths.h>
-#include <application/port/out/log/log_error.h>
-#include <application/port/in/query/is_current_fight_finished.h>
-#include <application/port/in/command/start_new_round.h>
-#include <application/port/out/persistence/intern_game_state/get_current_fight.h>
-#include <application/port/in/query/is_current_round_finished.h>
-#include <application/port/out/log/log_player.h>
-#include <application/port/out/log/log_grimoire.h>
-#include <application/port/out/log/log_monster.h>
-#include <application/port/in/command/end_round.h>
-#include <application/port/out/persistence/intern_game_state/get_intern_game_state.h>
-#include <application/port/in/command/attack_with_weapon.h>
+#include <doom_depths.h>
 #include "cli_controllers.h"
-#include <application/port/out/persistence/storage/respository_status.h>
-#include <application/port/out/log/log_repository_status.h>
-#include <application/port/out/persistence/storage/save_game_state.h>
+
+#include "log/log_info.h"
+#include "log/log_error.h"
+#include <port/in/query/is_current_fight_finished.h>
+#include <port/in/command/start_new_round.h>
+#include <port/out/persistence/intern_game_state/get_current_fight.h>
+#include <port/in/query/is_current_round_finished.h>
+#include "log/log_player.h"
+#include "log/log_grimoire.h"
+#include "log/log_monster.h"
+#include <port/in/command/end_round.h>
+#include <port/out/persistence/intern_game_state/get_intern_game_state.h>
+#include <port/in/command/attack_with_weapon.h>
+#include <port/out/persistence/storage/respository_status.h>
+#include "log/log_repository_status.h"
+#include <port/out/persistence/storage/save_game_state.h>
 
 void display_fight_actions(Player p);
 

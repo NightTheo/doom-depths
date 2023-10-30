@@ -9,8 +9,8 @@
 
 #include <player.h>
 
-#include <port/out/log/log_error.h>
-#include <port/out/log/log_info.h>
+#include "log/log_error.h"
+#include "log/log_info.h"
 
 #include "utils.h"
 #include <port/out/persistence/intern_game_state/set_player.h>

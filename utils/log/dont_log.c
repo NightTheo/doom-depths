@@ -3,14 +3,14 @@
 // Created by Theo OMNES on 12/09/2023.
 //
 
-#include <application/port/out/log/log_info.h>
-#include <application/port/out/log/log_error.h>
-#include <application/port/out/log/log_monster.h>
-#include <application/port/out/log/log_player.h>
-#include <application/port/out/log/log_grimoire.h>
+#include "log_info.h"
+#include "log_error.h"
+#include "log_monster.h"
+#include "log_player.h"
+#include "log_grimoire.h"
 
-#include <domain/player/player.h>
-#include <domain/monsters/monsters.h>
+#include "domain/player/player.h"
+#include "domain/monsters/monsters.h"
 
 #define LOG_FILE_PATH "log.txt"
 

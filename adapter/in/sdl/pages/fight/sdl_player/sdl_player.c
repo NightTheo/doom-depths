@@ -5,8 +5,8 @@
 
 #include <SDL_image.h>
 #include "sdl_player.h"
-#include "application/port/out/persistence/intern_game_state/get_player.h"
-#include "application/port/out/log/log_error.h"
+#include "port/out/persistence/intern_game_state/get_player.h"
+#include "log/log_error.h"
 #include "in/sdl/sdl_controller.h"
 
 SpriteSheet player_sprite_sheet(SDL_Renderer *renderer);

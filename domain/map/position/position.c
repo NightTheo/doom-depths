@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "position.h"
-#include <log_error.h>
+#include "log/log_error.h"
 
 Position no_position() {
     Position pp;

@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-#include <application/port/out/ihm/display_game_over.h>
+#include <port/out/ihm/display_game_over.h>
 
 void display_game_over() {
     fputs("\nGAME OVER\n", stdout);

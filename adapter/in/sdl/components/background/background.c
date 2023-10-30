@@ -5,7 +5,7 @@
 
 #include <SDL_image.h>
 #include "background.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_info.h"
 
 BackgroundResult create_background(SDL_Renderer *renderer, const char *path) {
     Background background = {

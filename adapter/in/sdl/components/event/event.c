@@ -4,5 +4,5 @@
 //
 
 #include "event.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_info.h"
 

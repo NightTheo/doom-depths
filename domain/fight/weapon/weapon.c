@@ -8,7 +8,7 @@
 #include <string.h>
 #include "weapon.h"
 #include <random/random.h>
-#include <log_error.h>
+#include "log/log_error.h"
 
 Weapon random_weapon() {
     WeaponKind kind = (WeaponKind) random_between_included(EMPTY_WEAPON, __weapons_count - 1);

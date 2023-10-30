@@ -4,8 +4,8 @@
 //
 
 #include "row.h"
-#include "application/port/out/log/log_error.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_error.h"
+#include "log/log_info.h"
 
 #include "in/sdl/sdl_controller.h"
 #include "in/sdl/components/event/event.h"

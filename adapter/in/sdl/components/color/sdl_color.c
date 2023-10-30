@@ -4,7 +4,7 @@
 //
 
 #include "sdl_color.h"
-#include "application/port/out/log/log_error.h"
+#include "log/log_error.h"
 
 
 SDL_Color get_color(SDL_COLOR color) {

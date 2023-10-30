@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "random/random.h"
-#include <log_error.h>
+#include "log/log_error.h"
 
 Monster random_monster() {
     Monster m = {

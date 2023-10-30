@@ -6,9 +6,9 @@
 #ifndef DOOMDEPTHS_SDL_ZONE_H
 #define DOOMDEPTHS_SDL_ZONE_H
 
-#include "domain/map/zone/zone.h"
+#include "zone/zone.h"
 #include "in/sdl/components/button/button.h"
-#include "domain/map/map.h"
+#include "map.h"
 
 typedef struct {
     Zone zone;

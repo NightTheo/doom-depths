@@ -4,8 +4,8 @@
 //
 
 #include "respository_status.h"
-#include <port/out/log/log_error.h>
-#include <port/out/log/log_repository_status.h>
+#include "utils/log/log_error.h"
+#include "utils/log/log_repository_status.h"
 
 const char *repository_status_to_string(RepositoryStatus status) {
     switch (status) {

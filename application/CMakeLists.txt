@@ -18,7 +18,7 @@ add_library(APPLICATION
         service/event/player_killed_monster.c
 )
 
-target_include_directories(APPLICATION PRIVATE ".")
+target_include_directories(APPLICATION PUBLIC ".")
 
 target_link_libraries(APPLICATION DOMAIN)
 target_link_libraries(APPLICATION UTILS)

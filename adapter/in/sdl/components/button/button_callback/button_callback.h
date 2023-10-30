@@ -7,7 +7,7 @@
 #define DOOMDEPTHS_BUTTON_CALLBACK_H
 
 #include "stdbool.h"
-#include "domain/map/position/position.h"
+#include "position/position.h"
 
 typedef struct SDL_IHM SDL_IHM;
 typedef struct ButtonEvent ButtonEvent;

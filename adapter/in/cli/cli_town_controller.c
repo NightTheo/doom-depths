@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 
-#include <application/port/in/command/leave_town_action.h>
-#include <application/port/out/log/log_error.h>
+#include <port/in/command/leave_town_action.h>
+#include "log/log_error.h"
 
 const char *leave_town_options_to_string(LeaveTownAction action);
 

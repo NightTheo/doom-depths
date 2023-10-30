@@ -5,9 +5,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <domain/fight/loot/loot.h>
+#include <loot/loot.h>
 
-#include <application/port/out/ihm/display_loot.h>
+#include <port/out/ihm/display_loot.h>
 
 void display_loot(Loot loot) {
     char *s = loot_to_string(loot);

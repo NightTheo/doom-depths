@@ -10,7 +10,7 @@
 #include <port/out/persistence/intern_game_state/get_current_fight.h>
 #include <port/out/ihm/display_loot.h>
 #include <port/out/persistence/intern_game_state/set_current_fight.h>
-#include "port/out/log/log_info.h"
+#include "log/log_info.h"
 
 void player_killed_monster(Loot loot) {
     Fight fight = get_current_fight();

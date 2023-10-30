@@ -6,7 +6,7 @@
 #ifndef DOOMDEPTHS_SDL_MONSTER_H
 #define DOOMDEPTHS_SDL_MONSTER_H
 
-#include "domain/monsters/monsters.h"
+#include "monsters.h"
 #include "in/sdl/components/animation/animation.h"
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
 #include "in/sdl/components/row/row.h"

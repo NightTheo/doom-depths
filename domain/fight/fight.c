@@ -9,8 +9,8 @@
 
 #include "random/random.h"
 #include "utils.h"
-#include <log_info.h>
-#include <log_monster.h>
+#include "log/log_info.h"
+#include "log/log_monster.h"
 
 Player decrement_player_remaining_attacks(Player p);
 

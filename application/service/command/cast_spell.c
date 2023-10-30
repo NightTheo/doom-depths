@@ -7,8 +7,8 @@
 
 #include <port/in/command/cast_spell.h>
 
-#include <port/out/log/log_info.h>
-#include <port/out/log/log_error.h>
+#include "log/log_info.h"
+#include "log/log_error.h"
 #include <port/out/persistence/intern_game_state/set_current_fight.h>
 #include <../domain/fight/event/player_killed_monster.h>
 #include <port/out/persistence/intern_game_state/get_current_fight.h>

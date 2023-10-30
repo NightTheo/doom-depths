@@ -7,7 +7,7 @@
 #define DOOMDEPTHS_SDL_PLAYER_H
 
 #include <SDL_render.h>
-#include "domain/player/player.h"
+#include "player.h"
 #include "in/sdl/pages/fight/health_bar/health_bar.h"
 #include "in/sdl/components/animation/animation.h"
 

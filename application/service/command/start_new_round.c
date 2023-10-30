@@ -8,8 +8,8 @@
 #include <port/out/persistence/intern_game_state/set_current_fight.h>
 #include <port/out/persistence/intern_game_state/get_current_fight.h>
 #include "port/in/query/is_current_fight_finished.h"
-#include "port/out/log/log_info.h"
-#include "port/out/log/log_error.h"
+#include "log/log_info.h"
+#include "log/log_error.h"
 
 void start_new_round() {
     if (current_fight_is_finished()) {

@@ -4,15 +4,15 @@
 //
 
 #include "sdl_controller.h"
-#include <application/port/in/command/start_ihm.h>
+#include <port/in/command/start_ihm.h>
 #include "SDL2/SDL.h"
 #include <SDL2/SDL_ttf.h>
 #include <SDL_image.h>
 
-#include "application/port/out/log/log_error.h"
+#include "log/log_error.h"
 #include "in/sdl/pages/map/sdl_map_page.h"
 #include "in/sdl/pages/pages.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_info.h"
 
 #define MILLISECONDS 1000
 

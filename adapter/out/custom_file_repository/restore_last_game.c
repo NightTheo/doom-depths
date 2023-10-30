@@ -5,9 +5,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <application/port/out/persistence/storage/restore_last_game.h>
-#include <application/port/out/log/log_error.h>
-#include <application/port/out/log/log_info.h>
+#include <port/out/persistence/storage/restore_last_game.h>
+#include "log/log_error.h"
+#include "log/log_info.h"
 
 
 #define SAVE_FILE_PATH "doomdetphs.save"

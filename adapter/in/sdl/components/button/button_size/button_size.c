@@ -3,10 +3,9 @@
 // Created by Theo OMNES on 10/10/2023.
 //
 
-#include "button_size.h"
-#include "application/port/out/log/log_error.h"
 #include "../button.h"
-#include "application/port/out/log/log_info.h"
+#include "button_size.h"
+#include "log/log_error.h"
 
 
 Button size_button_absolute(Button button);

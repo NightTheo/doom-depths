@@ -6,8 +6,8 @@
 #include "SDL2/SDL.h"
 #include "padding.h"
 #include "in/sdl/components/button/button.h"
-#include "application/port/out/log/log_error.h"
-#include "application/port/out/log/log_info.h"
+#include "log/log_error.h"
+#include "log/log_info.h"
 
 Button padding_button_content_box(Padding padding, Button button);
 

@@ -36,7 +36,7 @@ add_library(DOMAIN
         "${PARENT_DIR}/utils/utils.c"
         "${PARENT_DIR}/utils/random/random.c"
         "${PARENT_DIR}/utils/time/time_util.c"
-        "${PARENT_DIR}/adapter/out/log/cli_log.c"
+        "${PARENT_DIR}/utils/log/cli_log.c"
 )
 
 target_include_directories(DOMAIN PUBLIC

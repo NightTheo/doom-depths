@@ -12,8 +12,8 @@
 #include <port/out/ihm/display_loot.h>
 #include <event/player_killed_monster.h>
 #include "port/in/query/is_current_fight_finished.h"
-#include "port/out/log/log_info.h"
-#include "port/out/log/log_error.h"
+#include "log/log_info.h"
+#include "log/log_error.h"
 
 
 void attack_with_weapon() {
