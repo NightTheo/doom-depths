@@ -1,16 +1,13 @@
 project(DoomDepthsAdapter C)
 
+add_subdirectory("in/cli")
+
 add_library(ADAPTER
-        in/cli/cli_grimoire_controller.c
-        in/cli/cli_map_controller.c
         out/custom_file_repository/restore_last_game.c
         out/custom_file_repository/save_game_state.c
         out/ihm/cli/cli_display_loot.c
-        in/cli/cli_inventory_controller.c
-        out/ihm/cli/cli_display_game_over.c
-        in/cli/cli_fight_controller.c
         out/in_memory_intern_game_state/in_memory_intern_game_state.c
-        in/cli/cli_town_controller.c
+        out/ihm/cli/cli_display_game_over.c
 
         in/sdl/pages/town/sdl_town_controller.c
         in/sdl/components/button/button.c
@@ -33,8 +30,7 @@ add_library(ADAPTER
         in/sdl/components/aria/aria.c
         in/sdl/components/background/background.c
         in/sdl/pages/fight/sdl_monsters/sdl_monster.c
-        #in/cli/cli_controller.c
-        in/sdl/sld_controller.c
+        #in/sdl/sld_controller.c
 )
 
 target_link_libraries(ADAPTER SDL2::SDL2main)
@@ -43,6 +39,8 @@ target_link_libraries(ADAPTER SDL2_image::SDL2_image)
 
 
 target_include_directories(ADAPTER PRIVATE ".")
+
+target_link_libraries(ADAPTER BASIC_CLI)
 
 target_link_libraries(ADAPTER DOMAIN)
 target_link_libraries(ADAPTER APPLICATION)
