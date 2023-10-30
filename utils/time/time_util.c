@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "time_util.h"
-#include "log_error.h"
 
 
 char *now_to_str() {
@@ -14,7 +13,6 @@ char *now_to_str() {
     struct tm *now = localtime(&timestamp); // DO NOT FREE THIS POINTER
     char *s = malloc(32);
     if (s == NULL) {
-        log_allocation_error();
         return NULL;
     }
     sprintf(s, "%4d-%02d-%02d %02d:%02d:%02d",

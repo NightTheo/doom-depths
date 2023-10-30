@@ -14,23 +14,19 @@ find_package(SDL2_image REQUIRED)
 
 
 add_subdirectory("domain")
+add_subdirectory("utils")
 include_directories(
         "${PROJECT_SOURCE_DIR}/application"
         "${PROJECT_SOURCE_DIR}/adapter"
         "${PROJECT_SOURCE_DIR}/application/port/out/log"
-        "${PROJECT_SOURCE_DIR}/utils"
 )
 
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(DoomDepths main.c
         adapter/out/log/cli_log.c
-        utils/utils.c
-        utils/random/random.c
         adapter/in/cli/cli_grimoire_controller.c
         adapter/in/cli/cli_map_controller.c
-        utils/time/time_util.c
-        utils/time/time_util.h
         application/port/in/command/new_run.h
         application/port/out/persistence/storage/restore_last_game.h
         application/port/out/persistence/intern_game_state/game_state.h
@@ -150,6 +146,5 @@ target_include_directories(
         "${CMAKE_SOURCE_DIR}"
 )
 
-target_link_libraries(DoomDepths
-        DOMAIN
-)
+target_link_libraries(DoomDepths DOMAIN)
+target_link_libraries(DoomDepths UTILS)
