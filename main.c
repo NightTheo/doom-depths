@@ -3,7 +3,6 @@
 
 #include <application/port/in/command/start_ihm.h>
 
-#include "SDL2/SDL.h"
 
 /* TODO
  * [ ] NO LEAKS

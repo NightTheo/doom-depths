@@ -1,5 +1,9 @@
 project(DoomDepthsSDL C)
 
+find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_image REQUIRED)
+
 add_library(SDL
         sld_controller.c
         pages/town/sdl_town_controller.c
@@ -34,3 +38,4 @@ target_link_libraries(SDL SDL2_image::SDL2_image)
 target_link_libraries(SDL DOMAIN)
 target_link_libraries(SDL APPLICATION)
 target_link_libraries(SDL UTILS)
+target_link_libraries(SDL INFRASTRUCTURE)

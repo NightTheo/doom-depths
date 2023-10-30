@@ -1,7 +1,7 @@
 project(DoomDepthsBasicCli C)
 
 add_library(BASIC_CLI
-        #cli_controller.c
+        cli_controller.c
         cli_grimoire_controller.c
         cli_map_controller.c
         cli_inventory_controller.c
@@ -12,3 +12,4 @@ add_library(BASIC_CLI
 target_link_libraries(BASIC_CLI DOMAIN)
 target_link_libraries(BASIC_CLI APPLICATION)
 target_link_libraries(BASIC_CLI UTILS)
+target_link_libraries(BASIC_CLI INFRASTRUCTURE)
