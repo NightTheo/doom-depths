@@ -16,10 +16,9 @@ find_package(SDL2_image REQUIRED)
 add_subdirectory("domain")
 add_subdirectory("utils")
 add_subdirectory("application")
-add_subdirectory("adapter")
-include_directories(
-        "${PROJECT_SOURCE_DIR}/application/port/out/log"
-)
+add_subdirectory("adapter/in/cli")
+add_subdirectory("adapter/in/sdl")
+add_subdirectory("adapter/out")
 
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -29,5 +28,7 @@ target_include_directories(DoomDepths PUBLIC "${CMAKE_SOURCE_DIR}")
 
 target_link_libraries(DoomDepths DOMAIN)
 target_link_libraries(DoomDepths APPLICATION)
-target_link_libraries(DoomDepths ADAPTER)
+target_link_libraries(DoomDepths BASIC_CLI)
+target_link_libraries(DoomDepths SDL)
+target_link_libraries(DoomDepths INFRASTRUCTURE)
 target_link_libraries(DoomDepths UTILS)
