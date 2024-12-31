@@ -33,4 +33,6 @@ Position right_from(Position);
 
 bool positions_a_equals_b(Position a, Position b);
 
+void log_position(Position p);
+
 #endif //DOOMDEPTHS_POSITION_H

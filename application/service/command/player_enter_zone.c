@@ -12,8 +12,7 @@
 void player_enter_zone(Position position) {
     DoomDepths game = get_intern_game_state();
 
-    bool move_is_not_possible = !player_can_move_to_position_in_map(position, game.map);
-    if (move_is_not_possible) return;
+    if (!player_can_move_to_position_in_map(position, game.map)) return;
 
     Fight old_fight = get_current_fight_in_game(game);
     Player player = old_fight.player;
@@ -23,7 +22,5 @@ void player_enter_zone(Position position) {
 
     set_intern_game_state(game);
 
-    char* position_str = position_to_string(position);
-    log_info("Player entered zone %s.", position_str);
-    free(position_str);
+    log_position(position);
 }

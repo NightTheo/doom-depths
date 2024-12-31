@@ -21,7 +21,11 @@ Position enter_map(Map m) {
     do {
         display_map(m);
         p = ask_player_zone_position_to_go(m);
-    } while (!player_can_move_to_position_in_map(p, m));
+        if(player_can_move_to_position_in_map(p, m)) break;
+        else log_info("You cannot enter in this zone."); log_position(p);
+    } while (true);
+
+    log_info("Player can go to this zone");
     return p;
 }
 
@@ -87,10 +91,5 @@ Position ask_player_zone_position_to_go(Map map) {
         scanf("%hd", &row);
     }
 
-    Position p = position(column - 'a', row - 1);
-    char *position_str = position_to_string(p);
-    log_info(position_str);
-    free(position_str);
-
-    return p;
+    return position(column - 'a', row - 1);
 }

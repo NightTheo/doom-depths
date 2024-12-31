@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "position.h"
 #include "log/log_error.h"
+#include "log/log_info.h"
 
 Position no_position() {
     Position pp;
@@ -50,4 +51,10 @@ Position right_from(Position p) {
 
 bool positions_a_equals_b(Position a, Position b) {
     return a.zone_x == b.zone_x && a.zone_y == b.zone_y;
+}
+
+void log_position(Position p) {
+    char* position_str = position_to_string(p);
+    log_info("%s.", position_str);
+    free(position_str);
 }

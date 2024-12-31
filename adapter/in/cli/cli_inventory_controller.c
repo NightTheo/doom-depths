@@ -80,7 +80,7 @@ PlayerInventoryAction get_player_inventory_action() {
         scanf("%hhd", &input);
     } while (input < 1 || input > _player_inventory_action_count);
 
-    log_info("sdl_player choose %s", inventory_action_to_string(input - 1));
+    log_info("Player choose %s", inventory_action_to_string(input - 1));
 
     return (PlayerInventoryAction) input - 1;
 }

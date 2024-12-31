@@ -26,7 +26,8 @@ void cast_spell(Spell s) {
     if (s.mana_consumption > f.player.current_mana) {
         log_info("Player current mana is too low to cast spell.");
         return;
-    }
+    }    
+
     f.player.current_mana -= s.mana_consumption;
 
     switch (s.target) {
